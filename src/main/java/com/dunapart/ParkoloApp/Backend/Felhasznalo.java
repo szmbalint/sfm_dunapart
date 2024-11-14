@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-public class User {
+public class Felhasznalo {
     @Id
     @GeneratedValue
     private int id;

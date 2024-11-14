@@ -1,7 +1,7 @@
 package com.dunapart.ParkoloApp;
 
-import com.dunapart.ParkoloApp.Backend.User;
-import com.dunapart.ParkoloApp.Backend.UserRepository;
+import com.dunapart.ParkoloApp.Backend.Felhasznalo;
+import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,19 +11,27 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ParkoloAppApplication implements CommandLineRunner {
 
 	@Autowired
-	UserRepository userRepository;
+	FelhasznaloRepository felhasznaloRepository;
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(ParkoloAppApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		User u = User.builder().email("proba@mail.com") //ide majd implementálni kell azt, ha a textboxba beír valamit a user akkor az legyen a proba helyett
+		Felhasznalo u = Felhasznalo.builder()
+				.email("proba@mail.com") //ide majd implementálni kell azt, ha a textboxba beír valamit a user akkor az legyen a proba helyett
 				.password("probajelszo")
 				.build();
+		Felhasznalo u2 = Felhasznalo.builder()
+				.email("proba2@mail.com")
+				.password("proba2jelszo")
+				.build();
 
-		userRepository.save(u);
-		System.out.println("db -> " + userRepository.findByEmail("proba@mail.com"));
+		felhasznaloRepository.save(u);
+		felhasznaloRepository.save(u2);
+		System.out.println("db -> " + felhasznaloRepository.findAll());
 
 	}
 }
