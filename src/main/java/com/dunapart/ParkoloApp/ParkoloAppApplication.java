@@ -23,6 +23,8 @@ public class ParkoloAppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 //		Parent root = FXMLLoader.load(getClass().getResource("/fxml/"))
+//		Parent root = FXMLLoader.load(getClass().getResource("/fxml/"))
+//		Parent root = FXMLLoader.load(getClass().getResource("/fxml/"))
 
 
 		Felhasznalo u = Felhasznalo.builder()
