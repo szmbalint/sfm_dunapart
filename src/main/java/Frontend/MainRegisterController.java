@@ -47,4 +47,6 @@ public class MainRegisterController {
     public void setReg_password_again(PasswordField reg_password_again) {
         this.reg_password_again = reg_password_again;
     }
+
+
 }

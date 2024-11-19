@@ -9,10 +9,11 @@ import java.awt.*;
 public class MainLoginController {
 
     @FXML
-    public TextField email;
+    public TextField username;
 
     @FXML
     public PasswordField password;
+
 
     @FXML
     public Button log_button;
@@ -20,8 +21,8 @@ public class MainLoginController {
     @FXML
     public Button to_reg_button;
 
-    public TextField getEmail() {
-        return email;
+    public TextField getUsername() {
+        return username;
     }
 
     public PasswordField getPassword() {
