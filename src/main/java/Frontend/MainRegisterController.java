@@ -28,25 +28,12 @@ public class MainRegisterController {
         return reg_email;
     }
 
-    public void setReg_email(TextField reg_email) {
-        this.reg_email = reg_email;
-    }
-
     public PasswordField getReg_password() {
         return reg_password;
-    }
-
-    public void setReg_password(PasswordField reg_password) {
-        this.reg_password = reg_password;
     }
 
     public PasswordField getReg_password_again() {
         return reg_password_again;
     }
-
-    public void setReg_password_again(PasswordField reg_password_again) {
-        this.reg_password_again = reg_password_again;
-    }
-
 
 }
