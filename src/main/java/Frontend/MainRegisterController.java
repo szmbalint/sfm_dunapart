@@ -9,13 +9,13 @@ import java.awt.*;
 public class MainRegisterController {
 
     @FXML
-    public TextField reg_email;
+    public static TextField Reg_Email_box;
 
     @FXML
-    public PasswordField reg_password;
+    public static PasswordField Reg_Pass_box;
 
     @FXML
-    public PasswordField reg_password_again;
+    public static PasswordField Reg_Pass_box_rep;
 
     @FXML
     public Button reg_button;
@@ -24,27 +24,26 @@ public class MainRegisterController {
     public Button to_login_button;
 
 
-    public TextField getReg_email() {
-        return reg_email;
+    public static String getReg_email() {
+        return Reg_Email_box.getText();
     }
 
-    public void setReg_email(TextField reg_email) {
-        this.reg_email = reg_email;
+    public static String getReg_password() {
+        return Reg_Pass_box.getText();
     }
 
-    public PasswordField getReg_password() {
-        return reg_password;
+    public static String getReg_password_again() {
+        return Reg_Pass_box_rep.getText();
     }
 
-    public void setReg_password(PasswordField reg_password) {
-        this.reg_password = reg_password;
+    @FXML
+    public void SetLoginCred(ActionEvent actionEvent)
+    {
+        String email = getReg_email();
+        String pass = getReg_password();
+//        SpringManager.manager.saveUser(email,pass);
+//        SpringManager.manager.
     }
 
-    public PasswordField getReg_password_again() {
-        return reg_password_again;
-    }
 
-    public void setReg_password_again(PasswordField reg_password_again) {
-        this.reg_password_again = reg_password_again;
-    }
 }

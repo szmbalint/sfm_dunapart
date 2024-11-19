@@ -23,4 +23,13 @@ public class SpringManager implements Manager {
         FelhasznaloRepository felhasznaloRepository = ctx.getBean(FelhasznaloRepository.class);
         return felhasznaloRepository.findByEmail("proba@email.com").get(0).getEmail();
     }
+
+    public void saveUser(String email, String password) {
+        Felhasznalo u = Felhasznalo.builder()
+                .email(""+ email)
+                .password(""+ password)
+                .build();
+
+        felhasznaloRepository.save(u);
+    }
 }
