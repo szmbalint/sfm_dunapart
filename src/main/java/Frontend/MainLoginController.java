@@ -14,13 +14,14 @@ public class MainLoginController {
     @FXML
     public PasswordField password;
 
+
     @FXML
     public Button log_button;
 
     @FXML
     public Button to_reg_button;
 
-    public TextField getEmail() {
+    public TextField getemail() {
         return email;
     }
 

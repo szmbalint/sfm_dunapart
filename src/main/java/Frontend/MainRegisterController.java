@@ -28,8 +28,16 @@ public class MainRegisterController {
         return reg_email;
     }
 
+    public void setReg_email(TextField reg_email) {
+        this.reg_email = reg_email;
+    }
+
     public PasswordField getReg_password() {
         return reg_password;
+    }
+
+    public void setReg_password(PasswordField reg_password) {
+        this.reg_password = reg_password;
     }
 
     public PasswordField getReg_password_again() {
@@ -38,13 +46,5 @@ public class MainRegisterController {
 
     public void setReg_password_again(PasswordField reg_password_again) {
         this.reg_password_again = reg_password_again;
-    }
-
-    public Button getTo_login_button() {
-        return to_login_button;
-    }
-
-    public void setTo_login_button(Button to_login_button) {
-        this.to_login_button = to_login_button;
     }
 }
