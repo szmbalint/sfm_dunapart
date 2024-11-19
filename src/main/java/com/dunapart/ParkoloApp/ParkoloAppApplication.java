@@ -2,6 +2,8 @@ package com.dunapart.ParkoloApp;
 
 import com.dunapart.ParkoloApp.Backend.Felhasznalo;
 import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +22,9 @@ public class ParkoloAppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+//		Parent root = FXMLLoader.load(getClass().getResource("/fxml/"))
+
+
 		Felhasznalo u = Felhasznalo.builder()
 				.email("proba@mail.com") //ide majd implementálni kell azt, ha a textboxba beír valamit a user akkor az legyen a proba helyett
 				.password("probajelszo")
