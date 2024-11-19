@@ -13,7 +13,7 @@ public class JavaFXMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Frontend.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainRegister.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
 

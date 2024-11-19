@@ -1,9 +1,12 @@
 package Frontend;
 
+import com.dunapart.ParkoloApp.ParkoloAppApplication;
+import com.dunapart.ParkoloApp.SpringManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 
 public class MainRegisterController {

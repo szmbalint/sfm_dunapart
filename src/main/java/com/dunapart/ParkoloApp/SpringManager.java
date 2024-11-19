@@ -1,11 +1,15 @@
 package com.dunapart.ParkoloApp;
 
 import Frontend.Manager;
+import com.dunapart.ParkoloApp.Backend.Felhasznalo;
 import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringManager implements Manager {
+
+    FelhasznaloRepository felhasznaloRepository;
+    public static Manager manager = new SpringManager();
 
     private ConfigurableApplicationContext ctx;
     @Override

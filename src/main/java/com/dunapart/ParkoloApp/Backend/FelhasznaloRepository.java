@@ -7,4 +7,5 @@ import java.util.List;
 public interface FelhasznaloRepository extends JpaRepository<Felhasznalo, Long> {
 
     List<Felhasznalo> findByEmail(String email);
+
 }
