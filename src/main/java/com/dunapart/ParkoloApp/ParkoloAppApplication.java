@@ -16,7 +16,7 @@ public class ParkoloAppApplication implements CommandLineRunner {
 
 	@Autowired
 	FelhasznaloRepository felhasznaloRepository;
-
+	//
 
 	public static void main(String[] args) {
 		SpringApplication.run(ParkoloAppApplication.class, args);
