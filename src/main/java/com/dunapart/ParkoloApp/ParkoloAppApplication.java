@@ -1,7 +1,5 @@
 package com.dunapart.ParkoloApp;
 
-import Frontend.MainRegisterController;
-import Frontend.Manager;
 import com.dunapart.ParkoloApp.Backend.Felhasznalo;
 import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +14,6 @@ public class ParkoloAppApplication implements CommandLineRunner {
 
 	@Autowired
 	FelhasznaloRepository felhasznaloRepository;
-	//
 
 	public static void main(String[] args) {
 		SpringApplication.run(ParkoloAppApplication.class, args);
@@ -25,22 +22,7 @@ public class ParkoloAppApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-
-		//Ez akkor fut le ha rányomok a Register gombra
-		//Felhasznalo u = Felhasznalo.builder()
-		//		.email("proba@email.com")
-		//		.password("probajelszo")
-		//		.build();
-
-		//felhasznaloRepository.save(u);
-
-
 		System.out.println("db -> " + felhasznaloRepository.findAll());
 
 	}
-
 }
-
-
-
-
