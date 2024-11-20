@@ -73,7 +73,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.8</version>
 				<configuration>
-					<mainClass>hu.unideb.inf.SpringJavaFX.frontend.JavaFXMain</mainClass>
+					<mainClass>Frontend.JavaFXMain</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

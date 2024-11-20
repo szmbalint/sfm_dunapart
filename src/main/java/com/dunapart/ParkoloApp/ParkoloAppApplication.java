@@ -17,6 +17,7 @@ public class ParkoloAppApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ParkoloAppApplication.class, args);
+		System.out.println("main in");
 	}
 
 	@Override

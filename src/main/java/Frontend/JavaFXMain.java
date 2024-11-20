@@ -11,22 +11,26 @@ public class JavaFXMain extends Application {
 
     static Manager manager = new SpringManager();
 
+    public static void main(String[] args) {
+        launch(args);
+    }
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainRegister.fxml"));
-        if(root == null)
+        try
         {
-            throw new Exception();
-        }
-        else
-        {
-            System.out.println("nem null");
-        }
-        stage.setScene(new Scene(root));
-        stage.show();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainRegister.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
 
-        manager.startBackend();
-        System.out.println("Spring -> "+ manager.getUserEmail());
+            manager.startBackend();
+            System.out.println("Spring -> "+ manager.getUserEmail());
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Javafx failed baszdmeg");
+            ex.printStackTrace();
+        }
+
 
     }
 
