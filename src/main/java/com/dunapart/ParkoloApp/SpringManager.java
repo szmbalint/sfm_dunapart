@@ -3,28 +3,32 @@ package com.dunapart.ParkoloApp;
 import Frontend.Manager;
 import com.dunapart.ParkoloApp.Backend.Felhasznalo;
 import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+@SpringBootApplication
 public class SpringManager implements Manager {
 
+    @Autowired
     FelhasznaloRepository felhasznaloRepository;
     public static Manager manager = new SpringManager();
 
-    private ConfigurableApplicationContext ctx;
     @Override
-    public void startBackend() { ctx = SpringApplication.run(ParkoloAppApplication.class);
-
+    public void startBackend() {
+        manager.startBackend();
     }
 
     @Override
-    public void stopBackend() { ctx.stop();
+    public void stopBackend() {
+        manager.stopBackend();
 
     }
 
     @Override
     public String getUserEmail() {
-        FelhasznaloRepository felhasznaloRepository = ctx.getBean(FelhasznaloRepository.class);
         return felhasznaloRepository.findByEmail("proba@email.com").get(0).getEmail();
     }
 
