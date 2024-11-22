@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&display=swap');
+
+html{
+
+  /* COLORS */
+  --bg-color: #D9D9D9;
+  --lift-color: #4D4D4D;
+  --orange: #F4A14D;
+  --orange-light: #ffbc79;
+  --green: #A0C089;
+  --calendar-color: #f9f9f9;
+  --green-dark: #789a61;
+
+  /* FONT COLORS */
+  --font-color-white: #F2F2F2;
+  --font-color-black: #1F1F1F;
+
+  /* TRANSITIONS */
+  --transition-quick: all 0.2s ease-in-out;
+  --transition-medium: all 0.5s ease-in-out; 
+  --transition-slow: all 0.7s ease-in-out; 
+
+  /* SHADOWS */
+  --shadow-regular: 0px 5px 20px -10px rgba(0,0,0,0.75);
+  --shadow-small: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    /* BEVEL COLOR */
+    --bevel-light: rgba(255, 255, 255, 0.1) ;
+    --bevel-dark: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: "Syne", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--font-color-black);
+}
+
+  /* Gombok kinézete */
+button{
+  background-color: var(--orange);
+  border: none;
+  margin: 1rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: "Syne", sans-serif;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  outline: 2px transparent solid;
+  transition: var(--transition-quick);
+  user-select: none;
+}
+
+  /* Gombok kinézete: hover */
+button:hover{
+  background-color: var(--orange-light);
+  outline: 2px var(--orange) solid;
+}
+
+  /* Link kinézete */
+a{
+  text-decoration: none;
+  color: var(--font-color-black);
+}
+
+  /* Grid tároló */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: 100vh;
+}
+  /* Grid jobb oldali tároló */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+  /* Grid bal oldali tároló: szürke */
+.left-panel-grey{
+  background-color: gray;
+  padding: 20px;
+  border-radius: 0 1.5rem 1.5rem 0;
+}
+
+  /* Grid bal oldali tároló: zöld */
+.left-panel-green{
+  background-color: var(--green);
+  padding: 20px;
+  border-radius: 0 1.5rem 1.5rem 0;
+}
+
+  /* Grid bal oldali tároló: narancsságra */
+.left-panel-orange{
+  background-color: var(--orange);
+  padding: 20px;
+  border-radius: 0 1.5rem 1.5rem 0;
+}
+
+  /* H1 stílus */
+h1{
+  font-size: 64px;
+  font-weight: bold;
+  margin: 1rem 0 0 0;
+  text-align: center;
+}
+
+  /* H2 stílus */
+h2{
+  font-size: 36px;
+  font-weight: bold;
+  margin: 2rem 0 2rem 0;
+}

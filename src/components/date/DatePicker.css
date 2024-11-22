@@ -1,0 +1,72 @@
+  /* Naptár tároló */
+.calendar-container {
+  display: inline-block;
+}
+  
+  /* Idő választó */
+.time-selection {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 3rem;
+}
+  
+  /* Idő választó: label */
+.time-selection label {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+  
+  /* Idő választó: input mező */
+input[type="time"] {
+  margin-left: 0.5rem;
+}
+  
+  /* Általános naptár háttér és szegély */
+.react-datepicker {
+  font-family: Arial, sans-serif;
+  border: 1px solid var(--bg-color);
+  border-radius: 8px;
+  background-color: var(--calendar-color);
+  padding: 10px;
+  box-shadow: var(--shadow-small),
+              inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+              inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+
+}
+  
+  /* Naptári napok alapértelmezett stílusa */
+.react-datepicker__day {
+  color: var(-font-color-black);
+  width: 7vw;
+  height: 7vh;
+}
+  
+  /* Kiválasztott nap */
+.react-datepicker__day--selected {
+  background-color: var(--green-dark);
+  color: white;
+  border-radius: 100px;
+}
+  
+  /* Kiválasztott intervallum eleje és vége */
+.react-datepicker__day--range-start,
+.react-datepicker__day--range-end {
+  background-color: var(--orange);
+  color: white;
+  border-radius: 100px;
+}
+  
+  /* Intervallumon belüli napok */
+.react-datepicker__day--in-range {
+  background-color: var(--orange-light);
+  color: #333;
+}
+  
+  /* Napok hover effekt */
+.react-datepicker__day:hover {
+  background-color: var(--green);
+  border-radius: 50%;
+}
+  
