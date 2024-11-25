@@ -1,8 +1,6 @@
 package com.dunapart.ParkoloApp.Backend;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +17,13 @@ import java.util.Date;
 public class Parkolo {
     @Id
     @GeneratedValue
-    private int id;
+    private int parkolo_id;
     private int meret;
     private boolean status;
-    private int rented_by_felhasznalo_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "felhasznalo_id"), inverseJoinColumns = @JoinColumn(name = "parkolo_id"))
+    private Felhasznalo felhasznalo;
 
     private Date from_date;
     private Date to_date;

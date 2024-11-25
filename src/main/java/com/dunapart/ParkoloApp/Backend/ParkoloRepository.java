@@ -1,4 +1,6 @@
 package com.dunapart.ParkoloApp.Backend;
 
-public interface ParkoloRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ParkoloRepository extends JpaRepository<Parkolo, Long> {
 }
