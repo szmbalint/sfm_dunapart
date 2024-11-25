@@ -17,12 +17,9 @@ import java.util.List;
 public class Felhasznalo {
     @Id
     @GeneratedValue
-    private int id;
+    private int felhasznalo_id;
     private String email;
     private String password;
-
-    private int auto_id;
-
 
 
 }

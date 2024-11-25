@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Target;
 
 @Data
 @AllArgsConstructor
@@ -16,13 +15,12 @@ public class Autok {
 
     @Id
     @GeneratedValue
-    private int id;
+    private int auto_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
+    @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "felhasznalo_id"), inverseJoinColumns = @JoinColumn(name = "auto_id"))
     private Felhasznalo felhasznalo;
-    //asdasd
-    private int asdasdasd;
+
     private String rendszam;
     private int meret;
 }
