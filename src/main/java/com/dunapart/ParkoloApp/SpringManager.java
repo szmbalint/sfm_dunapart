@@ -7,8 +7,6 @@ import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
-
 @SpringBootApplication
 public class SpringManager implements Manager {
 
@@ -41,14 +39,13 @@ public class SpringManager implements Manager {
         felhasznaloRepository.save(u);
     }
 
-    public void saveCar(String rendszam, int meret){
+    @Override
+    public void saveCar(String rendszam, int meret, Felhasznalo u) {
         Autok auto = new Autok();
         auto.setRendszam(rendszam);
         auto.setMeret(meret);
-
-        String felhasznalo_emailja = getUserEmail();
-
-
+        auto.setOwner(u);
+        felhasznaloRepository.save(u);
 
     }
 }
