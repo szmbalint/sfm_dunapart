@@ -25,31 +25,38 @@ function DatePickerPage() {
     setEndTime(e.target.value);
   };
 
-  const handleSubmit = () => {
-    // A back-end későbbi csatlakoztatása céljából előkészített adatobjektum
+  const handleSubmit = async () => {
     const data = {
-      startDate,
-      endDate,
+      startDate: startDate ? startDate.toISOString().split('T')[0] : null, // ISO formátum, csak a dátum
+      endDate: endDate ? endDate.toISOString().split('T')[0] : null,
       startTime,
       endTime,
     };
-    
-    // Egyelőre csak a konzolra írjuk ki az adatokat
-    console.log('Data to submit:', data);
-
-    // Amikor a back-end elkészül, itt egy fetch/axios hívás fog elindulni
-    // példa:
-    // fetch('http://your-backend-endpoint.com/api/save-dates', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(error => console.error('Error:', error));
-  };
+  
+    try {
+      const response = await fetch('http://your-backend-endpoint.com/api/save-dates', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log('Server response:', result);
+  
+      // Opcionális: Navigáció vagy értesítés sikeres beküldés után
+      alert('Data submitted successfully!');
+      navigate('/plotpicker'); // Példa: sikeres beküldés után navigáció egy másik oldalra
+    } catch (error) {
+      console.error('Error submitting data:', error);
+      alert('Failed to submit data. Please try again.');
+    }
+  };  
 
   return (
     <div className="grid-container">
