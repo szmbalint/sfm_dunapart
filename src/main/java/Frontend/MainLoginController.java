@@ -14,7 +14,6 @@ public class MainLoginController {
     @FXML
     public PasswordField password;
 
-
     @FXML
     public Button log_button;
 
