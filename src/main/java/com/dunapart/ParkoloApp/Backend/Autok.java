@@ -1,29 +1,26 @@
 package com.dunapart.ParkoloApp.Backend;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-public class Felhasznalo {
+public class Autok {
+
     @Id
     @GeneratedValue
     private int id;
-    private String email;
-    private String password;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Autok> autokList;
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Felhasznalo owner;
 
-
-
+    private String rendszam;
+    private int meret;
 }

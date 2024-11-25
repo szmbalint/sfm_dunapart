@@ -8,4 +8,5 @@ public interface FelhasznaloRepository extends JpaRepository<Felhasznalo, Long> 
 
     List<Felhasznalo> findByEmail(String email);
 
+    void setAutoList(List<Autok> auto);
 }
