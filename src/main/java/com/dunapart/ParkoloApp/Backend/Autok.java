@@ -22,6 +22,7 @@ public class Autok {
     @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Felhasznalo felhasznalo;
     //asdasd
+    private int asdasdasd;
     private String rendszam;
     private int meret;
 }
