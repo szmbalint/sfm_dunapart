@@ -10,5 +10,5 @@ public interface Manager {
 
     public void saveUser(String email, String pass);
 
-    public void saveCar(String rendszam, int meret, Felhasznalo u);
+    public void saveCar(String rendszam, int meret);
 }

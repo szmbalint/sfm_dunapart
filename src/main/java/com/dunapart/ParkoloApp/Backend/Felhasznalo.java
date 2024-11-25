@@ -21,8 +21,7 @@ public class Felhasznalo {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Autok> autokList;
+    private int auto_id;
 
 
 

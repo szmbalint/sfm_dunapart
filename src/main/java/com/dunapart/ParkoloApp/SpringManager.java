@@ -40,12 +40,10 @@ public class SpringManager implements Manager {
     }
 
     @Override
-    public void saveCar(String rendszam, int meret, Felhasznalo u) {
+    public void saveCar(String rendszam, int meret) {
         Autok auto = new Autok();
         auto.setRendszam(rendszam);
         auto.setMeret(meret);
-        auto.setOwner(u);
-        felhasznaloRepository.save(u);
 
     }
 }

@@ -17,9 +17,7 @@ public class Autok {
     @GeneratedValue
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private Felhasznalo owner;
+    private int felhasznalo_id;
 
     private String rendszam;
     private int meret;
