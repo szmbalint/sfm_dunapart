@@ -1,0 +1,127 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "cars": [
+          {
+            "licensePlate": "RED-001",
+            "name": "Ferrari F8",
+            "size": "Medium",
+            "color": "Red",
+            "type": "Supercar"
+          },
+          {
+            "licensePlate": "BLU-002",
+            "name": "Toyota Corolla",
+            "size": "Small",
+            "color": "Blue",
+            "type": "Sedan"
+          },
+          {
+            "licensePlate": "GRN-003",
+            "name": "Jeep Wrangler",
+            "size": "Large",
+            "color": "Green",
+            "type": "SUV"
+          },
+          {
+            "licensePlate": "BLK-004",
+            "name": "Mercedes-Benz S-Class",
+            "size": "Large",
+            "color": "Black",
+            "type": "Luxury"
+          },
+          {
+            "licensePlate": "WHT-005",
+            "name": "Volkswagen Golf",
+            "size": "Medium",
+            "color": "White",
+            "type": "Hatchback"
+          },
+          {
+            "licensePlate": "GRY-006",
+            "name": "Hyundai Elantra",
+            "size": "Medium",
+            "color": "Gray",
+            "type": "Sedan"
+          },
+          {
+            "licensePlate": "SLV-007",
+            "name": "Audi Q5",
+            "size": "Large",
+            "color": "Silver",
+            "type": "SUV"
+          },
+          {
+            "licensePlate": "YLW-008",
+            "name": "Lamborghini Huracan",
+            "size": "Small",
+            "color": "Yellow",
+            "type": "Supercar"
+          },
+          {
+            "licensePlate": "ORG-009",
+            "name": "Kia Soul",
+            "size": "Medium",
+            "color": "Orange",
+            "type": "Crossover"
+          },
+          {
+            "licensePlate": "BRN-010",
+            "name": "Chevrolet Silverado",
+            "size": "Large",
+            "color": "Brown",
+            "type": "Pickup"
+          },
+          {
+            "licensePlate": "BGE-011",
+            "name": "Honda CR-V",
+            "size": "Medium",
+            "color": "Beige",
+            "type": "SUV"
+          },
+          {
+            "licensePlate": "PUR-012",
+            "name": "Chrysler PT Cruiser",
+            "size": "Medium",
+            "color": "Purple",
+            "type": "Crossover"
+          },
+          {
+            "licensePlate": "PNK-013",
+            "name": "Volkswagen Beetle",
+            "size": "Small",
+            "color": "Pink",
+            "type": "Compact"
+          },
+          {
+            "licensePlate": "GLD-014",
+            "name": "Rolls Royce Phantom",
+            "size": "Large",
+            "color": "Gold",
+            "type": "Luxury"
+          },
+          {
+            "licensePlate": "BRZ-015",
+            "name": "Ford F-150",
+            "size": "Large",
+            "color": "Bronze",
+            "type": "Pickup"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "cars": [
+          {
+            "licensePlate": "LMN-456",
+            "name": "Ford Focus",
+            "size": "Small",
+            "color": "Blue",
+            "type": "Coupe"
+          }
+        ]
+      }
+    ]
+  }
+  

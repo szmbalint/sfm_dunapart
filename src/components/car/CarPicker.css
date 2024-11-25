@@ -1,0 +1,171 @@
+/* Az alapvető beállítások, hogy eltávolítsuk az alapértelmezett stílusokat */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* A kocsi adatainak megjelenítésére */
+  .car-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* A tartalom elosztása két oldalra */
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: 2px transparent;
+    user-select: none;
+    cursor: pointer;
+    transition: var(--transition-quick);
+  }
+  
+  /* A kocsi képe */
+  .car-container img {
+    width: 6rem;
+    height: 6rem;
+    object-fit: contain;
+    margin-right: 1rem;
+    border-radius: 8px;
+  }
+  
+  /* A szöveg tartalma */
+  .car-details {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  
+  .car-details h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .car-details p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* A rendszám és a típus egy sorban */
+  .car-details .license-type {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .car-details .license-type span {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .edit-btn img, .delete-btn img {
+    width: 1rem;
+    height: 1rem;
+    margin: 0.5rem;
+    border-radius: 0;
+    filter: invert(1);
+  }
+  
+  .edit-btn, .delete-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    margin: 0;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 0.1rem;
+    background-color: rgba(242,242,242,0.75);  
+    box-shadow: var(--shadow-small),
+                inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+                inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+            
+  }
+
+  .btns{
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Színek definiálása */
+  .car-container.red {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(205, 19, 22, 0.1) 100%);
+}
+
+.car-container.blue {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(66,134,244,0.1) 100%);
+}
+
+.car-container.green {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(29,151,108,0.1) 100%);
+}
+
+.car-container.black {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(67,67,67,0.2) 100%);
+}
+
+.car-container.white {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(238,242,243,0.2) 100%);
+}
+
+.car-container.gray {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(102,102,102,0.2) 100%);
+}
+
+.car-container.silver {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(219,219,219,0.2) 100%);
+}
+
+.car-container.yellow {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(253,200,48,0.2) 100%);
+}
+
+.car-container.orange {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(245,175,25,0.2) 100%);
+}
+
+.car-container.brown {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(154,132,120,0.2) 100%);
+}
+
+.car-container.beige {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(173,169,150,0.2) 100%);
+}
+
+.car-container.purple {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(60,16,83,0.2) 100%);
+}
+
+.car-container.pink {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(173,83,137,0.2) 100%);
+}
+
+.car-container.gold {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(203,173,109,0.2) 100%);
+}
+
+.car-container.bronze {
+    background: linear-gradient(180deg, rgba(242,242,242,1) 50%, rgba(209,145,60,0.2) 100%);
+}
+
+  
+  /* Kijelölt állapot */
+  .car-container.selected {
+    outline: 2px solid var(--font-color-black);
+    box-shadow: var(--shadow-regular),
+                inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+                inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  }
+  

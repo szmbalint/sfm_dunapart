@@ -1,0 +1,6 @@
+{
+    "sizes": ["Small", "Medium", "Large"],
+    "colors": ["Red", "Blue", "Green", "Black", "White", "Gray", "Silver", "Yellow", "Orange", "Brown", "Beige", "Purple", "Pink", "Gold", "Bronze"],
+    "types": ["Hatchback", "Sedan", "SUV", "Crossover", "Coupe", "Convertible", "Pickup", "Station Wagon", "Van", "Minivan", "Roadster", "Supercar", "Electric Vehicle", "Hybrid", "Compact", "Luxury"]
+  }
+  
