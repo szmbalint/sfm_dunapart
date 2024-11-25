@@ -21,7 +21,7 @@ public class Autok {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Felhasznalo felhasznalo;
-
+    //asdasd
     private String rendszam;
     private int meret;
 }
