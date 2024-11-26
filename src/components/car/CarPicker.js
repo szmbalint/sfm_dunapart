@@ -131,7 +131,9 @@ function CarPicker() {
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Add new car</h2>
+            <div className='modal-carpicker'>
             <CarForm newCar={newCar} setNewCar={setNewCar} options={options} />
+            </div>
             <div className="modal-actions">
               <button onClick={handleAddCar}>Hozzáadás</button>
               <button onClick={() => setShowModal(false)}>Mégse</button>
@@ -144,11 +146,13 @@ function CarPicker() {
       {showEditModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>Autó módosítása</h2>
-            <CarForm newCar={newCar} setNewCar={setNewCar} options={options} />
+            <h2>Change car information</h2>
+            <div className='modal-carpicker'>
+              <CarForm newCar={newCar} setNewCar={setNewCar} options={options} />
+            </div>
             <div className="modal-actions">
-              <button onClick={handleEditCar}>Mentés</button>
-              <button onClick={() => setShowEditModal(false)}>Mégse</button>
+              <button onClick={handleEditCar}>Save</button>
+              <button onClick={() => setShowEditModal(false)}>Cancel</button>
             </div>
           </div>
         </div>
@@ -161,7 +165,7 @@ function CarForm({ newCar, setNewCar, options }) {
   return (
     <>
       <label>
-        Név:
+        Car name
         <input
           type="text"
           value={newCar.name}
@@ -169,7 +173,7 @@ function CarForm({ newCar, setNewCar, options }) {
         />
       </label>
       <label>
-        Rendszám:
+        License-number
         <input
           type="text"
           value={newCar.licensePlate}
@@ -177,7 +181,7 @@ function CarForm({ newCar, setNewCar, options }) {
         />
       </label>
       <label>
-        Méret:
+        Car size
         <select
           value={newCar.size}
           onChange={(e) => setNewCar({ ...newCar, size: e.target.value })}
@@ -189,7 +193,7 @@ function CarForm({ newCar, setNewCar, options }) {
         </select>
       </label>
       <label>
-        Szín:
+        Car color
         <select
           value={newCar.color}
           onChange={(e) => setNewCar({ ...newCar, color: e.target.value })}
@@ -201,7 +205,7 @@ function CarForm({ newCar, setNewCar, options }) {
         </select>
       </label>
       <label>
-        Típus:
+        Car type
         <select
           value={newCar.type}
           onChange={(e) => setNewCar({ ...newCar, type: e.target.value })}

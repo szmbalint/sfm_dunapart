@@ -105,6 +105,9 @@ ul {
   padding: 0.4rem 0.5rem 0.4rem 0.5rem;
   border-radius: 100rem;
   color: var(--font-color-black);
+  box-shadow: 
+  inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+  inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
 }
 .license{
   padding: 0.4rem 0 0.4rem 0;
@@ -149,6 +152,7 @@ ul {
 
 .type.brown {
   background: linear-gradient(90deg, rgba(178,159,148,0.85) 0%, rgba(96,56,19,0.85) 100%);
+    color: var(--font-color-white);
 }
 
 .type.beige {
@@ -157,6 +161,7 @@ ul {
 
 .type.purple {
   background: linear-gradient(90deg, rgba(173,83,137,0.85) 0%, rgba(60,16,83,0.85) 100%);
+  color: var(--font-color-white);
 }
 
 .type.pink {
@@ -179,4 +184,24 @@ ul {
                 inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
                 inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
   }
-  
+
+  .modal-carpicker label {
+    display: grid;
+    grid-template-columns: 10rem auto; /* 10rem a címkének, a maradék hely az inputnak */
+    align-items: center; /* Függőlegesen középre igazítja az elemeket */
+    margin-bottom: 1rem; /* Alsó margó a label-ek között */
+    text-align: left;
+    font-family: "Inter", serif;
+    font-weight: 700;
+}
+
+.modal-carpicker input, select{
+  border: none;
+  height: 2rem;
+  padding-left: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.modal-carpicker input:focus{
+  outline: none;
+}
