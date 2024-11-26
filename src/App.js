@@ -4,6 +4,7 @@ import Register from "./components/auth/Register";
 import CarPicker from "./components/car/CarPicker";
 import DatePicker from "./components/date/DatePicker";
 import PlotPicker from "./components/plot/PlotPicker";
+import ForgotPassword from './components/auth/ForgotPassword';
 
 function Home() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/CarPicker" element={<CarPicker />} />
         <Route path="/DatePicker" element={<DatePicker />} />
         <Route path="/PlotPicker" element={<PlotPicker />} />
+        <Route path="/forgot-password" element={<ForgotPassword />}/>
       </Routes>
     </Router>
   );

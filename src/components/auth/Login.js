@@ -1,77 +1,81 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import './Auth.css';
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+import logoImage from '../../assets/logo.png';
+import kepImage from '../../assets/kep.png';
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Az űrlap alapértelmezett működésének megakadályozása.
 
-    try {
-      const response = await fetch('https://your-backend-api-url.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }), // Adatok küldése JSON formátumban.
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessage('Sikeres bejelentkezés!');
-        console.log('Bejelentkezési válasz:', data); // További feldolgozás, pl. token mentése.
-      } else {
-        setMessage('Hibás email vagy jelszó!');
-      }
-    } catch (err) {
-      console.error('Hiba történt a szerverrel:', err);
-      setMessage('Hiba történt a szerverrel való kommunikáció során.');
-    }
-  };
-
+const Login = () => {
   return (
-    <div className="grid-container">
-      <div className="left-panel-grey">
-        <button>
-          <Link to="/">Vissza a főoldalra</Link>
-        </button>
+    <div className="parent">
+      {/* Bal oldal */}
+      <div className="div1">
+      <div className="section1">
+          <img src={logoImage} alt="Section1" className='section-logo' /> {/* Használjuk a logoImage változót */}
+        </div>
+
+        <div className="section2">
+          <p className="section-text">
+            We make <br />
+            parking <br />
+            effortless
+          </p>
+        </div>
+
+        <div className="section3">
+          <img src={kepImage} alt="Section3" className='section-kep' /> {/* Használjuk a kepImage változót */}
+        </div>
       </div>
 
-      <div className="right-panel">
-        <h1>Bejelentkezés</h1>
+      {/* Jobb oldal */}
+      <div className="div2">
+        <div className="top-right">
+          <Link to="/register" className="signup-button">
+            Sign Up
+          </Link>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} // Email állapot frissítése.
-              required
-            />
-          </div>
+        <div className="login-form">
+          <h2>Log into your account</h2>
+          <form>
+            <div className="form-group">
+              <label htmlFor="username">Username or Email</label>
+              <input type="text" id="username" placeholder="Enter your username or email" />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input type="password" id="password" placeholder="Enter your password" />
+            </div>
 
-          <div>
-            <label htmlFor="password">Jelszó:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)} // Jelszó állapot frissítése.
-              required
-            />
-          </div>
+            {/* Remember me és Forgot password */}
+            <div className="options">
+              <div className="remember-me">
+                <input type="checkbox" id="remember" />
+                <label htmlFor="remember">Remember me</label>
+              </div>
+              <div className="forgot-password">
+                <Link to="/forgot-password">Forgot password?</Link>
+              </div>
+            </div>
 
-          <button type="submit">Bejelentkezés</button>
-        </form>
-
-        {message && <p>{message}</p>} {/* Visszajelzés a felhasználónak */}
+            {/*login gomb az alján*/}
+            <button 
+              type="submit"
+              className="login-button"
+              onClick={(e) => {
+                e.preventDefault();
+                alert("Logged in!");
+              }}
+            >
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
-}
+};
 
+// Default export hozzáadása
 export default Login;

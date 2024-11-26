@@ -1,0 +1,293 @@
+/*ALTALANOS*/
+.parent {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /*BAL OLDALI HASAB - div1*/
+  .div1 {
+    flex: 1;
+    background-color: #fff; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 444px;
+    
+  }
+
+  /*LOGO - sec1*/
+  .section1 {
+    position: relative;
+    width: 100%;  /* Az elem szélessége a szülőhöz igazodik */
+    height: auto; /* Magasság a benne lévő képhez igazodik */
+  }
+
+  .section-logo {
+    position: absolute; /* A kép bal felső sarokba kerül */
+    top: 0;
+    left: 0;
+    width: 60px;  /* A kép szélessége */
+    height: auto;  /* A kép magassága arányosan igazodik */
+  }
+  
+  /*SZOVEG - sec2*/
+  .section2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* A sec2 középre van igazítva */
+    text-align: center;
+  }
+
+  .section-text {
+    font-size: 64px; /* Betűméret*/
+    font-family: 'Syne'; /* Betűtípus */
+    font-weight: bold; /* Félkövér */
+    color: #505050; 
+    text-align: center; /* Középre igazítás */
+    line-height: 1; /* Sorok közötti távolság */
+    margin: 0; /* Margó eltávolítása */
+    letter-spacing: 6px;
+  }
+
+  /*KEP - sec3*/
+  .section3 {
+    height: 65%; /* EZZEL KEZDENI MÉG VALAMIT - talán jó*/
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .section-kep {
+    height: 100%;  /* A kép kitölti a sec3 teljes magasságát */
+    width: auto;   
+    object-fit: cover; /* A kép arányos kitöltése */
+    
+  }
+
+
+
+  /*JOBB OLDALI HASAB - div2*/
+  .div2 {
+    flex: 1;
+    background-color: #a0c089; 
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+  }
+  
+  /*FELSO GOMB - Sign Up*/
+  .top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .signup-button {
+    padding: 10px 20px;
+    background-color: #f4a14d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .signup-button:hover {
+    background-color: #f4a14d;
+  }
+  
+
+  /*TELJES LOGIN RESZ*/
+  .login-form {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .login-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+  
+  /*ALSO LOGIN GOMB*/
+  .login-button {
+    width: 40%;
+    padding: 10px;
+    background-color: #f4a14d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 50px;
+  }
+  
+  .login-button:hover {
+    background-color: #f4a14d;
+  }
+
+  /*REMEMBER ME es FORGOT PASSWORD*/
+  .options {
+    display: flex;
+    justify-content: space-between; /* A két elem egymás mellett balra és jobbra */
+    align-items: center; 
+
+    font-size: 14px; 
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 1px; /* Távolság a checkbox és a szöveg között */
+  }
+  
+  .forgot-password a {
+    color: #269cfd;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline; /* Hover állapot */
+  }
+
+
+
+
+
+  /*SIGN UP RESZ - masik lap*/
+  
+  /* Jobb felső sarok pozícionálás */
+  .top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  /* Gomb stílusa */
+  .signup-button {
+    padding: 10px 20px;
+    background-color: #f4a14d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* Hover állapot a gombhoz */
+  .signup-button:hover {
+    background-color: #f4a14d;
+  }
+
+
+  .signup-form{
+    color: #fff;
+    text-align: center;
+  }
+
+  /* Sign Up form sorok */
+  .signup-form .form-row {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between; /* Elemek szétszórása balra és jobbra */
+    gap: 50px;
+    color: #fff;
+  }
+
+  .signup-form .form-group {
+    flex: 1; 
+    text-align: left; /* A szövegek balra igazítása */
+  }
+  
+
+  .signup-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+
+
+
+  /*ELFELEJTETT JELSZO*/
+  .forgot-password-page {
+    color: #fff;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .forgot-password-page h2 {
+    margin-bottom: 50px;
+  }
+  
+  .forgot-password-page .form-group {
+    margin-bottom: 25px;
+    text-align: left;
+  }
+  
+  .forgot-password-page .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .forgot-password-page .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .forgot-password-page .submit-button {
+    width: 40%;
+    padding: 10px;
+    background-color: #f4a14d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .forgot-password-page .submit-button:hover {
+    background-color: #f2952e;
+  }
+  
+  @media (min-width: 1200px) {
+    .login-form, .signup-form, .forgot-password-page {
+      max-width: 600px; /* Növeld a form szélességét */
+    }
+  
+    .form-group input {
+      padding: 15px; /* Kényelmesebb input mező méret */
+      font-size: 15px; /* Nagyobb betűméret */
+    }
+  
+    .login-button, .submit-button {
+      width: 50%; /* Gomb szélesség növelése */
+    }
+  }
+  
