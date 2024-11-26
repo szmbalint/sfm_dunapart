@@ -21,19 +21,42 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Űrlap beküldése
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Alapértelmezett beküldési viselkedés megakadályozása
-    const { firstName, email, password } = formData;
+// Űrlap beküldése
+const handleSubmit = async (e) => {
+  e.preventDefault(); // Alapértelmezett beküldési viselkedés megakadályozása
+  const { firstName, lastName, email, password } = formData;
 
-    if (!firstName || !email || !password) {
-      alert("All fields are required!");
+  // Ellenőrzés, hogy minden mező ki van-e töltve
+  if (!firstName || !email || !password) {
+    alert("All fields are required!");
+    return;
+  }
+
+  try {
+    // Adatok küldése a back-endnek
+    const response = await fetch('http://your-backend-url/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // JSON formátumú adatok
+      },
+      body: JSON.stringify({ firstName, lastName, email, password }), // Adatok JSON-ben
+    });
+
+    // A válasz ellenőrzése
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(`Error: ${errorData.message || 'Failed to create account'}`);
       return;
     }
 
-    alert("Account created successfully!");
-    navigate('/'); // Visszairányítás a bejelentkezési oldalra
-  };
+    const data = await response.json();
+    alert(`Account created successfully! Welcome, ${data.firstName || 'User'}!`);
+    navigate('/'); // Sikeres regisztráció után visszairányítás
+  } catch (error) {
+    console.error('Error during sign-up:', error);
+    alert('An error occurred while creating your account. Please try again later.');
+  }
+};
 
   return (
     <div className="parent">
