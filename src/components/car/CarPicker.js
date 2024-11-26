@@ -95,7 +95,7 @@ function CarPicker() {
             {cars.map((car, index) => (
               <li
                 key={index}
-                className={`car-container ${car.color.toLowerCase()} ${
+                className={`car-container ${
                   selectedCar === index ? 'selected' : ''
                 }`}
                 onClick={() => handleSelectCar(index)}
@@ -104,8 +104,8 @@ function CarPicker() {
                 <div className="car-details">
                   <h2>{car.name}</h2>
                   <div className="license-type">
-                    <span>License • {car.licensePlate}</span>
-                    <span>Type • {car.type}</span>
+                    <span className='license'><strong>License</strong> • {car.licensePlate}</span>
+                    <span className={`type ${car.color.toLowerCase()}`}><strong>Type</strong> • {car.type}</span>
                   </div>
                 </div>
                 <div className="btns">

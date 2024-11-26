@@ -78,6 +78,7 @@ a{
   align-items: center;
   padding: 20px;
   overflow-y: auto;
+  background-color: var(--font-color-white);
 }
   /* Grid bal oldali tároló: szürke */
 .left-panel-grey{
