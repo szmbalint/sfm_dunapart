@@ -32,6 +32,11 @@ public class APISpringManager implements APIManager {
     }
 
     @Override
+    public Felhasznalo findUserByEmail(String email) {
+        Felhasznalo user = felhasznaloRepository.findByEmail(email);
+        return user;
+    }
+    @Override
     public void saveUser(String firstName, String lastName, String passwd, String email) {
         Felhasznalo user = Felhasznalo.builder()
                 .firstName(firstName)
