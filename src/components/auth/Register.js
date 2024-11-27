@@ -34,7 +34,7 @@ const handleSubmit = async (e) => {
 
   try {
     // Adatok küldése a back-endnek
-    const response = await fetch('http://your-backend-url/api/signup', {
+    const response = await fetch('http://localhost:8084/api/reg', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // JSON formátumú adatok
