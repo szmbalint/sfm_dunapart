@@ -1,7 +1,10 @@
 package com.dunapart.ParkoloApp.Backend.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LoginRequest
 {
+    @JsonProperty("username")
     private String email;
     private String password;
 

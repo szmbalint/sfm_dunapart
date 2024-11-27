@@ -43,6 +43,7 @@ public class DataController {
 
     @PostMapping("/login")
     public ResponseEntity<?> getFelhasznalo(@RequestBody LoginRequest loginRequest) {
+
         System.out.println("email: " + loginRequest.getEmail());
         System.out.println("passwd: " + loginRequest.getPassword());
 

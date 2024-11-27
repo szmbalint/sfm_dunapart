@@ -7,7 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUtil {
-    private static final String SECRET_KEY = "my-secret-key"; // Titkos kulcs don't share this (or what)
+    private static final String SECRET_KEY = "szupertitkoskulcs12"; // Titkos kulcs don't share this (or what)
 
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
