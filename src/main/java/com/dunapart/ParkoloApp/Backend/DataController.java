@@ -1,12 +1,10 @@
 package com.dunapart.ParkoloApp.Backend;
 
 import com.dunapart.ParkoloApp.APISpringManager;
+import com.dunapart.ParkoloApp.Backend.Model.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -21,10 +19,12 @@ public class DataController {
     }
 
 
-    @GetMapping("/login")
-    public String getFelhasznalo(@RequestParam String email, @RequestParam String passwd)
+    @PostMapping("/login")
+    public String getFelhasznalo(@RequestBody LoginRequest loginRequest)
     {
-        String validity = springmanager.isUserValid(email,passwd);  //valid = gud, invalid = not gud
+        System.out.println("email: " + loginRequest.getEmail());
+        System.out.println("passwd: " + loginRequest.getPassword());
+        String validity = springmanager.isUserValid(loginRequest.getEmail(), loginRequest.getPassword());  //valid = gud, invalid = not gud
         return validity;
     }
 }
