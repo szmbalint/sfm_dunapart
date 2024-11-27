@@ -12,7 +12,7 @@ const Login = () => {
       {/* Bal oldal */}
       <div className="div1">
       <div className="section1">
-          <img src={logoImage} alt="Section1" className='section-logo' /> {/* Használjuk a logoImage változót */}
+          <img src={logoImage} alt="Section1" className='section-logo' /> 
         </div>
 
         <div className="section2">
@@ -24,7 +24,7 @@ const Login = () => {
         </div>
 
         <div className="section3">
-          <img src={kepImage} alt="Section3" className='section-kep' /> {/* Használjuk a kepImage változót */}
+          <img src={kepImage} alt="Section3" className='section-kep' /> 
         </div>
       </div>
 

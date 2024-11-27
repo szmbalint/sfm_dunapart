@@ -52,7 +52,7 @@ function App() {
         <Route path="/CarPicker" element={<CarPicker />} />
         <Route path="/DatePicker" element={<DatePicker />} />
         <Route path="/PlotPicker" element={<PlotPicker />} />
-        <Route path="/forgot-password" element={<ForgotPassword />}/>
+        <Route path="/forgotpassword" element={<ForgotPassword />}/>
       </Routes>
     </Router>
   );
