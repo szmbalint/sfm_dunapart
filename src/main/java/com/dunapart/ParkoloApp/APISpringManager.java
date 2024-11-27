@@ -23,12 +23,12 @@ public class APISpringManager implements APIManager {
     public String isUserValid(String email, String passwd) {
         Felhasznalo user = felhasznaloRepository.findByEmail(email);
         if (user == null) {
-            return "not gud"; // ha nincs ilyen felhasználó
+            return "notvalid"; // ha nincs ilyen felhasználó
         }
         if (user.getPassword().equals(passwd)) {
-            return "gud"; // ha helyes a jelszó
+            return "valid"; // ha helyes a jelszó
         }
-        return "not gud"; // ha helytelen a jelszó
+        return "notvalid_unknown_expression";
     }
 
     @Override
