@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 public class JwtUtil {
-    private static final String SECRET_KEY = "szupertitkoskulcs12"; // Titkos kulcs don't share this (or what)
+    private static final String SECRET_KEY = "4gH7k9Z2L1dJ0xTpVfQm3WbYlE6sPzR5A8jKoBvXyCzD2FwTnSh3L0g9PzRkM1iQv5lS7UeYtFb4H3J0VzW8Kp9rCqMnQxLoYh2"; // Titkos kulcs don't share this (or what)
+//    private static final String SECRET_KEY = "szupertitkoskulcs12"; // Titkos kulcs don't share this (or what)
 
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
