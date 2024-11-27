@@ -31,4 +31,16 @@ public class APISpringManager implements APIManager {
         return "not gud"; // ha helytelen a jelszó
     }
 
+    @Override
+    public void saveUser(String firstName, String lastName, String passwd, String email) {
+        Felhasznalo user = Felhasznalo.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .password(passwd)
+                .email(email)
+                .build();
+        System.out.println("this user builded by builder thing or what: "+ user);
+        felhasznaloRepository.save(user);
+    }
+
 }

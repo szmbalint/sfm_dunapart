@@ -21,6 +21,9 @@ public class Felhasznalo {
     private int felhasznalo_id;
     private String email;
     private String password;
+    private String firstName;
+    private String lastName;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "Autok", joinColumns = @JoinColumn (name = "auto_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
