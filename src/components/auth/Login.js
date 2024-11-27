@@ -14,6 +14,7 @@ const Login = () => {
     e.preventDefault(); // Alapértelmezett űrlap küldés megakadályozása.
 
     try {
+      console.error("A kuldott adatok: " + username + ", " + password);
       const response = await fetch('http://localhost:8084/api/login', {
         method: 'POST',
         headers: {
