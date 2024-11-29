@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "autok")
 public class Autok {
 
     @Id

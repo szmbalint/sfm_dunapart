@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "felhasznalo")
 public class Felhasznalo {
     @Id
     @GeneratedValue

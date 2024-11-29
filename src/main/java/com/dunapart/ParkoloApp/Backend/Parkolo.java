@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "parkolo")
 public class Parkolo {
     @Id
     @GeneratedValue

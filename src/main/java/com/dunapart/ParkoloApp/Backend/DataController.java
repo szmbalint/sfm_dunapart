@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -58,7 +59,7 @@ public class DataController {
     }
 
     @PostMapping("/reg")
-    public void regFelhasznalo(@RequestBody RegiRequest regiRequest)
+    public ResponseEntity<?> regFelhasznalo(@RequestBody RegiRequest regiRequest)
     {
         System.out.println("regelt felhasznalo adatai: ");
         System.out.println("firstname: "+regiRequest.getFirstName());
@@ -67,6 +68,11 @@ public class DataController {
         System.out.println("email: "+regiRequest.getEmail());
         springmanager.saveUser(regiRequest.getFirstName(),regiRequest.getLastName(),regiRequest.getPassword(),regiRequest.getEmail());
         System.out.println("user reg method finished");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User successfully registered");
+        response.put("status", "success");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/me")
