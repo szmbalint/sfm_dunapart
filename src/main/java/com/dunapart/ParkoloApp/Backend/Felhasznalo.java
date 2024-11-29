@@ -26,13 +26,20 @@ public class Felhasznalo {
     private String lastName;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Autok", joinColumns = @JoinColumn (name = "auto_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "Autok", joinColumns = @JoinColumn (name = "auto_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
+//    private List<Autok> auto;
+
+    @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Autok> auto;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Parkolo", joinColumns = @JoinColumn (name = "parkolo_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
+    @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Parkolo> parkolo;
+
+
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "Parkolo", joinColumns = @JoinColumn (name = "parkolo_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
+//    private List<Parkolo> parkolo;
 
 
 

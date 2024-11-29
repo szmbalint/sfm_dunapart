@@ -18,11 +18,23 @@ public class Autok {
     @Id
     @GeneratedValue
     private int auto_id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "Parkolo", joinColumns = @JoinColumn (name = "parkolo_id"), inverseJoinColumns = @JoinColumn(name = "auto_id"))
-    private Parkolo parkolo;
-
     private String rendszam;
     private int meret;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinTable(name = "Parkolo", joinColumns = @JoinColumn (name = "parkolo_id"), inverseJoinColumns = @JoinColumn(name = "auto_id"))
+//    private Parkolo parkolo;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "felhasznalo_id"), inverseJoinColumns = @JoinColumn(name = "auto_id"))
+//    private Felhasznalo felhasznalo;
+
+    // One-to-One kapcsolat, egy autó csak egy parkolóhelyen parkolhat
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parkolo_id", nullable = true)  // nullable = true, mert nem minden autó parkol
+    private Parkolo parkolo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "felhasznalo_id", nullable = false)
+    private Felhasznalo felhasznalo;
+
 }

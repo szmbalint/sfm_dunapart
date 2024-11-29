@@ -22,13 +22,12 @@ public class Parkolo {
     private int parkolo_id;
     private int meret;
     private boolean status;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinTable(name = "Felhasznalo", joinColumns = @JoinColumn (name = "felhasznalo_id"), inverseJoinColumns = @JoinColumn(name = "parkolo_id"))
-//    private Felhasznalo felhasznalo;
-
-
     private Date from_date;
     private Date to_date;
+
+    // Many-to-One kapcsolat, több autó is parkolhat ugyanott, és minden parkolóhoz tartozik egy felhasználó
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "felhasznalo_id", nullable = true)  // nullable = true, mert lehet olyan állapot, hogy egy felhasználó nem parkol
+    private Felhasznalo felhasznalo;
 
 }

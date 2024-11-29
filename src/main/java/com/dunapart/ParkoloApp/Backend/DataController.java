@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,5 +92,19 @@ public class DataController {
         // Példa: lekérdezzük a felhasználót a SpringManager-ből
         Felhasznalo user = springmanager.findUserByEmail(email);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/loadCars")
+    public ResponseEntity<?> getUserCars(@RequestHeader("Username") String userHeader) {
+        if (userHeader == null || !userHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
+        }
+
+        String email = userHeader.substring(7); // email kinyerése
+        Felhasznalo user = springmanager.findUserByEmail(email);
+        int userID = user.getFelhasznalo_id();
+        List<Autok> userCars = new ArrayList<Autok>();
+        userCars = springmanager.findCars(userID);
+        return ResponseEntity.ok(userCars);
     }
 }

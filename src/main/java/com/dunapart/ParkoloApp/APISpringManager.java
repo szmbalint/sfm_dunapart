@@ -1,22 +1,30 @@
 package com.dunapart.ParkoloApp;
 
 import Frontend.APIManager;
+import com.dunapart.ParkoloApp.Backend.Autok;
+import com.dunapart.ParkoloApp.Backend.AutokRepository;
 import com.dunapart.ParkoloApp.Backend.Felhasznalo;
 import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 //@SpringBootApplication
 @Service
 public class APISpringManager implements APIManager {
 
     private final FelhasznaloRepository felhasznaloRepository;
+    private final AutokRepository autokRepository;
 
     @Autowired
-    public APISpringManager(FelhasznaloRepository felhasznaloRepository)
+    public APISpringManager(FelhasznaloRepository felhasznaloRepository,AutokRepository autokRepository)
     {
         this.felhasznaloRepository = felhasznaloRepository;
+        this.autokRepository = autokRepository;
     }
 
     @Override
@@ -36,6 +44,16 @@ public class APISpringManager implements APIManager {
         Felhasznalo user = felhasznaloRepository.findByEmail(email);
         return user;
     }
+
+    @Override
+    public List<Autok> findCars(long userID) {
+        List<Autok> autok = new ArrayList<Autok>();
+
+        autok = autokRepository.findByFelhasznaloId((long) userID);
+
+        return autok;
+    }
+
     @Override
     public void saveUser(String firstName, String lastName, String passwd, String email) {
         Felhasznalo user = Felhasznalo.builder()
