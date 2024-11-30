@@ -50,6 +50,10 @@ public class APISpringManager implements APIManager {
         List<Autok> autok = new ArrayList<Autok>();
 
         autok = autokRepository.findByFelhasznaloId((long) userID);
+        for (Autok autoi : autok)
+        {
+            System.out.println(autoi);
+        }
 
         return autok;
     }

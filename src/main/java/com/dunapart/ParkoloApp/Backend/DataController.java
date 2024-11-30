@@ -95,14 +95,14 @@ public class DataController {
     }
 
     @GetMapping("/loadCars")
-    public ResponseEntity<?> getUserCars(@RequestHeader("Username") String userHeader) {
+    public ResponseEntity<?> getUserCars(@RequestHeader("email") String userHeader) {
         if (userHeader == null || !userHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
         }
 
         String email = userHeader.substring(7); // email kinyerése
         Felhasznalo user = springmanager.findUserByEmail(email);
-        int userID = user.getFelhasznalo_id();
+        long userID = user.getFelhasznalo_id();
         List<Autok> userCars = new ArrayList<Autok>();
         userCars = springmanager.findCars(userID);
         return ResponseEntity.ok(userCars);

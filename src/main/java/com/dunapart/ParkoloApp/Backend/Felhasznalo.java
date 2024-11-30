@@ -1,11 +1,9 @@
 package com.dunapart.ParkoloApp.Backend;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
@@ -26,20 +24,14 @@ public class Felhasznalo {
     private String lastName;
 
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "Autok", joinColumns = @JoinColumn (name = "auto_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
-//    private List<Autok> auto;
-
     @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude   //rekurzió elkerülése
+    @JsonIgnore         // -"-
     private List<Autok> auto;
 
     @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude       //rekurzió elkerülése
     private List<Parkolo> parkolo;
-
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "Parkolo", joinColumns = @JoinColumn (name = "parkolo_id"), inverseJoinColumns = @JoinColumn(name = "felhasznalo_id"))
-//    private List<Parkolo> parkolo;
 
 
 
