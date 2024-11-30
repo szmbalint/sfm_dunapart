@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -23,8 +22,8 @@ public class Parkolo {
     private int parkolo_id;
     private int meret;
     private boolean status;
-    private LocalDateTime from_date;
-    private LocalDateTime to_date;
+    private Date from_date;
+    private Date to_date;
 
 
 }
