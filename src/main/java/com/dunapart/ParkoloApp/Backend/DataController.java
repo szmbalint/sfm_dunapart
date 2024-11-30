@@ -10,10 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -106,5 +105,31 @@ public class DataController {
         List<Autok> userCars = new ArrayList<Autok>();
         userCars = springmanager.findCars(userID);
         return ResponseEntity.ok(userCars);
+    }
+
+    @GetMapping("/loadPlots")
+    public ResponseEntity<?> getFreePlots()
+    {
+        List<Parkolo> parkolohelyek = springmanager.getParkingPlots(); //itt lekérem az összeset
+
+        //Map of struktúra visszaküldése amiben: Map.of(parkolo_id, id-hoz tartozó lejárati idő)
+//        Map<Integer, Long> result = new HashMap<>();
+//        LocalDateTime now = LocalDateTime.now();
+//        for (Parkolo item : parkolohelyek)
+//        {
+//            if(item.getTo_date() != null)
+//            {
+//                LocalDateTime toDate = item.getTo_date();
+//                Duration duration = Duration.between(now, toDate);
+//                result.put(item.getParkolo_id(),duration.toMinutes());
+//            }
+//            else
+//            {
+//                result.put(item.getParkolo_id(),Long.valueOf(0));
+//            }
+//
+//        }
+//        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(parkolohelyek);
     }
 }
