@@ -130,5 +130,29 @@ public class DataController {
         return ResponseEntity.ok(userParkolo);
     }
 
-    //valtoztatas
+    @GetMapping("/loadPlots")
+    public ResponseEntity<?> getFreePlots() {
+        List<Parkolo> parkolohelyek = springmanager.getParkingPlots(); //itt lekérem az összeset
+
+        //Map of struktúra visszaküldése amiben: Map.of(parkolo_id, id-hoz tartozó lejárati idő)
+//        Map<Integer, Long> result = new HashMap<>();
+//        LocalDateTime now = LocalDateTime.now();
+//        for (Parkolo item : parkolohelyek)
+//        {
+//            if(item.getTo_date() != null)
+//            {
+//                LocalDateTime toDate = item.getTo_date();
+//                Duration duration = Duration.between(now, toDate);
+//                result.put(item.getParkolo_id(),duration.toMinutes());
+//            }
+//            else
+//            {
+//                result.put(item.getParkolo_id(),Long.valueOf(0));
+//            }
+//
+//        }
+//        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(parkolohelyek);
+    }
+
 }
