@@ -129,4 +129,6 @@ public class DataController {
 
         return ResponseEntity.ok(userParkolo);
     }
+
+    //valtoztatas
 }
