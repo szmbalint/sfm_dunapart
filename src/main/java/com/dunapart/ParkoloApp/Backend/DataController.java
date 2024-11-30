@@ -50,10 +50,11 @@ public class DataController {
         System.out.println("email: " + loginRequest.getEmail());
         System.out.println("passwd: " + loginRequest.getPassword());
 
+
         String validity = springmanager.isUserValid(loginRequest.getEmail(), loginRequest.getPassword());
 
         if ("valid".equals(validity)) {
-            String token = jwtUtil.generateToken(loginRequest.getEmail()); // Token generálása
+            String token = jwtUtil.generateToken(loginRequest.getEmail()); // Token generálás
             return ResponseEntity.ok(Map.of("token", token)); // Token visszaküldése
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials!");
@@ -107,4 +108,27 @@ public class DataController {
         userCars = springmanager.findCars(userID);
         return ResponseEntity.ok(userCars);
     }
+
+    @GetMapping("/loadUserPlot")
+    public ResponseEntity<?> getUserPlots(@RequestHeader("email") String userHeader) {
+        if (userHeader == null || !userHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
+        }
+
+        String email = userHeader.substring(7);
+        Felhasznalo user = springmanager.findUserByEmail(email);
+        long userID = user.getFelhasznalo_id();
+        List<Autok> userCars = new ArrayList<>();
+        userCars = springmanager.findCars(userID);
+
+        List<Integer> userParkolo = new ArrayList<>();
+
+        for (Autok car : userCars) {
+            userParkolo.add(car.getParkolo().getParkolo_id());
+        }
+
+        return ResponseEntity.ok(userParkolo);
+    }
+
+    //valtoztatas
 }
