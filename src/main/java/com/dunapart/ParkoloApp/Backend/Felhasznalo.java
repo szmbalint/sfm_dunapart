@@ -29,9 +29,6 @@ public class Felhasznalo {
     @JsonIgnore         // -"-
     private List<Autok> auto;
 
-    @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude       //rekurzió elkerülése
-    private List<Parkolo> parkolo;
 
 
 
