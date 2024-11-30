@@ -1,10 +1,7 @@
 package com.dunapart.ParkoloApp;
 
 import Frontend.APIManager;
-import com.dunapart.ParkoloApp.Backend.Autok;
-import com.dunapart.ParkoloApp.Backend.AutokRepository;
-import com.dunapart.ParkoloApp.Backend.Felhasznalo;
-import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
+import com.dunapart.ParkoloApp.Backend.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
@@ -19,12 +16,14 @@ public class APISpringManager implements APIManager {
 
     private final FelhasznaloRepository felhasznaloRepository;
     private final AutokRepository autokRepository;
+    private final ParkoloRepository parkoloRepository;
 
     @Autowired
-    public APISpringManager(FelhasznaloRepository felhasznaloRepository,AutokRepository autokRepository)
+    public APISpringManager(FelhasznaloRepository felhasznaloRepository, AutokRepository autokRepository, ParkoloRepository parkoloRepository)
     {
         this.felhasznaloRepository = felhasznaloRepository;
         this.autokRepository = autokRepository;
+        this.parkoloRepository = parkoloRepository;
     }
 
     @Override
