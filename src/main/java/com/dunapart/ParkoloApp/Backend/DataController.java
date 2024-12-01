@@ -10,10 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -153,6 +151,17 @@ public class DataController {
 //        }
 //        return ResponseEntity.ok(result);
         return ResponseEntity.ok(parkolohelyek);
+    }
+
+    //frontendről meg kell kapni azt is hogy melyik autót akarja parkoltatni a felhasználó
+    @PostMapping("/saveBookingDate")
+    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("username") String username)
+    {
+        Felhasznalo user = springmanager.findUserByEmail(username);
+
+        //...
+
+        return ResponseEntity.ok(null);
     }
 
 }
