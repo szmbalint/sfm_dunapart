@@ -5,6 +5,7 @@ import CarPicker from "./components/car/CarPicker";
 import DatePicker from "./components/date/DatePicker";
 import PlotPicker from "./components/plot/PlotPicker";
 import ForgotPassword from './components/auth/ForgotPassword';
+import Dashboard from './Dashboard';
 
 import logoImage from '../src/assets/logo.png';
 import kepImage from '../src/assets/kep.png';
@@ -53,6 +54,7 @@ function App() {
         <Route path="/DatePicker" element={<DatePicker />} />
         <Route path="/PlotPicker" element={<PlotPicker />} />
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
+        <Route path="/Dashboard" element={<Dashboard />}/>
       </Routes>
     </Router>
   );

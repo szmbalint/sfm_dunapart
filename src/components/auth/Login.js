@@ -5,6 +5,8 @@ import './Auth.css';
 import logoImage from '../../assets/logo.png';
 import kepImage from '../../assets/kep.png';
 
+import { saveToken } from './tokenManager'; // Token kezelő importálása
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +16,6 @@ const Login = () => {
     e.preventDefault(); // Alapértelmezett űrlap küldés megakadályozása.
 
     try {
-      console.error("A kuldott adatok: " + username + ", " + password);
       const response = await fetch('http://localhost:8084/api/login', {
         method: 'POST',
         headers: {
@@ -26,10 +27,13 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         alert('Sikeres bejelentkezés!');
-        console.log('Login response:', data); // Itt kezelheted a szerver válaszát.
-        // Token mentése vagy navigáció:
-        // localStorage.setItem('token', data.token);
-        // navigate('/dashboard'); // Ha van irányítás.
+        console.log('Login response:', data);
+
+        // Token mentése
+        saveToken(data.token);
+
+        // Navigáció a felhasználói felületre
+        window.location.href = '/dashboard'; // Példa navigációra
       } else {
         setErrorMessage('Helytelen felhasználónév vagy jelszó!');
       }
