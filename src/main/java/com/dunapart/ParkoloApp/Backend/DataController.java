@@ -154,12 +154,12 @@ public class DataController {
     }
 
     //frontendről meg kell kapni azt is hogy melyik autót akarja parkoltatni a felhasználó
+    //az auto_id + parkolo_id-t megkapja a frontendről
     @PostMapping("/saveBookingDate")
-    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("username") String username)
+    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("auto_id") long auto_id, @RequestHeader("parkolo_id") long parkolo_id)
     {
-        Felhasznalo user = springmanager.findUserByEmail(username);
-
-        //...
+        Autok wanna_save_auto = springmanager.getUserCarById(auto_id);
+        
 
         return ResponseEntity.ok(null);
     }

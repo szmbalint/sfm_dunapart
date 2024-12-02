@@ -2,6 +2,7 @@ package com.dunapart.ParkoloApp;
 
 import Frontend.APIManager;
 import com.dunapart.ParkoloApp.Backend.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,11 @@ public class APISpringManager implements APIManager {
         List<Parkolo> result = new ArrayList<>();
         result = parkoloRepository.findAll();
         return result;
+    }
+
+    public Autok getUserCarById(long autoId) {
+        return autokRepository.findById(autoId)
+                .orElseThrow(() -> new EntityNotFoundException("Autó nem található az ID alapján: " + autoId));
+
     }
 }
