@@ -107,6 +107,12 @@ public class DataController {
         return ResponseEntity.ok(userCars);
     }
 
+
+    @PostMapping("/editCar")
+    public ResponseEntity<?> editUserCar(@RequestHeader("email") String userHeader) {
+        return null;
+    }
+
     @GetMapping("/loadUserPlot")
     public ResponseEntity<?> getUserPlots(@RequestHeader("email") String userHeader) {
         if (userHeader == null || !userHeader.startsWith("Bearer ")) {
@@ -119,7 +125,7 @@ public class DataController {
         List<Autok> userCars = new ArrayList<>();
         userCars = springmanager.findCars(userID);
 
-        List<Integer> userParkolo = new ArrayList<>();
+        List<Long> userParkolo = new ArrayList<>();
 
         for (Autok car : userCars) {
             userParkolo.add(car.getParkolo().getParkolo_id());
@@ -156,12 +162,25 @@ public class DataController {
     //frontendről meg kell kapni azt is hogy melyik autót akarja parkoltatni a felhasználó
     //az auto_id + parkolo_id-t megkapja a frontendről
     @PostMapping("/saveBookingDate")
-    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("auto_id") long auto_id, @RequestHeader("parkolo_id") long parkolo_id)
+    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("auto_id") long auto_id, @RequestHeader("parkolo_id") long selected_plot)
     {
         Autok wanna_save_auto = springmanager.getUserCarById(auto_id);
-        
+        //vizsgálat ha a parkoló mérete kisebb mint az autó mérete akkor hibát neki had rágja
+        Parkolo parkolo = Parkolo.builder()
+                .parkolo_id(selected_plot)
+                .from_date(from_date)
+                .to_date(to_date)
+                .build();
+        String muvelet = springmanager.savePakoloBooking(parkolo);
+        if(muvelet.equals("OK"))//mentésre került
+        {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Foglalás hozzáadva");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Hiba a foglalás során");
+        }
 
-        return ResponseEntity.ok(null);
     }
 
 }

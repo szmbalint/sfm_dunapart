@@ -81,4 +81,17 @@ public class APISpringManager implements APIManager {
                 .orElseThrow(() -> new EntityNotFoundException("Autó nem található az ID alapján: " + autoId));
 
     }
+
+    public String savePakoloBooking(Parkolo parkolo) {
+        try
+        {
+            parkoloRepository.save(parkolo);
+            return "OK";
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Exception has thrown in method: saveParkoloBooking");
+            return "nOK";
+        }
+    }
 }
