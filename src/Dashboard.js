@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getToken, deleteToken } from './components/auth/tokenManager'; // Token kezelő függvények importálása
 import { useNavigate } from 'react-router-dom';
+import { fetchUserData } from './api/dataController';
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null); // Felhasználói adatok tárolása
@@ -8,7 +9,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchData = async () => {
       const token = getToken();
 
       if (!token) {
@@ -18,31 +19,19 @@ const Dashboard = () => {
       }
 
       try {
-        console.log(token);
-        const response = await fetch('http://localhost:8084/api/me', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data); // Felhasználói adatok tárolása
-        } else if (response.status === 401) {
-          setErrorMessage('Lejárt token. Kérjük, jelentkezz be újra.');
-          deleteToken();
-          navigate('/login');
-        } else {
-          setErrorMessage('Hiba történt az adatok lekérdezésekor.');
-        }
+        const data = await fetchUserData(token);
+        setUserData(data); // Felhasználói adatok tárolása
       } catch (error) {
-        console.error('Hálózati hiba:', error);
-        setErrorMessage('Hiba történt a szerverrel való kommunikáció során.');
+        console.error('Hiba:', error);
+        setErrorMessage(error.message); // Hibakezelés
+        if (error.message.includes('Lejárt token')) {
+          deleteToken();
+          navigate('/login'); // Ha lejárt a token, navigálj a bejelentkezési oldalra
+        }
       }
     };
 
-    fetchUserData();
+    fetchData();
   }, [navigate]);
 
   const handleLogout = () => {

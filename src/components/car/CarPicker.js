@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getToken } from '../auth/tokenManager';
+import { fetchUserData, fetchCarsData } from '../../api/dataController';
 import './CarPicker.css';
 
 function CarPicker() {
@@ -18,14 +20,28 @@ function CarPicker() {
   const [selectedCar, setSelectedCar] = useState(null); // Kijelölt autó
 
   useEffect(() => {
-    fetch('/data/carList.json')
-      .then(response => response.json())
-      .then(data => {
-        const userCars = data.users.find(user => user.id === 1)?.cars || [];
-        setCars(userCars);
-      })
-      .catch(error => console.error('Hiba a JSON betöltésekor:', error));
+    const token = getToken(); // Token lekérése
+
+    if (token) {
+      // Első fetch: felhasználói adatok lekérése
+      fetchUserData(token)
+        .then((userData) => {
+          const userEmail = userData.email; // Email kinyerése a felhasználói adatokból
+          
+          // Második fetch: autók lekérése az email használatával
+          return fetchCarsData(userEmail);
+        })
+        .then((carData) => {
+          setCars(carData); // Autók adatainak mentése
+        })
+        .catch((error) => {
+          console.error('Hiba a felhasználói adatok vagy autók betöltésekor:', error);
+        });
+    } else {
+      console.error('Nincs token!');
+    }
   }, []);
+  
 
   useEffect(() => {
     fetch('/data/options.json')
