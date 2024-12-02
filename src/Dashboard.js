@@ -19,7 +19,7 @@ const Dashboard = () => {
 
       try {
         console.log(token);
-        const response = await fetch('http://localhost:8084/me', {
+        const response = await fetch('http://localhost:8084/api/me', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const Dashboard = () => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {userData ? (
         <div className="user-info">
-          <p><strong>Felhasználónév:</strong> {userData.username}</p>
+          <p><strong>Felhasználónév:</strong> {userData.firstName} {userData.lastName}</p>
           <p><strong>Email:</strong> {userData.email}</p>
           <p><strong>Regisztráció dátuma:</strong> {userData.registrationDate}</p>
         </div>
