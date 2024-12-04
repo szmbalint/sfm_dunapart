@@ -95,7 +95,7 @@ public class DataController {
 
 
     @PostMapping("/addCar")
-    public ResponseEntity<?> addUserCar() {
+    public ResponseEntity<?> addUserCar(@RequestHeader("felhasznalo_id") int felhasznalo_id) {
         return null;
     }
     @PostMapping("/editCar")
