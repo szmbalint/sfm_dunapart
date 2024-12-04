@@ -51,21 +51,20 @@ public class APISpringManager implements APIManager {
         autok = autokRepository.findByFelhasznaloId((long) userID);
         for (Autok autoi : autok)
         {
-            System.out.println(autoi);
+                //System.out.println(autoi);
         }
 
         return autok;
     }
 
     @Override
-    public Autok findCarByRendszam(List<Autok> Autok, String rendszam){
+    public Autok findCarByID(List<Autok> Autok, int ID){
 
     try {
         for (Autok auto : Autok) {
 
-            System.out.println("Rendszam: " + rendszam);
 
-            if (auto.getRendszam().equals(rendszam)) {
+            if (auto.getAuto_id() == ID) {
 
                 return auto;
 
@@ -79,7 +78,7 @@ public class APISpringManager implements APIManager {
     }
 
     @Override
-    public String updateCarByRendszam(Autok Auto, String rendszam, String color, String name, String type)
+    public String updateCarByID(Autok Auto, String rendszam, String color, String name, String type)
     {
         try{
             Auto.setRendszam(rendszam);
@@ -88,7 +87,7 @@ public class APISpringManager implements APIManager {
             Auto.setType(type);
 
             autokRepository.save(Auto);
-            return "success";
+            return "OK";
         }
         catch (Exception e) {
             System.out.println("error while updateing the car datas" + e);

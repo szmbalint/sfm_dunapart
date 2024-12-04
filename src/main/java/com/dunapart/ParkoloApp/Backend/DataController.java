@@ -116,29 +116,31 @@ public class DataController {
         }
     }
     @PostMapping("/editCar")
-    public ResponseEntity<?> editUserCar(@RequestHeader("email") String userHeader, @RequestHeader("rendszam") String rendszam) {
-        if (userHeader == null || !userHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
-        }
+    public ResponseEntity<?> editUserCar(@RequestHeader("email") String userHeader, @RequestHeader("rendszam") String rendszam,
+                                         @RequestHeader("color") String color, @RequestHeader("name") String name,@RequestHeader("type") String type, @RequestHeader("auto_id") int ID) {
+
 
         if (rendszam == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid rendszam");
         }
 
-        String email = userHeader.substring(7);
+        String email = userHeader;
         Felhasznalo user = springmanager.findUserByEmail(email);
         long userID = user.getFelhasznalo_id();
         List<Autok> userCars = springmanager.findCars(userID);
-
-        Autok userCar = springmanager.findCarByRendszam(userCars, rendszam.substring(7));
+        Autok userCar = springmanager.findCarByID(userCars, ID);
 
         System.out.println(userCar);
 
-
-
-
-
-        return ResponseEntity.status(HttpStatus.OK).body("Tökmindegy amugy, csak cseréld ki!");
+        String succes = springmanager.updateCarByID(userCar, rendszam,color,name,type);
+        if(succes.equals("OK"))
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(userCar.getAuto_id() + " Frissitesre sikeres");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Az auto adatainak frissitese sikertelen!");
+        }
     }
 
     @PostMapping("/deleteCar")
