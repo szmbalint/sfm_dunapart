@@ -11,4 +11,6 @@ public interface AutokRepository extends JpaRepository<Autok, Long> {
     List<Autok> findByFelhasznaloId(@Param("felhasznaloId") Long felhasznaloId);
 
     Autok findByRendszam(@Param("rendszam") String rendszam);
+
+    boolean existsByRendszam(String rendszam);
 }
