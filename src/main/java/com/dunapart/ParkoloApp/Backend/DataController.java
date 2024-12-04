@@ -99,7 +99,33 @@ public class DataController {
         return null;
     }
     @PostMapping("/editCar")
-    public ResponseEntity<?> editUserCar() {
+    public ResponseEntity<?> editUserCar(@RequestHeader("email") String userHeader, @RequestHeader("rendszam") String rendszam) {
+        if (userHeader == null || !userHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
+        }
+
+        if (rendszam == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid rendszam");
+        }
+
+        String email = userHeader.substring(7);
+        Felhasznalo user = springmanager.findUserByEmail(email);
+        long userID = user.getFelhasznalo_id();
+        List<Autok> userCars = springmanager.findCars(userID);
+
+        Autok userCar = springmanager.findCarByRendszam(userCars, rendszam.substring(7));
+
+        System.out.println(userCar);
+
+
+
+
+
+        return ResponseEntity.status(HttpStatus.OK).body("Tökmindegy amugy, csak cseréld ki!");
+    }
+
+    @PostMapping("/deleteCar")
+    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader, @RequestBody Autok autok) {
         return null;
     }
 

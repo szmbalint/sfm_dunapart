@@ -58,6 +58,45 @@ public class APISpringManager implements APIManager {
     }
 
     @Override
+    public Autok findCarByRendszam(List<Autok> Autok, String rendszam){
+
+    try {
+        for (Autok auto : Autok) {
+
+            System.out.println("Rendszam: " + rendszam);
+
+            if (auto.getRendszam().equals(rendszam)) {
+
+                return auto;
+
+            }
+        }
+    }
+    catch (Exception e) {
+        System.out.println(e);
+    }
+        return null;
+    }
+
+    @Override
+    public String updateCarByRendszam(Autok Auto, String rendszam, String color, String name, String type)
+    {
+        try{
+            Auto.setRendszam(rendszam);
+            Auto.setColor(color);
+            Auto.setName(name);
+            Auto.setType(type);
+
+            autokRepository.save(Auto);
+            return "success";
+        }
+        catch (Exception e) {
+            System.out.println("error while updateing the car datas" + e);
+            return "error";
+        }
+    }
+
+    @Override
     public void saveUser(String firstName, String lastName, String passwd, String email) {
         Felhasznalo user = Felhasznalo.builder()
                 .firstName(firstName)
