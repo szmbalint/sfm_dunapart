@@ -95,8 +95,25 @@ public class DataController {
 
 
     @PostMapping("/addCar")
-    public ResponseEntity<?> addUserCar(@RequestHeader("felhasznalo_id") int felhasznalo_id) {
-        return null;
+    public ResponseEntity<?> addUserCar(@RequestHeader("email") String email, @RequestHeader("meret") int meret, @RequestHeader("rendszam") String rendszam,
+                                        @RequestHeader("color") String color, @RequestHeader("name") String name,@RequestHeader("type") String type)
+    {
+        Felhasznalo felhasznalo = springmanager.findUserByEmail(email);
+
+        if(springmanager.isRendszamExist(rendszam))
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Ilyen rendszámmal már létezik autó!");
+        }
+
+        String itWasASuccess = springmanager.addUserCar(felhasznalo, meret, rendszam, color,name,type);
+        if(itWasASuccess.equals("OK"))
+        {
+            return ResponseEntity.status(HttpStatus.CREATED).body("Az autó hozzáadásra került");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Az autó nem került hozzáadásra");
+        }
     }
     @PostMapping("/editCar")
     public ResponseEntity<?> editUserCar() {

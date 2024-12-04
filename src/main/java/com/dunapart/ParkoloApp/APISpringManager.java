@@ -120,4 +120,39 @@ public class APISpringManager implements APIManager {
             return "nOK";
         }
     }
+
+    public String addUserCar(Felhasznalo felhasznalo, int meret, String rendszam, String color, String name, String type)
+    {
+        try
+        {
+            Autok auto = Autok.builder()
+                    .felhasznalo(felhasznalo)
+                    .meret(meret)
+                    .rendszam(rendszam)
+                    .color(color)
+                    .name(name)
+                    .type(type)
+                    .build();
+            autokRepository.save(auto);
+            return "OK";
+        }
+        catch(Exception ex)
+        {
+
+            return "nOK";
+        }
+
+
+    }
+
+    public boolean isRendszamExist(String rendszam) {
+        if(autokRepository.existsByRendszam(rendszam))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
