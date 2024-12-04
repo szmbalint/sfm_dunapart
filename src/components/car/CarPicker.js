@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getToken } from '../auth/tokenManager';
-import { fetchUserData, fetchCarsData } from '../../api/dataController';
+import { fetchUserData, fetchCarsData, addCar } from '../../api/dataController';
 import './CarPicker.css';
 
 function CarPicker() {
@@ -9,6 +9,7 @@ function CarPicker() {
   const [options, setOptions] = useState({ sizes: [], colors: [], types: [] });
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [userEmail, setUserEmail] = useState(null); // Add this state
   const [newCar, setNewCar] = useState({
     name: '',
     licensePlate: '',
@@ -27,7 +28,7 @@ function CarPicker() {
       fetchUserData(token)
         .then((userData) => {
           const userEmail = userData.email; // Email kinyerése a felhasználói adatokból
-          
+          setUserEmail(userEmail); // Store userEmail in state
           // Második fetch: autók lekérése az email használatával
           return fetchCarsData(userEmail);
         })
@@ -50,11 +51,34 @@ function CarPicker() {
       .catch(error => console.error('Hiba az opciók betöltésekor:', error));
   }, []);
 
-  const handleAddCar = () => {
+  const sizeMapping = {
+    small: 1,
+    medium: 2,
+    large: 3,
+  };
+
+  const handleAddCar = async () => {
     if (newCar.name && newCar.licensePlate && newCar.size && newCar.color && newCar.type) {
-      setCars([...cars, newCar]);
-      setNewCar({ name: '', licensePlate: '', size: '', color: '', type: '' });
-      setShowModal(false);
+      try {
+        // Az addCar metódus meghívása
+        const response = await addCar({
+          email: userEmail, // Feltételezve, hogy a userEmail elérhető a komponensben
+          meret: sizeMapping[newCar.size] || 0, // Leképezzük a méretet számra, alapértelmezett: 0
+          rendszam: newCar.licensePlate,
+          color: newCar.color,
+          name: newCar.name,
+          type: newCar.type,
+        });
+  
+        // Ha sikeres, frissítsük az autók listáját
+        setCars([...cars, newCar]);
+        setNewCar({ name: '', licensePlate: '', size: '', color: '', type: '' });
+        setShowModal(false);
+        alert('Az autó sikeresen hozzáadásra került!');
+      } catch (error) {
+        // Hiba esetén figyelmeztetés
+        alert(`Hiba történt: ${error.message}`);
+      }
     } else {
       alert('Kérlek, töltsd ki az összes mezőt!');
     }

@@ -32,3 +32,29 @@ export const fetchCarsData = async (userEmail) => {
   const carData = await response.json(); // Válasz JSON formátumra alakítása
   return carData;
 };
+
+export const addCar = async (carData) => {
+  const { email, meret, rendszam, color, name, type } = carData; // Az autó adatai objektumként kerülnek átadásra
+  const response = await fetch('http://localhost:8084/api/addCar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      email, // Felhasználói email
+      meret,
+      rendszam, // Rendszám
+      color, // Szín
+      name, // Név
+      type, // Típus
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 409) {
+      throw new Error('Ilyen rendszámmal már létezik autó!');
+    }
+    throw new Error('Az autó nem került hozzáadásra.');
+  }
+
+  const result = await response.text(); // Backend válasza
+  return result;
+};
