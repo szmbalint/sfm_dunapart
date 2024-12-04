@@ -33,7 +33,7 @@ const Login = () => {
         saveToken(data.token);
 
         // Navigáció a felhasználói felületre
-        window.location.href = '/dashboard'; // Példa navigációra
+        window.location.href = '/carPicker'; // Példa navigációra
       } else {
         setErrorMessage('Helytelen felhasználónév vagy jelszó!');
       }

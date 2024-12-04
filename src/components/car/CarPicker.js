@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getToken } from '../auth/tokenManager';
-import { fetchUserData, fetchCarsData, addCar } from '../../api/dataController';
+import { getToken, saveSelectedCar } from '../auth/tokenManager';
+import { fetchUserData, fetchCarsData, addCar, editCar } from '../../api/dataController';
 import './CarPicker.css';
 
 function CarPicker() {
@@ -12,7 +12,7 @@ function CarPicker() {
   const [userEmail, setUserEmail] = useState(null); // Add this state
   const [newCar, setNewCar] = useState({
     name: '',
-    licensePlate: '',
+    rendszam: '',
     size: '',
     color: '',
     type: ''
@@ -52,27 +52,27 @@ function CarPicker() {
   }, []);
 
   const sizeMapping = {
-    small: 1,
-    medium: 2,
-    large: 3,
+    Small: 1,
+    Medium: 2,
+    Large: 3,
   };
 
   const handleAddCar = async () => {
-    if (newCar.name && newCar.licensePlate && newCar.size && newCar.color && newCar.type) {
+    if (newCar.name && newCar.rendszam && newCar.size && newCar.color && newCar.type) {
       try {
         // Az addCar metódus meghívása
         const response = await addCar({
           email: userEmail, // Feltételezve, hogy a userEmail elérhető a komponensben
           meret: sizeMapping[newCar.size] || 0, // Leképezzük a méretet számra, alapértelmezett: 0
-          rendszam: newCar.licensePlate,
+          rendszam: newCar.rendszam,
           color: newCar.color,
           name: newCar.name,
           type: newCar.type,
         });
-  
+        console.log(newCar.size);
         // Ha sikeres, frissítsük az autók listáját
         setCars([...cars, newCar]);
-        setNewCar({ name: '', licensePlate: '', size: '', color: '', type: '' });
+        setNewCar({ name: '', rendszam: '', size: '', color: '', type: '' });
         setShowModal(false);
         alert('Az autó sikeresen hozzáadásra került!');
       } catch (error) {
@@ -84,17 +84,50 @@ function CarPicker() {
     }
   };
 
-  const handleEditCar = () => {
-    if (editCarIndex !== null && newCar.name && newCar.licensePlate && newCar.size && newCar.color && newCar.type) {
-      const updatedCars = [...cars];
-      updatedCars[editCarIndex] = newCar;
-      setCars(updatedCars);
-      setNewCar({ name: '', licensePlate: '', size: '', color: '', type: '' });
-      setShowEditModal(false);
+  const handleEditCar = async () => {
+    console.log("car-id: " + cars[editCarIndex].auto_id);
+    if (
+      editCarIndex !== null &&
+      newCar.name &&
+      newCar.rendszam &&
+      newCar.size &&
+      newCar.color &&
+      newCar.type
+    ) {
+      try {
+        const carData = {
+          email: userEmail, // Felhasználói email
+          auto_id: cars[editCarIndex].auto_id, // Az autó ID-ja az index alapján
+          rendszam: newCar.rendszam,
+          color: newCar.color,
+          name: newCar.name,
+          type: newCar.type,
+        };
+  
+        // Hívja meg az editCar metódust a frissített adatokkal
+        const response = await editCar(carData);
+  
+        console.log('Autó sikeresen módosítva:', response);
+  
+        // Frissítse a helyi állapotot a sikeres válasz után
+        const updatedCars = [...cars];
+        updatedCars[editCarIndex] = { ...updatedCars[editCarIndex], ...newCar };
+        setCars(updatedCars);
+  
+        // Törölje a mezők tartalmát és zárja be a modált
+        setNewCar({ name: '', rendszam: '', size: '', color: '', type: '' });
+        setShowEditModal(false);
+      } catch (error) {
+        alert(`Hiba történt az autó frissítése során: ${error.message}`);
+        console.error(error);
+      }
     } else {
       alert('Kérlek, töltsd ki az összes mezőt!');
     }
   };
+  
+  
+  
 
   const handleDeleteCar = (index) => {
     const updatedCars = cars.filter((_, i) => i !== index);
@@ -114,7 +147,9 @@ function CarPicker() {
 
   const handleContinue = () => {
     if (selectedCar !== null) {
-      console.log('Kijelölt autó:', cars[selectedCar]);
+      // Elmentjük a kiválasztott autó ID-ját a localStorage-ba
+      saveSelectedCar(cars[selectedCar].auto_id); // Assuming cars[selectedCar] contains the car object and auto_id is the identifier
+      window.location.href = '/datePicker'; // Példa navigációra
     } else {
       alert('Kérlek, válassz egy autót!');
     }
@@ -144,7 +179,7 @@ function CarPicker() {
                 <div className="car-details">
                   <h2>{car.name}</h2>
                   <div className="license-type">
-                    <span className='license'><strong>License</strong> • {car.licensePlate}</span>
+                    <span className='license'><strong>License</strong> • {car.rendszam}</span>
                     <span className={`type ${car.color.toLowerCase()}`}><strong>Type</strong> • {car.type}</span>
                   </div>
                 </div>
@@ -216,8 +251,8 @@ function CarForm({ newCar, setNewCar, options }) {
         License-number
         <input
           type="text"
-          value={newCar.licensePlate}
-          onChange={(e) => setNewCar({ ...newCar, licensePlate: e.target.value })}
+          value={newCar.rendszam}
+          onChange={(e) => setNewCar({ ...newCar, rendszam: e.target.value })}
         />
       </label>
       <label>

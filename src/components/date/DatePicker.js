@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 import { useNavigate } from 'react-router-dom';  // Importáljuk a useNavigate hook-ot
+import { saveEndDate, saveStartDate } from '../auth/tokenManager';
 
 function DatePickerPage() {
   const [startDate, setStartDate] = useState(null);
@@ -26,37 +27,28 @@ function DatePickerPage() {
   };
 
   const handleSubmit = async () => {
-    const data = {
-      startDate: startDate ? startDate.toISOString().split('T')[0] : null, // ISO formátum, csak a dátum
-      endDate: endDate ? endDate.toISOString().split('T')[0] : null,
-      startTime,
-      endTime,
-    };
+    // Ellenőrizzük, hogy az időpontok érvényesek-e
+    if (startDate && endDate && startTime && endTime) {
+      // A startDate és startTime összefűzése
+      const startDateTime = `${startDate.toISOString().split('T')[0]} ${startTime}`;
+      
+      // Az endDate és endTime összefűzése
+      const endDateTime = `${endDate.toISOString().split('T')[0]} ${endTime}`;
+      
+      // Mentés a localStorage-ba
+      saveStartDate(startDateTime);
+      saveEndDate(endDateTime);
   
-    try {
-      const response = await fetch('http://your-backend-endpoint.com/api/save-dates', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      // Navigáció a következő oldalra
+      window.location.href = '/plotPicker'; // Példa navigációra
   
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const result = await response.json();
-      console.log('Server response:', result);
-  
-      // Opcionális: Navigáció vagy értesítés sikeres beküldés után
-      alert('Data submitted successfully!');
-      navigate('/plotpicker'); // Példa: sikeres beküldés után navigáció egy másik oldalra
-    } catch (error) {
-      console.error('Error submitting data:', error);
-      alert('Failed to submit data. Please try again.');
+      // Visszajelzés a felhasználónak
+      alert('Az időpontok mentve lettek!');
+    } else {
+      alert('Kérlek, adj meg minden szükséges időpontot!');
     }
-  };  
+  };
+  
 
   return (
     <div className="grid-container">

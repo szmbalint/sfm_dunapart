@@ -3,7 +3,8 @@ import './PlotPicker.css';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../utils/Modal';  // Importáld a Modal komponenst
 import ParkingContainer from './ParkingContainer'; // Importáljuk az új komponenst
-
+import { fetchParkingPlots } from '../../api/dataController';
+console.log(localStorage);
 const levels = ['-1st floor', '-2nd floor', '-3rd floor'];
 
 function PlotPicker() {
@@ -14,7 +15,7 @@ function PlotPicker() {
   const [showModal, setShowModal] = useState(false); // Modal állapot
   const [hoveredSpot, setHoveredSpot] = useState(null);  // New state for hovered spot info
   const navigate = useNavigate();
-
+  const [parkingPlots, setParkingPlots] = useState([]); // Állapot a parkolóhelyek tárolására
   // Autó méretének betöltése
   useEffect(() => {
     fetch('/data/car.json')
@@ -33,7 +34,18 @@ function PlotPicker() {
       .catch((err) => console.error('Error loading parking data:', err));
   }, []);
   
+  useEffect(() => {
+    const loadPlots = async () => {
+      try {
+        const plotsData = await fetchParkingPlots();
+        setParkingPlots(plotsData); // Adatok mentése az állapotba
+      } catch (error) {
+        console.error('Hiba a parkolóhelyek betöltése során:', error);
+      }
+    };
 
+    loadPlots();
+  }, []);
   const handleLevelChange = (level) => {
     setCurrentLevel(level);
   };

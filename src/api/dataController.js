@@ -58,3 +58,53 @@ export const addCar = async (carData) => {
   const result = await response.text(); // Backend válasza
   return result;
 };
+
+export const editCar = async (carData) => {
+  const { email, auto_id, rendszam, color, name, type } = carData; // Az autó adatai objektumként kerülnek átadásra
+  const response = await fetch('http://localhost:8084/api/editCar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      email, // Felhasználói email
+      rendszam, // Új rendszám
+      color, // Új szín
+      name, // Új név
+      type, // Új típus
+      auto_id, // Azonosító az autóhoz
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 400) {
+      throw new Error('Hiányzó vagy érvénytelen rendszám.');
+    }
+    if (response.status === 409) {
+      throw new Error('Az autó adatainak frissítése sikertelen.');
+    }
+    throw new Error('Hiba történt az autó frissítése során.');
+  }
+
+  const result = await response.text(); // Backend válasza
+  return result;
+};
+
+export const fetchParkingPlots = async () => {
+  try {
+    const response = await fetch('http://localhost:8084/api/loadPlots', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json', // Alapértelmezett content type
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Nem sikerült lekérni a parkolóhelyeket.');
+    }
+
+    const plotsData = await response.json(); // A válasz JSON formátumra alakítása
+    return plotsData; // Visszaadjuk a lekért adatokat
+  } catch (error) {
+    console.error('Hiba a parkolóhelyek lekérése során:', error);
+    throw error; // Hiba dobása, ha a kérés nem sikerült
+  }
+};
