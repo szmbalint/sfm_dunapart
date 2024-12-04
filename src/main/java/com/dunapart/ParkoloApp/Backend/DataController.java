@@ -22,21 +22,6 @@ public class DataController {
     private final APISpringManager springmanager;
     private final JwtUtil jwtUtil; // JWT segédosztály
 
-//    @Autowired
-//    public DataController(APISpringManager springmanager) {
-//        this.springmanager = springmanager;
-//    }
-
-
-//    @PostMapping("/login")
-//    public String getFelhasznalo(@RequestBody LoginRequest loginRequest)
-//    {
-//        System.out.println("email: " + loginRequest.getEmail());
-//        System.out.println("passwd: " + loginRequest.getPassword());
-//        String validity = springmanager.isUserValid(loginRequest.getEmail(), loginRequest.getPassword());  //valid = gud, invalid = not gud
-//        return validity;
-//    }
-
     @Autowired
     public DataController(APISpringManager springmanager) {
         this.springmanager = springmanager;
@@ -109,8 +94,18 @@ public class DataController {
     }
 
 
+    @PostMapping("/addCar")
+    public ResponseEntity<?> addUserCar() {
+        return null;
+    }
     @PostMapping("/editCar")
-    public ResponseEntity<?> editUserCar(@RequestHeader("email") String userHeader) {
+    public ResponseEntity<?> editUserCar() {
+        return null;
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<?> resetPassword()
+    {
         return null;
     }
 
@@ -138,25 +133,6 @@ public class DataController {
     @GetMapping("/loadPlots")
     public ResponseEntity<?> getFreePlots() {
         List<Parkolo> parkolohelyek = springmanager.getParkingPlots(); //itt lekérem az összeset
-
-        //Map of struktúra visszaküldése amiben: Map.of(parkolo_id, id-hoz tartozó lejárati idő)
-//        Map<Integer, Long> result = new HashMap<>();
-//        LocalDateTime now = LocalDateTime.now();
-//        for (Parkolo item : parkolohelyek)
-//        {
-//            if(item.getTo_date() != null)
-//            {
-//                LocalDateTime toDate = item.getTo_date();
-//                Duration duration = Duration.between(now, toDate);
-//                result.put(item.getParkolo_id(),duration.toMinutes());
-//            }
-//            else
-//            {
-//                result.put(item.getParkolo_id(),Long.valueOf(0));
-//            }
-//
-//        }
-//        return ResponseEntity.ok(result);
         return ResponseEntity.ok(parkolohelyek);
     }
 
@@ -173,11 +149,13 @@ public class DataController {
         //repo stuffs
         Autok wanna_save_auto = springmanager.getUserCarById(auto_id);
         Parkolo wanna_park_here = springmanager.getParkingPlotById(selected_plot);
+
         //vizsgálat ha a parkoló mérete kisebb mint az autó mérete akkor hibát neki had rágja
         if(wanna_save_auto.getMeret() < wanna_park_here.getMeret())
         {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Hiba! Nem megfelelő parkolóméret");
         }
+
         String parkoloFrissitese = springmanager.updateParkoloById(wanna_park_here, to_date, from_date);
         String autoFrissitese = springmanager.updateAuto(wanna_save_auto,wanna_park_here);
 

@@ -17,8 +17,8 @@ public class Autok {
     private int auto_id;
     private String rendszam;
     private int meret;
-    private String name;
-    private String type;
+    private String name;    //márka
+    private String type;        //típus
     private String color;
 
     // One-to-One kapcsolat, egy autó csak egy parkolóhelyen parkolhat
