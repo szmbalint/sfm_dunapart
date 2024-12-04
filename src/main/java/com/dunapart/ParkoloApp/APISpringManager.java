@@ -4,12 +4,11 @@ import Frontend.APIManager;
 import com.dunapart.ParkoloApp.Backend.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 //@SpringBootApplication
 @Service
@@ -82,15 +81,42 @@ public class APISpringManager implements APIManager {
 
     }
 
-    public String savePakoloBooking(Parkolo parkolo) {
+    public String updateParkoloById(Parkolo parkolo, LocalDateTime to_date, LocalDateTime from_date) {
         try
         {
+//            System.out.println(parkolo.getFrom_date());
+//            System.out.println(parkolo.getTo_date());
+            parkolo.setFrom_date(from_date);
+            parkolo.setTo_date(to_date);
+            parkolo.setStatus(!parkolo.isStatus());
+
             parkoloRepository.save(parkolo);
             return "OK";
         }
         catch(Exception ex)
         {
-            System.out.println("Exception has thrown in method: saveParkoloBooking");
+            System.out.println("Exception has thrown in method: updateParkoloById");
+            return "nOK";
+        }
+    }
+
+    public Parkolo getParkingPlotById(long selectedPlot)
+    {
+        Parkolo parkolo = parkoloRepository.getReferenceById(selectedPlot);
+        return parkolo;
+    }
+
+    public String updateAuto(Autok wannaSaveAuto, Parkolo wanna_park_here)
+    {
+        try
+        {
+            wannaSaveAuto.setParkolo(wanna_park_here);
+            autokRepository.save(wannaSaveAuto);
+            return "OK";
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Exception has thrown in method: updateAuto");
             return "nOK";
         }
     }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -162,23 +163,31 @@ public class DataController {
     //frontendről meg kell kapni azt is hogy melyik autót akarja parkoltatni a felhasználó
     //az auto_id + parkolo_id-t megkapja a frontendről
     @PostMapping("/saveBookingDate")
-    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") LocalDateTime to_date, @RequestHeader("from_date") LocalDateTime from_date, @RequestHeader("auto_id") long auto_id, @RequestHeader("parkolo_id") long selected_plot)
+    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") String to_date_string, @RequestHeader("from_date") String from_date_string, @RequestHeader("auto_id") long auto_id, @RequestHeader("parkolo_id") long selected_plot)
     {
+        //time stuffs
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime to_date = LocalDateTime.parse(to_date_string,formatter);
+        LocalDateTime from_date = LocalDateTime.parse(from_date_string,formatter);
+
+        //repo stuffs
         Autok wanna_save_auto = springmanager.getUserCarById(auto_id);
+        Parkolo wanna_park_here = springmanager.getParkingPlotById(selected_plot);
         //vizsgálat ha a parkoló mérete kisebb mint az autó mérete akkor hibát neki had rágja
-        Parkolo parkolo = Parkolo.builder()
-                .parkolo_id(selected_plot)
-                .from_date(from_date)
-                .to_date(to_date)
-                .build();
-        String muvelet = springmanager.savePakoloBooking(parkolo);
-        if(muvelet.equals("OK"))//mentésre került
+        if(wanna_save_auto.getMeret() < wanna_park_here.getMeret())
+        {
+            return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Hiba! Nem megfelelő parkolóméret");
+        }
+        String parkoloFrissitese = springmanager.updateParkoloById(wanna_park_here, to_date, from_date);
+        String autoFrissitese = springmanager.updateAuto(wanna_save_auto,wanna_park_here);
+
+        if(parkoloFrissitese.equals("OK") && autoFrissitese.equals("OK"))//frissítésre került
         {
             return ResponseEntity.status(HttpStatus.CREATED).body("Foglalás hozzáadva");
         }
         else
         {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Hiba a foglalás során");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Hiba a foglalás mentése során");
         }
 
     }
