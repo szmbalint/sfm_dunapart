@@ -108,3 +108,30 @@ export const fetchParkingPlots = async () => {
     throw error; // Hiba dobása, ha a kérés nem sikerült
   }
 };
+
+export const saveBookingDate = async (bookingData) => {
+  const { to_date, from_date, auto_id, parkolo_id } = bookingData; // Az időpontok és azonosítók objektumként kerülnek átadásra
+  const response = await fetch('http://localhost:8084/api/saveBookingDate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'to_date': to_date, // Formázott dátum (yyyy-MM-dd HH:mm)
+      'from_date': from_date, // Formázott dátum (yyyy-MM-dd HH:mm)
+      'auto_id': auto_id, // Autó azonosítója
+      'parkolo_id': parkolo_id, // Parkoló azonosítója
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 412) {
+      throw new Error('Nem megfelelő parkolóméret.');
+    }
+    if (response.status === 417) {
+      throw new Error('Hiba a foglalás mentése során.');
+    }
+    throw new Error('Hiba történt a foglalás mentése során.');
+  }
+
+  const result = await response.text(); // Backend válasza
+  return result;
+};

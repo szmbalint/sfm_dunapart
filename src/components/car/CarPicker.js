@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getToken, saveSelectedCar } from '../auth/tokenManager';
+import { getCarSize, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar } from '../../api/dataController';
 import './CarPicker.css';
 
@@ -147,13 +147,20 @@ function CarPicker() {
 
   const handleContinue = () => {
     if (selectedCar !== null) {
-      // Elmentjük a kiválasztott autó ID-ját a localStorage-ba
-      saveSelectedCar(cars[selectedCar].auto_id); // Assuming cars[selectedCar] contains the car object and auto_id is the identifier
-      window.location.href = '/datePicker'; // Példa navigációra
+      const selectedCarSize = cars[selectedCar].meret; // Kiválasztott autó méretének lekérése
+      
+      // Elmentjük a kiválasztott autó méretét 1-2-3 formátumban
+      saveCarSize(selectedCarSize); // Itt hívjuk meg a saveCarSize-t
+      // Elmentjük a kiválasztott autót a localStorage-ba
+      saveSelectedCar(cars[selectedCar].auto_id);
+  
+      // Példa navigációra (ha szükséges)
+       window.location.href = '/datePicker'; 
     } else {
       alert('Kérlek, válassz egy autót!');
     }
   };
+  
 
   return (
     <div className="grid-container">

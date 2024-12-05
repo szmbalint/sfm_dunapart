@@ -30,6 +30,29 @@ export const getSelectedCar = () => {
 export const deleteSelectedCar = () => {
   localStorage.removeItem(SELECTED_CAR_KEY);
 };
+
+const CAR_SIZE_KEY = 'carSize';
+
+// Kiválasztott autó méretének mentése a localStorage-ba
+export const saveCarSize = (carSize) => {
+  if (carSize >= 0 && carSize <= 3) {
+    localStorage.setItem(CAR_SIZE_KEY, carSize.toString()); // Az int-et stringgé alakítjuk
+  } else {
+    console.error('Érvénytelen autó méret:', carSize);
+  }
+};
+
+// Kiválasztott autó méretének lekérése a localStorage-ból
+export const getCarSize = () => {
+  const carSize = localStorage.getItem(CAR_SIZE_KEY);
+  return carSize ? parseInt(carSize, 10) : null; // A lekért stringet integeré alakítjuk
+};
+
+// Kiválasztott autó méretének törlése a localStorage-ból
+export const deleteCarSize = () => {
+  localStorage.removeItem(CAR_SIZE_KEY);
+};
+
 const START_DATE_KEY = 'startDateTime';
 const END_DATE_KEY = 'endDateTime';
 
