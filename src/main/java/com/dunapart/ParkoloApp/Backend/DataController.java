@@ -144,7 +144,7 @@ public class DataController {
     }
 
     @PostMapping("/deleteCar")
-    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("id") int ID) {
+    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("auto_id") int ID) {
 
         if(ID == 0){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid ID");
@@ -156,8 +156,6 @@ public class DataController {
             long userID = user.getFelhasznalo_id();
             List<Autok> userCars = springmanager.findCars(userID);
             Autok userCar = springmanager.findCarByID(userCars, ID);
-
-            System.out.println(userCar);
 
             String succes = springmanager.deleteCarByID(userCar);
             if(succes.equals("OK"))
