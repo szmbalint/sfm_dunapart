@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getCarSize, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
-import { fetchUserData, fetchCarsData, addCar, editCar } from '../../api/dataController';
+import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
 
 function CarPicker() {
@@ -126,14 +126,30 @@ function CarPicker() {
     }
   };
   
+  const handleDeleteCar = async (index) => {
+    try {
+      const carToDelete = cars[index]; // Az autó, amit törölni szeretnénk
+      const carData = {
+        email: userEmail, // Itt adhatod meg a felhasználói email-t
+        auto_id: carToDelete.auto_id, // Az autó ID-ja, amit törölni akarunk
+      };
+      const result = await deleteCar(carData); // A deleteCar metódus meghívása
+      console.log(result); // A válasz kiírása (például: "Autó törlés sikeres")
   
+      // Ha a törlés sikeres, eltávolítjuk az autót a listából
+      const updatedCars = cars.filter((_, i) => i !== index);
+      setCars(updatedCars);
   
-
-  const handleDeleteCar = (index) => {
-    const updatedCars = cars.filter((_, i) => i !== index);
-    setCars(updatedCars);
-    if (index === selectedCar) setSelectedCar(null); // Ha törölt autó kijelölt, töröljük a kijelölést
+      // Ha a törölt autó volt kijelölve, töröljük a kijelölést
+      if (index === selectedCar) {
+        setSelectedCar(null);
+      }
+    } catch (error) {
+      console.error('Hiba történt a törlés során:', error.message);
+      alert('Hiba történt a törlés során: ' + error.message); // Hibaüzenet megjelenítése
+    }
   };
+  
 
   const openEditModal = (index) => {
     setEditCarIndex(index);

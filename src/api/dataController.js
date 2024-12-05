@@ -88,6 +88,31 @@ export const editCar = async (carData) => {
   return result;
 };
 
+export const deleteCar = async (carData) => {
+  const { email, auto_id } = carData; // Az autó adatainak szükséges elemei
+
+  const response = await fetch('http://localhost:8084/api/deleteCar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      email, // Felhasználói email
+      auto_id, // Az autó azonosítója
+    },
+  });
+  if (!response.ok) {
+    if (response.status === 400) {
+      throw new Error('Hiányzó vagy érvénytelen autóazonosító.');
+    }
+    if (response.status === 409) {
+      throw new Error('Az autó törlését nem sikerült végrehajtani.');
+    }
+    throw new Error('Hiba történt az autó törlése során.');
+  }
+
+  const result = await response.text(); // Backend válasza
+  return result;
+};
+
 export const fetchParkingPlots = async () => {
   try {
     const response = await fetch('http://localhost:8084/api/loadPlots', {
