@@ -206,4 +206,9 @@ public class APISpringManager implements APIManager {
             return false;
         }
     }
+
+    public Felhasznalo findUserById(long userId) {
+        return felhasznaloRepository.findById(userId).get();
+
+    }
 }

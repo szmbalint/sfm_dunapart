@@ -170,9 +170,18 @@ public class DataController {
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<?> resetPassword()
+    public ResponseEntity<?> resetPassword(@RequestHeader("newpasswd") String newpasswd, @RequestHeader("user_id") long user_id)
     {
-        return null;
+        try
+        {
+            Felhasznalo user = springmanager.findUserById(user_id);
+            springmanager.saveUser(user.getFirstName(),user.getLastName(),newpasswd,user.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).body("Sikeres jelszó módosítás");
+        }
+        catch(Exception ex)
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sikertelen jelszó módosítás");
+        }
     }
 
     @GetMapping("/loadUserPlot")
