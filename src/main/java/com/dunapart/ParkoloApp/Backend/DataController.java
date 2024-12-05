@@ -144,8 +144,31 @@ public class DataController {
     }
 
     @PostMapping("/deleteCar")
-    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader, @RequestBody Autok autok) {
-        return null;
+    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("id") int ID) {
+
+        if(ID == 0){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid ID");
+        }
+
+        else {
+            String email = userHeader;
+            Felhasznalo user = springmanager.findUserByEmail(email);
+            long userID = user.getFelhasznalo_id();
+            List<Autok> userCars = springmanager.findCars(userID);
+            Autok userCar = springmanager.findCarByID(userCars, ID);
+
+            System.out.println(userCar);
+
+            String succes = springmanager.deleteCarByID(userCar);
+            if(succes.equals("OK"))
+            {
+                return ResponseEntity.status(HttpStatus.OK).body("Autó törlés sikeres");
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Sikertelen autó törlés");
+            }
+        }
     }
 
     @PostMapping("/forgotPassword")

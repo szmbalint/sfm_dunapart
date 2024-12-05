@@ -96,6 +96,19 @@ public class APISpringManager implements APIManager {
     }
 
     @Override
+    public String deleteCarByID(Autok Auto)
+    {
+        try{
+            autokRepository.delete(Auto);
+            return "OK";
+        }
+        catch (Exception e){
+            System.out.println("error while deleteing the car" + e);
+            return "error";
+        }
+    }
+
+    @Override
     public void saveUser(String firstName, String lastName, String passwd, String email) {
         Felhasznalo user = Felhasznalo.builder()
                 .firstName(firstName)
