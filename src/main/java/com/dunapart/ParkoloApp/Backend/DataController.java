@@ -4,6 +4,7 @@ import com.dunapart.ParkoloApp.APISpringManager;
 import com.dunapart.ParkoloApp.Backend.Model.LoginRequest;
 import com.dunapart.ParkoloApp.Backend.Model.RegiRequest;
 import com.dunapart.ParkoloApp.JwtUtil;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -85,12 +86,22 @@ public class DataController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Missing or invalid email");
         }
 
-        String email = userHeader.substring(7); // email kinyerése
-        Felhasznalo user = springmanager.findUserByEmail(email);
-        long userID = user.getFelhasznalo_id();
-        List<Autok> userCars = new ArrayList<Autok>();
-        userCars = springmanager.findCars(userID);
-        return ResponseEntity.ok(userCars);
+        try
+        {
+            String email = userHeader.substring(7); // email kinyerése
+            Felhasznalo user = springmanager.findUserByEmail(email);
+            long userID = user.getFelhasznalo_id();
+
+            List<Autok> userCars = springmanager.findCars(userID);
+//            userCars.forEach(car -> Hibernate.initialize(car.getParkolo()));
+            return ResponseEntity.ok(userCars);
+        }
+        catch(Exception ex)
+        {
+            System.out.println("A hiba:::::::" + ex.toString() + "\n" + ex.getMessage());
+            return null;
+        }
+
     }
 
 

@@ -22,11 +22,11 @@ public class Autok {
     private String color;
 
     // One-to-One kapcsolat, egy autó csak egy parkolóhelyen parkolhat
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parkolo_id", nullable = true)  // nullable = true, mert nem minden autó parkol
     private Parkolo parkolo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "felhasznalo_id", nullable = false)
     @ToString.Exclude           //rekurzió elkerülése
     private Felhasznalo felhasznalo;

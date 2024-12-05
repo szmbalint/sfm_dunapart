@@ -24,7 +24,7 @@ public class Felhasznalo {
     private String lastName;
 
 
-    @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "felhasznalo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude   //rekurzió elkerülése
     @JsonIgnore         // -"-
     private List<Autok> auto;
