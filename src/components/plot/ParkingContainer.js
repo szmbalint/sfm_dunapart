@@ -7,14 +7,14 @@ const ParkingContainer = ({ spots, getSpotColor, onSpotClick, onMouseEnter, onMo
         const { color, image } = getSpotColor(spot);
         return (
           <div
-            key={spot.id}
+            key={spot.parkolo_id}
             className={`parking-spot ${color}`}
             onClick={() => onSpotClick(spot)}
             onMouseEnter={() => onMouseEnter(spot)}
             onMouseLeave={onMouseLeave}
           >
             {image && <img src={image} alt="spot-status" className="spot-image" />}
-            <span>{spot.id}</span>
+            <span>{spot.parkolo_id}</span>
             {hoveredSpot === spot && spot.timeUntilFree !== 0 && (
               <div className={`tooltip ${positionClass}`}>
                 {`Free in ${spot.timeUntilFree} minutes`}

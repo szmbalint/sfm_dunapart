@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './PlotPicker.css';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../../utils/Modal';  // Importáld a Modal komponenst
-import ParkingContainer from './ParkingContainer'; // Importáljuk az új komponenst
+import Modal from '../../utils/Modal';
+import ParkingContainer from './ParkingContainer';
 import { fetchParkingPlots } from '../../api/dataController';
-console.log(localStorage);
-const levels = ['-1st floor', '-2nd floor', '-3rd floor'];
+
+const levels = ['1st floor', '2nd floor', '3rd floor'];
 
 function PlotPicker() {
-  const [currentLevel, setCurrentLevel] = useState('-1st floor');
+  const [currentLevel, setCurrentLevel] = useState('1st floor');
   const [carSize, setCarSize] = useState('');
-  const [parkingData, setParkingData] = useState({});
-  const [selectedSpot, setSelectedSpot] = useState(null); // A kiválasztott parkolóhely
-  const [showModal, setShowModal] = useState(false); // Modal állapot
-  const [hoveredSpot, setHoveredSpot] = useState(null);  // New state for hovered spot info
+  const [parkingData, setParkingData] = useState([]);
+  const [selectedSpot, setSelectedSpot] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [hoveredSpot, setHoveredSpot] = useState(null);
   const navigate = useNavigate();
-  const [parkingPlots, setParkingPlots] = useState([]); // Állapot a parkolóhelyek tárolására
+
   // Autó méretének betöltése
   useEffect(() => {
     fetch('/data/car.json')
@@ -26,107 +26,62 @@ function PlotPicker() {
 
   // Parkolóhelyek betöltése
   useEffect(() => {
-    fetch('/data/parking.json')
-      .then((res) => res.json())
-      .then((data) => {
-        setParkingData(data);
-      })
-      .catch((err) => console.error('Error loading parking data:', err));
-  }, []);
-  
-  useEffect(() => {
-    const loadPlots = async () => {
+    const loadParkingData = async () => {
       try {
-        const plotsData = await fetchParkingPlots();
-        setParkingPlots(plotsData); // Adatok mentése az állapotba
+        const data = await fetchParkingPlots();
+        setParkingData(data);
       } catch (error) {
-        console.error('Hiba a parkolóhelyek betöltése során:', error);
+        console.error('Error loading parking data:', error);
       }
     };
 
-    loadPlots();
+    loadParkingData();
   }, []);
+
   const handleLevelChange = (level) => {
     setCurrentLevel(level);
   };
 
+  const calculateSoonFree = (spot) => {
+    const startDate = new Date(spot.start_date);
+    const endDate = new Date(spot.end_date);
+    const timeDifference = (endDate - startDate) / (1000 * 60 * 60 * 24); // Különbség napokban
+    return timeDifference < 30;
+  };
+
   const getSpotColor = (spot) => {
-    
-    // Foglalt parkoló
-    if (spot.status === 'occupied') {
-      return { color: 'red', image: '/icons/occupied.png' };
-    }
-  
-    // Hamarosan szabad parkoló
-    if (spot.status === 'soon_free') {
-      return { color: 'yellow', image: '/icons/soon_free.png' };
+    if (spot.status) {
+      return { color: 'red', image: '/icons/occupied.png' }; // Foglalt parkoló
     }
 
-    // A parkoló hely már el lett foglalva
-    if (spot.status === 'claimed') {
+    if (!spot.status && calculateSoonFree(spot)) {
+      return { color: 'yellow', image: '/icons/soon_free.png' }; // Hamarosan szabad parkoló
+    }
 
-      return { color: 'green', image: '/icons/claimed.png' }; // Zöld szín és egy új ikon
-    }
-    
-    // Szabad parkoló, de túl kicsi a méret (small kocsi nem fér el medium vagy large parkolóhelyeken, large kocsi nem fér el medium vagy small parkolóhelyeken)
-    if (spot.status === 'free' && (spot.size === 'small' || spot.size === 'medium')) {
-      if (
-        (carSize === 'medium' && spot.size === 'small') || // Medium autó nem fér el small parkolóhelyen
-        (carSize === 'large' && (spot.size === 'small' || spot.size === 'medium')) // Large autó nem fér el small vagy medium parkolóhelyeken
-      ) {
-        return { color: 'red', image: '/icons/small.png' }; // Túl kicsi a parkoló, piros
-      }
-    }
-  
-    // Szabad parkoló, és a méret megfelelő
-    if (spot.status === 'free' && 
-        ((carSize === 'small' && (spot.size === 'small' || spot.size === 'medium' || spot.size === 'large')) || 
-        (carSize === 'medium' && (spot.size === 'medium' || spot.size === 'large')) ||
-        (carSize === 'large' && spot.size === 'large'))) {
-      return { color: 'gray', image: '/icons/free.png' }; // Szabad parkoló és megfelelő méretű, szürke
-    }
-  
-    return { color: 'gray', image: '/icons/default.png' }; // Alapértelmezett eset
+    return { color: 'gray', image: '/icons/free.png' }; // Szabad parkoló
   };
 
   const handleSpotClick = (spot) => {
-    const { color } = getSpotColor(spot); // A spot színét és státuszát lekérjük
-    
-    // Ha a parkolóhely szabad és a méret megfelelő
-    if (color !== 'red') { // 'red' a túl kicsi parkolóhelyeket jelöli
-      if (spot.status === 'free') {
-        setSelectedSpot(spot);
-        setShowModal(true); // Modal megjelenítése
-      }
+    const { color } = getSpotColor(spot);
+    if (color !== 'gray') {
+      console.log('Spot is not available:', spot);
+      return; // Csak akkor lépünk tovább, ha a parkolóhely szabad
     }
+  
+    setSelectedSpot(spot);
+    setShowModal(true);
   };
-
+  
   const handleModalClose = () => {
-    setShowModal(false); // Modal bezárása
+    setShowModal(false);
     setSelectedSpot(null);
   };
 
-    /* BACK END-HEZ FOG KELLENI */
   const handleConfirmSelection = () => {
     if (selectedSpot) {
-      /*
-      fetch('/api/select-spot', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ spotId: selectedSpot.id }),
-      })
-      .then((res) => res.json())
-      .then((data) => {
-
-        setShowModal(false); // Modal bezárása
-      })
-      .catch((err) => console.error('Error selecting spot:', err));
-      */
       console.log('Spot selected:', selectedSpot);
     }
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   const handleMouseEnter = (spot) => {
@@ -134,11 +89,18 @@ function PlotPicker() {
   };
 
   const handleMouseLeave = () => {
-    setHoveredSpot(null); 
+    setHoveredSpot(null);
   };
 
-  const spots = parkingData[currentLevel] || [];
-  
+  const getSpotsByLevel = () => {
+    const levelIndex = levels.indexOf(currentLevel);
+    return parkingData.slice(levelIndex * 30, (levelIndex + 1) * 30);
+        // Kiíratjuk a parkolóhelyek parkolo_id-ját
+
+  };
+
+  const spots = getSpotsByLevel();
+
   return (
     <div className="grid-container">
       <div className="left-panel-green">
@@ -163,40 +125,40 @@ function PlotPicker() {
           </div>
 
           <div className="parking-layout">
-            <ParkingContainer 
-              spots={spots.slice(0, 10)} 
+            <ParkingContainer
+              spots={spots.slice(0, 10)}
               getSpotColor={getSpotColor}
-              onSpotClick={handleSpotClick} 
+              onSpotClick={handleSpotClick}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               hoveredSpot={hoveredSpot}
               positionClass="top"
             />
 
-            <ParkingContainer 
-              spots={spots.slice(25, 30).reverse()} 
+            <ParkingContainer
+              spots={spots.slice(25, 30).reverse()}
               getSpotColor={getSpotColor}
-              onSpotClick={handleSpotClick} 
+              onSpotClick={handleSpotClick}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               hoveredSpot={hoveredSpot}
               positionClass="left"
             />
 
-            <ParkingContainer 
-              spots={spots.slice(15, 25).reverse()} 
+            <ParkingContainer
+              spots={spots.slice(15, 25).reverse()}
               getSpotColor={getSpotColor}
-              onSpotClick={handleSpotClick} 
+              onSpotClick={handleSpotClick}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               hoveredSpot={hoveredSpot}
               positionClass="bottom"
             />
 
-            <ParkingContainer 
-              spots={spots.slice(10, 15)} 
+            <ParkingContainer
+              spots={spots.slice(10, 15)}
               getSpotColor={getSpotColor}
-              onSpotClick={handleSpotClick} 
+              onSpotClick={handleSpotClick}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               hoveredSpot={hoveredSpot}
@@ -218,6 +180,6 @@ function PlotPicker() {
       )}
     </div>
   );
-};
+}
 
 export default PlotPicker;
