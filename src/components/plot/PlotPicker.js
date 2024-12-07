@@ -13,7 +13,17 @@ function PlotPicker() {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [hoveredSpot, setHoveredSpot] = useState(null);
+  const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const htmlElement = document.documentElement; // A html tag referencia
+    if (theme === 'dark') {
+        htmlElement.classList.add('dark');
+    } else {
+        htmlElement.classList.remove('dark');
+    }
+}, [theme]);
 
 // Parkolóhelyek betöltése és timeUntilFree kiszámítása
 useEffect(() => {

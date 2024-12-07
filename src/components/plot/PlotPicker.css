@@ -77,6 +77,7 @@
 }
 .parking-spot img{
   width: 1rem;
+  filter: invert(var(--invert));
 }
 
   /* Parkoló elem: hover */

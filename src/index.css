@@ -10,7 +10,7 @@ html{
   --green: #A0C089;
   --calendar-color: #f9f9f9;
   --green-dark: #789a61;
-
+  --plain-white: white;
   /* FONT COLORS */
   --font-color-white: #F2F2F2;
   --font-color-black: #1F1F1F;
@@ -27,7 +27,49 @@ html{
     /* BEVEL COLOR */
     --bevel-light: rgba(255, 255, 255, 0.1) ;
     --bevel-dark: rgba(0, 0, 0, 0.1);
+
+    --invert: 0;
+
+    --transparent-bg: rgba(232, 232, 232, 0.3);
 }
+
+html.dark{
+
+/* DARK MODE COLORS */
+--bg-color: #1F1F1F; /* Background: dark gray */
+--lift-color: #A6A6A6; /* Lift color: light gray for contrast */
+--orange: #F4A14D; /* Orange remains the same */
+--orange-light: #ffbc79; /* Slightly lighter orange for accents */
+--green: #3B6A46; /* Green: darker and desaturated */
+--calendar-color: #2A2A2A; /* Calendar background: very dark gray */
+--green-dark: #2E5533; /* Green darkened */
+--plain-white: black;
+
+/* FONT COLORS */
+--font-color-white: #1f1f1f; /* Text: soft white for less strain */
+--font-color-black: #FFFFFF; /* Text: white for elements on dark backgrounds */
+
+
+  /* TRANSITIONS */
+  --transition-quick: all 0.2s ease-in-out;
+  --transition-medium: all 0.5s ease-in-out; 
+  --transition-slow: all 0.7s ease-in-out; 
+
+  /* SHADOWS */
+  --shadow-regular: 0px 5px 20px -10px rgba(0,0,0,0.75);
+  --shadow-small: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    /* BEVEL COLOR */
+    --bevel-light: rgba(255, 255, 255, 0.1) ;
+    --bevel-dark: rgba(0, 0, 0, 0.1);
+
+    --invert: 1;
+    --invert-alt: 0.835;
+
+
+    --transparent-bg: rgba(48, 48, 48, 0.3);
+}
+
 body {
   margin: 0;
   font-family: "Syne", sans-serif;
@@ -50,6 +92,7 @@ button{
   outline: 2px transparent solid;
   transition: var(--transition-quick);
   user-select: none;
+  color: var(--font-color-white);
 }
 
   /* Gombok kinézete: hover */
@@ -89,6 +132,7 @@ h1{
   margin: 1rem 0 0 0;
   text-align: center;
   margin-bottom: 40px;
+  color: var(--font-color-white);
 }
 
   /* H2 stílus */
@@ -109,7 +153,7 @@ h2{
 
 .left-panel {
   flex: 1;
-  background-color: #fff; 
+  background-color: var(--calendar-color); 
   display: flex;
   flex-direction: column;
   justify-content: space-between; 
@@ -133,6 +177,7 @@ h2{
   width: 60px; /* Logo mérete */
   height: auto;
   position: relative;
+
 }
 
 /* SZÖVEG - Section2 */
@@ -148,7 +193,7 @@ h2{
   font-size: 64px; 
   font-family: 'Syne', sans-serif; 
   font-weight: bold;
-  color: #505050;
+  color: var(--font-color-white);
   line-height: 1;
   margin: 0;
   letter-spacing: 6px;
@@ -166,7 +211,8 @@ h2{
 .section-kep {
   width: auto;
   height: 100%; 
-  object-fit: cover; 
+  object-fit: cover;
+  filter: invert(var(--invert-alt)); 
 }
 
 .right-panel{
@@ -196,7 +242,7 @@ h2{
 }
 
 .addcar-btn{
-  background-color: white;
+  background-color: var(--plain-white);
   border-radius: 100rem;
   padding: 1rem;
   border: 0;
@@ -210,10 +256,11 @@ h2{
 
 .addcar-btn img{
   width: 1.5rem;
+  filter: invert(var(--invert));
 }
 
 .car-main-container{
-  background-color: rgba(232, 232, 232, 0.3);
+  background-color: var(--transparent-bg);
   backdrop-filter: blur(5rem);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -240,7 +287,7 @@ background-color: var(--font-color-white);
 }
 
 .car-main-container h1{
-  font-size: 40px;
+  font-size: 32px;
   font-family: "Inter", serif;
   font-weight: 400;
 }
@@ -268,4 +315,10 @@ background-color: var(--font-color-white);
   background-color: var(--calendar-color);
   color: var(--font-color-black);
   border-radius: 0;
+}
+
+nav{
+position: absolute;
+top: 1rem;
+right: 1rem;
 }

@@ -42,26 +42,32 @@ input[type="time"] {
   width: 7vw;
   height: 7vh;
 }
-  
+.react-datepicker__header{
+  background-color: var(--lift-color);
+}
   /* Kiválasztott nap */
 .react-datepicker__day--selected {
   background-color: var(--green-dark);
-  color: white;
+  color: var(--plain-white);
   border-radius: 100px;
 }
   
+.react-datepicker{
+  background-color: var(--calendar-color);
+}
+
   /* Kiválasztott intervallum eleje és vége */
 .react-datepicker__day--range-start,
 .react-datepicker__day--range-end {
   background-color: var(--orange);
-  color: white;
+  color: var(--plain-white);
   border-radius: 100px;
 }
   
   /* Intervallumon belüli napok */
 .react-datepicker__day--in-range {
   background-color: var(--orange-light);
-  color: #333;
+  color: var(--lift-color);
 }
   
   /* Napok hover effekt */

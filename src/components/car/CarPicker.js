@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getCarSize, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
+import { getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
 
@@ -10,6 +10,7 @@ function CarPicker() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [userEmail, setUserEmail] = useState(null); // Add this state
+  const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
   const [newCar, setNewCar] = useState({
     name: '',
     rendszam: '',
@@ -19,6 +20,15 @@ function CarPicker() {
   });
   const [editCarIndex, setEditCarIndex] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null); // Kijelölt autó
+  
+  useEffect(() => {
+    const htmlElement = document.documentElement; // A html tag referencia
+    if (theme === 'dark') {
+        htmlElement.classList.add('dark');
+    } else {
+        htmlElement.classList.remove('dark');
+    }
+}, [theme]);
 
   useEffect(() => {
     const token = getToken(); // Token lekérése
@@ -61,7 +71,7 @@ function CarPicker() {
     if (newCar.name && newCar.rendszam && newCar.size && newCar.color && newCar.type) {
       try {
         // Az addCar metódus meghívása
-        const response = await addCar({
+        await addCar({
           email: userEmail, // Feltételezve, hogy a userEmail elérhető a komponensben
           meret: sizeMapping[newCar.size] || 0, // Leképezzük a méretet számra, alapértelmezett: 0
           rendszam: newCar.rendszam,
@@ -85,7 +95,6 @@ function CarPicker() {
   };
 
   const handleEditCar = async () => {
-    console.log("car-id: " + cars[editCarIndex].auto_id);
     if (
       editCarIndex !== null &&
       newCar.name &&
@@ -150,7 +159,6 @@ function CarPicker() {
     }
   };
   
-
   const openEditModal = (index) => {
     setEditCarIndex(index);
     setNewCar(cars[index]);
@@ -177,7 +185,6 @@ function CarPicker() {
     }
   };
   
-
   return (
     <div className="grid-container">
       <div className="left-panel green">

@@ -2,12 +2,13 @@
 .parent {
     display: flex;
     height: 100vh;
+    background-color: var(--calendar-color);
   }
   
   /*BAL OLDALI HASAB - div1*/
   .div1 {
     flex: 1;
-    background-color: #fff; 
+    background-color: var(--calendar-color); 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -91,7 +92,7 @@
   .signup-button {
     padding: 10px 20px;
     background-color: #f4a14d;
-    color: #fff;
+    color: var(--font-color-white);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -107,7 +108,7 @@
     width: 80%;
     max-width: 400px;
     text-align: center;
-    color: #fff;
+    color: var(--font-color-white);
   }
   
   .login-form h2 {
@@ -137,7 +138,7 @@
     width: 40%;
     padding: 10px;
     background-color: #f4a14d;
-    color: #fff;
+    color: var(--font-color-white);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -188,7 +189,7 @@
   .signup-button {
     padding: 10px 20px;
     background-color: #f4a14d;
-    color: #fff;
+    color: var(--font-color-white);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -201,7 +202,7 @@
 
 
   .signup-form{
-    color: #fff;
+    color: var(--font-color-white);
     text-align: center;
   }
 
@@ -212,7 +213,7 @@
     display: flex;
     justify-content: space-between; /* Elemek szétszórása balra és jobbra */
     gap: 50px;
-    color: #fff;
+    color: var(--font-color-white);
   }
 
   .signup-form .form-group {
@@ -232,7 +233,7 @@
 
   /*ELFELEJTETT JELSZO*/
   .forgot-password-page {
-    color: #fff;
+    color: var(--font-color-white);
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
@@ -265,7 +266,7 @@
     width: 40%;
     padding: 10px;
     background-color: #f4a14d;
-    color: #fff;
+    color: var(--font-color-white);
     border: none;
     border-radius: 8px;
     cursor: pointer;

@@ -20,7 +20,7 @@ ul {
     margin: 1rem 0;
     padding: 1rem;
     border-radius: 1.25rem;
-    background-color: #ffffff;
+    background-color: var(--plain-white);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     outline: 2px transparent;
     user-select: none;
@@ -183,6 +183,14 @@ ul {
     box-shadow: var(--shadow-regular),
                 inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
                 inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  }
+
+  .modal-content{
+    color: var(--font-color-black);
+  }
+
+  .right-panel.grey h1{
+    color: var(--font-color-black);
   }
 
   .modal-carpicker label {

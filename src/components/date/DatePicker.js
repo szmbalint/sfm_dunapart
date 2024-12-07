@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
@@ -10,7 +10,17 @@ function DatePickerPage() {
   const [endDate, setEndDate] = useState(null);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
   const navigate = useNavigate(); // useNavigate hook használata
+  
+  useEffect(() => {
+    const htmlElement = document.documentElement; // A html tag referencia
+    if (theme === 'dark') {
+        htmlElement.classList.add('dark');
+    } else {
+        htmlElement.classList.remove('dark');
+    }
+}, [theme]);
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
