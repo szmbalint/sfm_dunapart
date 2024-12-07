@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
+import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
 
@@ -169,10 +169,15 @@ function CarPicker() {
     setSelectedCar(index === selectedCar ? null : index); // Toggling selection
   };
 
+  console.log(localStorage);
   const handleContinue = () => {
     if (selectedCar !== null) {
       const selectedCarSize = cars[selectedCar].meret; // Kiválasztott autó méretének lekérése
       
+      deleteSelectedCar();
+      deleteCarSize();
+      deleteStartDate();
+      deleteEndDate();
       // Elmentjük a kiválasztott autó méretét 1-2-3 formátumban
       saveCarSize(selectedCarSize); // Itt hívjuk meg a saveCarSize-t
       // Elmentjük a kiválasztott autót a localStorage-ba

@@ -82,6 +82,7 @@ useEffect(() => {
   const getSpotColor = (spot) => {
     const carSize = getCarSize(); // A kocsi méretének lekérése a localStorage-ból
     // Foglalt parkoló
+    
     if (spot.status && spot.timeUntilFree > 30 ) {
       return { color: 'red', image: '/icons/occupied.png' };
     }
@@ -91,7 +92,7 @@ useEffect(() => {
       return { color: 'yellow', image: '/icons/soon_free.png' };
     }
 
-    // A parkoló hely már el lett foglalva //
+    
     
     // Szabad parkoló, de túl kicsi a méret (small kocsi nem fér el medium vagy large parkolóhelyeken, large kocsi nem fér el medium vagy small parkolóhelyeken)
     if (!spot.status && (spot.meret === 1 || spot.meret === 2)) {

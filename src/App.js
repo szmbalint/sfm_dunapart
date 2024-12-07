@@ -7,6 +7,7 @@ import DatePicker from "./components/date/DatePicker";
 import PlotPicker from "./components/plot/PlotPicker";
 import ForgotPassword from './components/auth/ForgotPassword';
 import { calculateTimeUntilFree } from './utils/TimeCalculator';
+import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate } from './components/auth/tokenManager';
 import { fetchUserData, fetchCarsData, fetchParkingPlots } from './api/dataController';
 import { getToken, deleteToken } from './components/auth/tokenManager';
 import logoImage from '../src/assets/logo.png';
@@ -84,6 +85,10 @@ function Home() {
   
   const handleLogout = () => {
     deleteToken(); // Töröld a tokent
+    deleteSelectedCar();
+    deleteCarSize();
+    deleteStartDate();
+    deleteEndDate();
     setIsLoggedIn(false);
     setUserName(null);
     setCars([]); // Az autók törlése kijelentkezéskor

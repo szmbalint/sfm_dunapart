@@ -160,3 +160,28 @@ export const saveBookingDate = async (bookingData) => {
   const result = await response.text(); // Backend válasza
   return result;
 };
+
+const resetPassword = async (newPassword, userId) => {
+  const url = "http://localhost:8084/api/forgotPassword"; // Cseréld le a megfelelő API végpontra
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Ha JSON-t is küldenél, ez szükséges
+        "newpasswd": newPassword,
+        "user_id": userId
+      }
+    });
+
+    if (response.ok) {
+      const message = await response.text();
+      console.log("Sikeres jelszó módosítás:", message);
+    } else {
+      const error = await response.text();
+      console.error("Sikertelen jelszó módosítás:", error);
+    }
+  } catch (error) {
+    console.error("Hiba történt a kérés során:", error);
+  }
+};
