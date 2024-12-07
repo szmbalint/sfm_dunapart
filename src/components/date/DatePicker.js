@@ -52,14 +52,14 @@ function DatePickerPage() {
 
   return (
     <div className="grid-container">
-      <div className="left-panel-orange">
+      <div className="left-panel orange">
         <button onClick={handleSubmit}>Submit Data</button>
         <button className="back-button" onClick={() => navigate('/')}>
           Back to Home
         </button>
       </div>
 
-      <div className="right-panel">
+      <div className="right-panel grey">
         <h1>Book parking details</h1>
         <h2>Select date</h2>
         <div className="calendar-container">

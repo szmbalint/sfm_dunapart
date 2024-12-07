@@ -180,13 +180,13 @@ function CarPicker() {
 
   return (
     <div className="grid-container">
-      <div className="left-panel-grey">
+      <div className="left-panel green">
         <button>
           <Link to="/">Vissza a főoldalra</Link>
         </button>
       </div>
 
-      <div className="right-panel">
+      <div className="right-panel grey">
         <h1>Select your car</h1>
         {cars.length > 0 ? (
           <ul>

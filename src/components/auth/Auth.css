@@ -72,7 +72,6 @@
   /*JOBB OLDALI HASAB - div2*/
   .div2 {
     flex: 1;
-    background-color: #a0c089; 
     position: relative; 
     display: flex;
     flex-direction: column;

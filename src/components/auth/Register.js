@@ -80,7 +80,7 @@ const handleSubmit = async (e) => {
       </div>
 
       {/* Jobb oldal */}
-      <div className="div2">
+      <div className="div2 green">
         <div className="top-right">
           <Link to="/login" className="signup-button">
             Log In

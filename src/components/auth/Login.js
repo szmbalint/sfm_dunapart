@@ -33,7 +33,7 @@ const Login = () => {
         saveToken(data.token);
 
         // Navigáció a felhasználói felületre
-        window.location.href = '/carPicker'; // Példa navigációra
+        window.location.href = '/'; // Példa navigációra
       } else {
         setErrorMessage('Helytelen felhasználónév vagy jelszó!');
       }
@@ -65,7 +65,7 @@ const Login = () => {
       </div>
 
       {/* Jobb oldal */}
-      <div className="div2">
+      <div className="div2 green">
         <div className="top-right">
           <Link to="/register" className="signup-button">
             Sign Up

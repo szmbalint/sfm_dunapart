@@ -189,12 +189,12 @@ useEffect(() => {
 
   return (
     <div className="grid-container">
-      <div className="left-panel-green">
+      <div className="left-panel green">
         <button className="back-button" onClick={() => navigate('/')}>
           Back to Home
         </button>
       </div>
-      <div className="right-panel">
+      <div className="right-panel grey">
         <div className="plot-picker-container">
           <h1>Pick a parking spot</h1>
 
