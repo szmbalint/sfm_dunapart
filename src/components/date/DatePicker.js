@@ -39,11 +39,9 @@ function DatePickerPage() {
   const handleSubmit = async () => {
     // Ellenőrizzük, hogy az időpontok érvényesek-e
     if (startDate && endDate && startTime && endTime) {
-      // A startDate és startTime összefűzése
-      const startDateTime = `${startDate.toISOString().split('T')[0]} ${startTime}`;
+      const startDateTime = `${startDate.toLocaleDateString('en-CA')} ${startTime}`;
+      const endDateTime = `${endDate.toLocaleDateString('en-CA')} ${endTime}`;
       
-      // Az endDate és endTime összefűzése
-      const endDateTime = `${endDate.toISOString().split('T')[0]} ${endTime}`;
       
       // Mentés a localStorage-ba
       saveStartDate(startDateTime);
@@ -51,7 +49,7 @@ function DatePickerPage() {
   
       // Navigáció a következő oldalra
       window.location.href = '/plotPicker'; // Példa navigációra
-  
+      console.log(localStorage);
       // Visszajelzés a felhasználónak
       alert('Az időpontok mentve lettek!');
     } else {
