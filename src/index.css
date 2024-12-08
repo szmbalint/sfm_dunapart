@@ -419,21 +419,22 @@ right: 1rem;
   transition: var(--transition-medium);
   overflow: hidden;
   user-select: none;
+  height: 20rem;
 }
 
 .floating-menu .menu-separator {
   border: 1px solid var(--font-color-black);
   width: 100%;
   opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease;
 }
 
 .floating-menu .menu-items {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
-
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease;
 }
 
 .floating-menu img {
@@ -442,7 +443,7 @@ right: 1rem;
   margin: 0.25rem 1rem 0.25rem 1rem;
   filter: invert(var(--invert));
   opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease;
   user-select: none;
 }
 
@@ -450,13 +451,12 @@ right: 1rem;
   opacity: 1;
 }
 
-.floating-menu img.car {
+ .menu-item.car img {
   width: 1.75rem;
 }
 
 .floating-menu img.close {
   width: 1.25rem;
-
 }
 
 .floating-menu.closed{
@@ -465,7 +465,7 @@ right: 1rem;
 }
 .floating-menu.closed img.close{
   position: absolute;
-  bottom: 0.85rem;
+  top: 1rem;
 }
 
 /* Animációk állapotok szerint */
@@ -475,7 +475,7 @@ right: 1rem;
   opacity: 0;
   visibility: hidden; /* Elrejtés az áttűnés után */
   pointer-events: none; /* Klikkelhetetlenné tétele */
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
 }
 
 .floating-menu.open .menu-items,
@@ -484,5 +484,5 @@ right: 1rem;
   opacity: 1;
   visibility: visible; /* Láthatóvá válik */
   pointer-events: auto; /* Engedi a kattintást */
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
 }

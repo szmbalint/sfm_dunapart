@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 import { useNavigate } from 'react-router-dom';  // Importáljuk a useNavigate hook-ot
 import { saveEndDate, saveStartDate } from '../auth/tokenManager';
-
+import FloatingMenu from '../../utils/FloatingMenu';
 function DatePickerPage() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -68,7 +68,7 @@ function DatePickerPage() {
           Back to Home
         </button>
       </div>
-
+      <FloatingMenu />
       <div className="right-panel grey">
         <h1>Book parking details</h1>
         <h2>Select date</h2>

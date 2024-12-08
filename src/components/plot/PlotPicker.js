@@ -5,6 +5,7 @@ import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
 import { fetchParkingPlots } from '../../api/dataController';
 import { getStartDate, getEndDate, getSelectedCar, getCarSize } from '../auth/tokenManager';
+import FloatingMenu from '../../utils/FloatingMenu';
 const levels = ['1st floor', '2nd floor', '3rd floor'];
 
 function PlotPicker() {
@@ -205,6 +206,7 @@ useEffect(() => {
           Back to Home
         </button>
       </div>
+      <FloatingMenu />
       <div className="right-panel grey">
         <div className="plot-picker-container">
           <h1>Pick a parking spot</h1>

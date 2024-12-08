@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
+import FloatingMenu from '../../utils/FloatingMenu';
 
 function CarPicker() {
   const [cars, setCars] = useState([]);
@@ -197,7 +198,7 @@ function CarPicker() {
           <Link to="/">Vissza a főoldalra</Link>
         </button>
       </div>
-
+      <FloatingMenu />
       <div className="right-panel grey">
         <h1>Select your car</h1>
         {cars.length > 0 ? (

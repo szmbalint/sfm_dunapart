@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Auth.css';
+import FloatingMenu from '../../utils/FloatingMenu';
 
 import logoImage from '../../assets/logo.png';
 import kepImage from '../../assets/kep.png';
@@ -63,7 +64,7 @@ const Login = () => {
           <img src={kepImage} alt="Section3" className="section-kep" />
         </div>
       </div>
-
+      <FloatingMenu />
       {/* Jobb oldal */}
       <div className="div2 green">
         <div className="top-right">

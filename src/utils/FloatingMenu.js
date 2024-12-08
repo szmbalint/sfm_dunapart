@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom"; // React Router importálása
 
 const FloatingMenu = () => {
   const menuRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ left: 30, top: 350 });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [isOpen, setIsOpen] = useState(true);  // Állapot, hogy a menü nyitva van-e
+  const [isOpen, setIsOpen] = useState(() => {
+    // LocalStorage-ból olvassuk ki a nyitottság állapotát
+    const savedState = localStorage.getItem("floatingMenuState");
+    return savedState ? JSON.parse(savedState).isOpen : true; // Alapértelmezett érték true, ha nincs tárolt állapot
+  });
+  const location = useLocation(); // Az aktuális URL lekérése
 
   const handleMouseDown = (event) => {
     setIsDragging(true);
@@ -43,7 +49,11 @@ const FloatingMenu = () => {
   };
 
   const toggleMenu = () => {
-    setIsOpen((prevState) => !prevState); // Menü nyitása/zárása
+    const newState = !isOpen;
+    setIsOpen(newState); // Menü nyitás/zárás kezelése
+
+    // LocalStorage-ban tároljuk a nyitott/zárt állapotot
+    localStorage.setItem("floatingMenuState", JSON.stringify({ isOpen: newState }));
   };
 
   useEffect(() => {
@@ -92,11 +102,41 @@ const FloatingMenu = () => {
       />
       <span className="menu-separator"></span>
       <div className="menu-items">
-        <img src="/icons/nav/home-filled.png" alt="home" className="active" />
-        <img src="/icons/nav/user.png" alt="user" />
-        <img src="/icons/nav/car.png" alt="car" className="car" />
-        <img src="/icons/nav/calendar.png" alt="calendar" />
-        <img src="/icons/nav/plot.png" alt="plot" />
+        <Link to="/" className="menu-item">
+          <img
+            src={`/icons/nav/home${location.pathname === "/" ? "-filled" : ""}.png`}
+            alt="home"
+            className={location.pathname === "/" ? "active" : ""}
+          />
+        </Link>
+        <Link to="/login" className="menu-item">
+          <img
+            src={`/icons/nav/login${location.pathname === "/login" ? "-filled" : ""}.png`}
+            alt="login"
+            className={location.pathname === "/login" ? "active" : ""}
+          />
+        </Link>
+        <Link to="/carPicker" className="menu-item car">
+          <img
+            src={`/icons/nav/carPicker${location.pathname === "/carPicker" ? "-filled" : ""}.png`}
+            alt="carPicker"
+            className={location.pathname === "/carPicker" ? "active" : ""}
+          />
+        </Link>
+        <Link to="/datePicker" className="menu-item">
+          <img
+            src={`/icons/nav/datePicker${location.pathname === "/datePicker" ? "-filled" : ""}.png`}
+            alt="datePicker"
+            className={location.pathname === "/datePicker" ? "active" : ""}
+          />
+        </Link>
+        <Link to="/plotPicker" className="menu-item">
+          <img
+            src={`/icons/nav/plotPicker${location.pathname === "/plotPicker" ? "-filled" : ""}.png`}
+            alt="plotPicker"
+            className={location.pathname === "/plotPicker" ? "active" : ""}
+          />
+        </Link>
       </div>
     </div>
   );

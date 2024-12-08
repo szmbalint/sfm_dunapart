@@ -114,10 +114,7 @@ function Home() {
           <img src={kepImage} alt="Section3" className='section-kep' /> {/* Használjuk a kepImage változót */}
         </div>
       </div>
-      <div>
         <FloatingMenu />
-        {/* További tartalom */}
-      </div>
       <div className="right-panel green">
         <nav>
         <button onClick={toggleTheme} className="theme-toggle-btn">
