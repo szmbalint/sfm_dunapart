@@ -12,20 +12,20 @@ import { fetchUserData, fetchCarsData, fetchParkingPlots } from './api/dataContr
 import { getToken, deleteToken } from './components/auth/tokenManager';
 import logoImage from '../src/assets/logo.png';
 import kepImage from '../src/assets/kep.png';
+import FloatingMenu from './utils/FloatingMenu';
 
 function Home() {
   const [cars, setCars] = useState([]);
   const [userName, setUserName] = useState(null); // Felhasználó neve
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Bejelentkezett állapot
   const [theme, setTheme] = useState(localStorage.getItem('theme') || ''); // Alapértelmezett téma
-  
 // Téma váltása
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme); // Mentés a localStorage-be
   };
-
+  
   useEffect(() => {
     const htmlElement = document.documentElement; // A html tag referencia
     if (theme === 'dark') {
@@ -114,7 +114,10 @@ function Home() {
           <img src={kepImage} alt="Section3" className='section-kep' /> {/* Használjuk a kepImage változót */}
         </div>
       </div>
-
+      <div>
+        <FloatingMenu />
+        {/* További tartalom */}
+      </div>
       <div className="right-panel green">
         <nav>
         <button onClick={toggleTheme} className="theme-toggle-btn">
