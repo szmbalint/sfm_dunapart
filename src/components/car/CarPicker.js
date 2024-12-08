@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
@@ -194,9 +193,6 @@ function CarPicker() {
   return (
     <div className="grid-container">
       <div className="left-panel green">
-        <button>
-          <Link to="/">Vissza a főoldalra</Link>
-        </button>
       </div>
       <FloatingMenu />
       <div className="right-panel grey">

@@ -7,9 +7,12 @@ export const calculateTimeUntilFree = (toDate) => {
     if (diff < 0) return null;
   
     return {
-      hours: Math.floor(diff / 3600000),
+      days: Math.floor(diff / 86400000),
+      hours: Math.floor((diff % 86400000) / 3600000),
       minutes: Math.floor((diff % 3600000) / 60000),
-      formatted: `${Math.floor(diff / 3600000)}:${Math.floor((diff % 3600000) / 60000)} left`,
+      formatted: `${Math.floor(diff / 86400000) > 0 ? String(Math.floor(diff / 86400000)).padStart(2, '0') + ':' : ''}${String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0')}:${String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0')} left`,
     };
+    
+
   };
   

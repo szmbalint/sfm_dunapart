@@ -64,7 +64,7 @@ html.dark{
     --bevel-dark: rgba(0, 0, 0, 0.1);
 
     --invert: 1;
-    --invert-alt: 0.835;
+    --invert-alt: 0.850;
 
 
     --transparent-bg: rgba(48, 48, 48, 0.3);
@@ -164,11 +164,10 @@ a{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem;
   overflow-y: auto;
   background-color: var(--font-color-white);
-  border-top-left-radius: 3rem;
-  border-bottom-left-radius: 3rem;
+  border-top-left-radius: 4rem;
+  border-bottom-left-radius: 4rem;
   overflow: hidden;
 }
 
@@ -190,7 +189,6 @@ a{
   flex: 1;
   background-color: var(--calendar-color); 
   display: flex;
-  padding: 0 2rem 2rem 0;
   flex-direction: column;
   justify-content: space-between; 
   align-items: center;
@@ -445,6 +443,14 @@ right: 1rem;
   opacity: 0.8;
   transition: opacity 0.3s ease, transform 0.7s ease;
   user-select: none;
+  -webkit-user-drag: none; /* Húzás letiltása WebKit böngészőkben (pl. Safari) */
+  -moz-user-drag: none; /* Húzás letiltása Mozilla böngészőkben */
+}
+
+.floating-menu a{
+  user-select: none;
+  -webkit-user-drag: none; /* Húzás letiltása WebKit böngészőkben (pl. Safari) */
+  -moz-user-drag: none; /* Húzás letiltása Mozilla böngészőkben */
 }
 
 .floating-menu img.active {
@@ -466,6 +472,7 @@ right: 1rem;
 .floating-menu.closed img.close{
   position: absolute;
   top: 1rem;
+  transform: rotate(180deg);
 }
 
 /* Animációk állapotok szerint */
@@ -475,7 +482,7 @@ right: 1rem;
   opacity: 0;
   visibility: hidden; /* Elrejtés az áttűnés után */
   pointer-events: none; /* Klikkelhetetlenné tétele */
-  transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .floating-menu.open .menu-items,
@@ -485,4 +492,5 @@ right: 1rem;
   visibility: visible; /* Láthatóvá válik */
   pointer-events: auto; /* Engedi a kattintást */
   transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
+  transition-delay: 0.3s;
 }

@@ -42,9 +42,11 @@ const ForgotPassword = () => {
       {/* Jobb oldal */}
       <div className="div2 green">
         <div className="top-right">
-          <Link to="/login" className="signup-button">
-            Log in
-          </Link>
+          <button>
+            <Link to="/login">
+              Log in
+            </Link>
+          </button>
         </div>
         <div className="forgot-password-page">
           <h2>Enter your email and new password</h2>

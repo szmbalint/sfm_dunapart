@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './PlotPicker.css';
-import { useNavigate } from 'react-router-dom';
 import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
 import { fetchParkingPlots } from '../../api/dataController';
@@ -15,7 +14,6 @@ function PlotPicker() {
   const [showModal, setShowModal] = useState(false);
   const [hoveredSpot, setHoveredSpot] = useState(null);
   const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
-  const navigate = useNavigate();
 
   useEffect(() => {
     const htmlElement = document.documentElement; // A html tag referencia
@@ -202,9 +200,6 @@ useEffect(() => {
   return (
     <div className="grid-container">
       <div className="left-panel green">
-        <button className="back-button" onClick={() => navigate('/')}>
-          Back to Home
-        </button>
       </div>
       <FloatingMenu />
       <div className="right-panel grey">

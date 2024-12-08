@@ -9,6 +9,7 @@ const FloatingMenu = () => {
     return savedPosition ? JSON.parse(savedPosition) : { left: 30, top: 350 };
   });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  
   const [isOpen, setIsOpen] = useState(() => {
     const savedState = localStorage.getItem("floatingMenuState");
     return savedState ? JSON.parse(savedState).isOpen : true;
