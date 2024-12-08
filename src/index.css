@@ -169,7 +169,7 @@ a{
   background-color: var(--font-color-white);
   border-top-left-radius: 3rem;
   border-bottom-left-radius: 3rem;
-
+  overflow: hidden;
 }
 
 .right-panel.green, .div2.green{
