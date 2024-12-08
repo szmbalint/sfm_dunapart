@@ -1,36 +1,49 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom"; // React Router importálása
+import { Link, useLocation } from "react-router-dom";
 
 const FloatingMenu = () => {
   const menuRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ left: 30, top: 350 });
+  const [position, setPosition] = useState(() => {
+    const savedPosition = localStorage.getItem("floatingMenuPosition");
+    return savedPosition ? JSON.parse(savedPosition) : { left: 30, top: 350 };
+  });
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const [isOpen, setIsOpen] = useState(() => {
-    // LocalStorage-ból olvassuk ki a nyitottság állapotát
     const savedState = localStorage.getItem("floatingMenuState");
-    return savedState ? JSON.parse(savedState).isOpen : true; // Alapértelmezett érték true, ha nincs tárolt állapot
+    return savedState ? JSON.parse(savedState).isOpen : true;
   });
-  const location = useLocation(); // Az aktuális URL lekérése
+  const location = useLocation();
+
+  const SNAP_DISTANCE = 200; // Snap határ
+  const EDGE_MARGIN = 16; // Minimális távolság az oldal szélétől (1rem = 16px)
 
   const handleMouseDown = (event) => {
     setIsDragging(true);
-    const clientX = event.clientX || event.touches[0].clientX;
-    const clientY = event.clientY || event.touches[0].clientY;
-    setStartPos({ x: clientX, y: clientY });
-    const rect = menuRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPosition({ left: rect.left, top: rect.top });
+  
+    // Ellenőrizzük, hogy érintéses eseményről van szó
+    const clientX = event.clientX || (event.touches && event.touches[0]?.clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0]?.clientY);
+  
+    if (clientX != null && clientY != null) {
+      setStartPos({ x: clientX, y: clientY });
+      const rect = menuRef.current?.getBoundingClientRect();
+      if (rect) {
+        setPosition({ left: rect.left, top: rect.top });
+      }
     }
   };
+  
 
   const handleMouseMove = useCallback(
     (event) => {
       if (!isDragging) return;
 
-      const clientX = event.clientX || event.touches[0].clientX;
-      const clientY = event.clientY || event.touches[0].clientY;
+    // Ellenőrizzük, hogy érintéses eseményről van szó
+    const clientX = event.clientX || (event.touches && event.touches[0]?.clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0]?.clientY);
 
+    if (clientX != null && clientY != null) {
       const deltaX = clientX - startPos.x;
       const deltaY = clientY - startPos.y;
 
@@ -40,19 +53,47 @@ const FloatingMenu = () => {
       }));
 
       setStartPos({ x: clientX, y: clientY });
+    }
     },
     [isDragging, startPos]
   );
 
   const handleMouseUp = () => {
+    if (menuRef.current) {
+      const rect = menuRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      // Snap X tengelyen
+      let newLeft = rect.left;
+      if (rect.left <= SNAP_DISTANCE) {
+        newLeft = EDGE_MARGIN;
+      } else if (rect.right >= viewportWidth - SNAP_DISTANCE) {
+        newLeft = viewportWidth - rect.width - EDGE_MARGIN;
+      }
+
+      // Snap Y tengelyen
+      let newTop = rect.top;
+      if (rect.top <= SNAP_DISTANCE) {
+        newTop = EDGE_MARGIN;
+      } else if (rect.bottom >= viewportHeight - SNAP_DISTANCE) {
+        newTop = viewportHeight - rect.height - EDGE_MARGIN;
+      }
+
+    // Frissítsük az új pozíciót a snap után
+    const finalPosition = { left: newLeft, top: newTop };
+    setPosition(finalPosition);
+
+    // Mentés a localStorage-be
+    localStorage.setItem("floatingMenuPosition", JSON.stringify(finalPosition));
+    }
+
     setIsDragging(false);
   };
 
   const toggleMenu = () => {
     const newState = !isOpen;
-    setIsOpen(newState); // Menü nyitás/zárás kezelése
-
-    // LocalStorage-ban tároljuk a nyitott/zárt állapotot
+    setIsOpen(newState);
     localStorage.setItem("floatingMenuState", JSON.stringify({ isOpen: newState }));
   };
 
