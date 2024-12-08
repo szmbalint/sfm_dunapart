@@ -80,25 +80,64 @@ body {
 
   /* Gombok kinézete */
 button{
-  background-color: var(--orange);
-  border: none;
   margin: 1rem;
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  font-weight: bold;
-  font-size: 16px;
-  font-family: "Syne", sans-serif;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  outline: 2px transparent solid;
-  transition: var(--transition-quick);
-  user-select: none;
+  padding: 1rem 2rem;
+  text-align: center;
+  transition: var(--transition-medium);
+  border-radius: 1rem;
+  border: 0px;
+  font-weight: 700;
+  background-size: 200% auto;
   color: var(--font-color-white);
+  box-shadow: var(--shadow-small),
+        inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+        inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%);
+  cursor: pointer;
+  user-select: none;
+  outline: 2px transparent solid;
 }
 
   /* Gombok kinézete: hover */
 button:hover{
-  background-color: var(--orange-light);
-  outline: 2px var(--orange) solid;
+  outline: 2px #e09e58 solid;
+  background-position: right center;
+}
+
+button:active{
+  transform: scale(0.95);
+}
+
+.addcar-btn{
+  background-image: none;
+  background-color: var(--plain-white);
+  border-radius: 100rem;
+  padding: 1rem;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-small),
+        inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+        inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+}
+
+.addcar-btn:hover{
+  outline: 2px solid var(--plain-white);
+}
+
+.addcar-btn img{
+  width: 1.5rem;
+  filter: invert(var(--invert));
+}
+
+.edit-btn, .delete-btn{
+  background-image: none;
+}
+
+.edit-btn:hover, .delete-btn:hover{
+  outline: 1px solid var(--plain-white);
+  background-color: var(--plain-white);
 }
 
   /* Link kinézete */
@@ -112,36 +151,99 @@ a{
   display: grid;
   grid-template-columns: 1fr 2fr;
   height: 100vh;
-
+  transition: background-color 0.5s ease-in-out;
 }
   /* Grid jobb oldali tároló */
 .right-panel {
+  flex: 1;
+  position: relative; 
+  background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: center;
+  padding: 2.5rem;
   overflow-y: auto;
   background-color: var(--font-color-white);
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
   overflow: hidden;
+}
+
+.right-panel.green, .div2.green{
+  background-image: url(../public/bg_green.png);
+  background-size: cover;
+  box-shadow: var(--shadow-regular),
+          inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+        inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+}
+
+.right-panel.grey{
+  background-color: var(--calendar-color);
+  color: var(--font-color-black);
+  border-radius: 0;
+}
+
+.left-panel {
+  flex: 1;
+  background-color: var(--calendar-color); 
+  display: flex;
+  padding: 0 2rem 2rem 0;
+  flex-direction: column;
+  justify-content: space-between; 
+  align-items: center;
+  
+  max-width: 444px;
+  border-radius: 0;
+transition: background-color 0.5s ease-in-out;
+}
+
+.left-panel.orange{
+  background-image: url(../public/bg_orange.png);
+  background-size: cover;
+  padding: 2.5rem;
+  border-radius: 0 1.5rem 1.5rem 0;
+  box-shadow: var(--shadow-regular),
+          inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+          inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  z-index: 1;
+}
+
+.left-panel.green{
+  background-image: url(../public/bg_green.png);
+  background-size: cover;
+  padding: 2.5rem;
+  border-radius: 0 1.5rem 1.5rem 0;
+  box-shadow: var(--shadow-regular),
+          inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+          inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  z-index: 1;
 }
 
   /* H1 stílus */
 h1{
-  font-size: 64px;
+  font-size: 6rem;
   font-weight: bold;
   margin: 1rem 0 0 0;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
   color: var(--font-color-white);
 }
 
   /* H2 stílus */
 h2{
-  font-size: 36px;
+  font-size: 3rem;
   font-weight: bold;
   margin: 2rem 0 2rem 0;
+  text-align: center;
+  color: var(--font-color-white);
+  transition: color 0.5s ease-in-out;
 }
 
+.car-details h2{
+  text-align: left;
+  color: var(--font-color-black);
+}
 
 /*Kezdo*/
 .grid-container {
@@ -151,17 +253,6 @@ h2{
   background-color: var(--calendar-color);
 }
 
-.left-panel {
-  flex: 1;
-  background-color: var(--calendar-color); 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; 
-  align-items: center;
-  padding: 20px;
-  max-width: 444px;
-  border-radius: 0; 
-}
 
 /* LOGO - Section1 */
 .section1 {
@@ -190,13 +281,13 @@ h2{
 }
 
 .section-text {
-  font-size: 64px; 
+  font-size: 6rem; 
   font-family: 'Syne', sans-serif; 
   font-weight: bold;
   color: var(--font-color-white);
   line-height: 1;
   margin: 0;
-  letter-spacing: 6px;
+  letter-spacing: 0.5rem;
 }
 
 /* KÉP - Section3 */
@@ -212,19 +303,8 @@ h2{
   width: auto;
   height: 100%; 
   object-fit: cover;
-  filter: invert(var(--invert-alt)); 
-}
-
-.right-panel{
-  flex: 1;
-  background-color: var(--bg-color);
-  position: relative; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 40px;
-  border-bottom-left-radius: 40px;
+  filter: invert(var(--invert-alt));
+  transition: var(--transition-medium);
 }
 
 .edit-container, .delete-container{
@@ -235,42 +315,25 @@ h2{
   border-radius: 100rem;
   margin-left: 0.5rem;
   font-family: "Inter", serif;
-  font-size: 14px;
+  font-size: 1rem;
 }
 .edit-container span, .delete-container span{
   margin: 0 0.75rem;
 }
 
-.addcar-btn{
-  background-color: var(--plain-white);
-  border-radius: 100rem;
-  padding: 1rem;
-  border: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-small),
-        inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
-        inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
-}
-
-.addcar-btn img{
-  width: 1.5rem;
-  filter: invert(var(--invert));
-}
-
 .car-main-container{
   background-color: var(--transparent-bg);
-  backdrop-filter: blur(5rem);
+  backdrop-filter: blur(30px);
   border-radius: 1rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: var(--shadow-small),
+  box-shadow: var(--shadow-regular),
       inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
       inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
       overflow-y: scroll;
+  transition: var(--transition-medium);
 }
 
 /* A scrollbar stílusának beállítása */
@@ -287,38 +350,49 @@ background-color: var(--font-color-white);
 }
 
 .car-main-container h1{
-  font-size: 32px;
+  font-size: 2rem;
   font-family: "Inter", serif;
   font-weight: 400;
-}
-
-.right-panel.green, .div2.green{
-  background-image: url(../public/bg_green.png);
-  background-size: cover;
-}
-
-.left-panel.orange{
-  background-image: url(../public/bg_orange.png);
-  background-size: cover;
-  padding: 20px;
-  border-radius: 0 1.5rem 1.5rem 0;
-}
-
-.left-panel.green{
-  background-image: url(../public/bg_green.png);
-  background-size: cover;
-  padding: 20px;
-  border-radius: 0 1.5rem 1.5rem 0;
-}
-
-.right-panel.grey{
-  background-color: var(--calendar-color);
-  color: var(--font-color-black);
-  border-radius: 0;
 }
 
 nav{
 position: absolute;
 top: 1rem;
 right: 1rem;
+}
+
+/* Normál asztali kijelzőkhöz (768px - 1200px) */
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .left-panel{
+    display: none;
+  }
+  .right-panel{
+    border-radius: 0;
+  }
+}
+
+/* Tablet méret (768px - 480px) */
+@media screen and (max-width: 768px) and (min-width: 480px) {
+  html {
+    font-size: 70%; /* Az alapértelmezett méret 90%-ára csökkent */
+  }
+  .left-panel{
+    display: none;
+  }
+  .right-panel{
+    border-radius: 0;
+  }
+}
+
+/* Mobil méret (kevesebb mint 480px) */
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 50%; /* Az alapértelmezett méret 90%-ára csökkent */
+  }
+  .left-panel{
+    display: none;
+  }
+  .right-panel{
+    border-radius: 0;
+  }
 }

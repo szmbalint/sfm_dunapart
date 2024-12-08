@@ -82,9 +82,11 @@ const handleSubmit = async (e) => {
       {/* Jobb oldal */}
       <div className="div2 green">
         <div className="top-right">
-          <Link to="/login" className="signup-button">
+          <button>
+          <Link to="/login">
             Log In
           </Link>
+          </button>
         </div>
 
         <div className="signup-form">

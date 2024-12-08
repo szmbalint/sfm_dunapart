@@ -1,4 +1,14 @@
   /* Naptár tároló */
+
+.right-panel.grey h2{
+  color: var(--font-color-black);
+}
+
+.left-panel.orange{
+  display: flex;
+  justify-content: end;
+}
+
 .calendar-container {
   display: inline-block;
 }
@@ -7,22 +17,33 @@
 .time-selection {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin: 2.5rem 0;
   gap: 3rem;
+  max-width: 90%;
 }
   
   /* Idő választó: label */
 .time-selection label {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 1rem;
 }
   
   /* Idő választó: input mező */
 input[type="time"] {
   margin-left: 0.5rem;
+  background-color: var(--plain-white);
+  color: var(--font-color-black);
+  border: none;
+  border-radius: 100px;
+  padding: 1rem;
 }
   
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(var(--invert));
+}
+
   /* Általános naptár háttér és szegély */
 .react-datepicker {
   font-family: Arial, sans-serif;
@@ -33,46 +54,122 @@ input[type="time"] {
   box-shadow: var(--shadow-small),
               inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
               inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
-
+transition: var(--transition-medium);
 }
-  
+
   /* Naptári napok alapértelmezett stílusa */
 .react-datepicker__day {
-  color: var(-font-color-black);
-  width: 7vw;
-  height: 7vh;
+  color: var(--font-color-black);
+  width: 5.5rem;
+  height: 5.5rem;
 }
 .react-datepicker__header{
-  background-color: var(--lift-color);
-}
-  /* Kiválasztott nap */
-.react-datepicker__day--selected {
-  background-color: var(--green-dark);
-  color: var(--plain-white);
-  border-radius: 100px;
+  background-color: var(--plain-white);
 }
   
 .react-datepicker{
-  background-color: var(--calendar-color);
+  background-color: var(--plain-white);
 }
 
-  /* Kiválasztott intervallum eleje és vége */
+  /* Intervallumon belüli napok */
+.react-datepicker__day--in-range {
+  background-color: var(--orange);
+  color: var(--font-color-white);
+  border-radius: 1rem;
+}
+
+   /* Kiválasztott intervallum eleje és vége */
 .react-datepicker__day--range-start,
 .react-datepicker__day--range-end {
-  background-color: var(--orange);
+  background-color: var(--orange-light);
   color: var(--plain-white);
   border-radius: 100px;
 }
-  
-  /* Intervallumon belüli napok */
-.react-datepicker__day--in-range {
+
+.react-datepicker__day-name{
+  color: var(--font-color-black);
+}
+
+.react-datepicker__month div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+  .react-datepicker__day:not([aria-disabled=true]):hover{
+    background-color: var(--green-dark);
+    color: var(--plain-white);
+    border-radius: 100px;
+  }
+
+  .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, 
+  .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, 
+  .react-datepicker__year-text--in-range){
+    background-color: var(--green-dark);
+    color: var(--plain-white);
+    border-radius: 1rem;
+  }
+
+  .react-datepicker__day--selected{
+    background-color: var(--orange-light);
+    color: var(--plain-white);
+    border-radius: 100px;
+  }
+
+.react-datepicker__day--keyboard-selected{
   background-color: var(--orange-light);
-  color: var(--lift-color);
+  color: var(--plain-white);
+  border-radius: 100px;
 }
-  
-  /* Napok hover effekt */
-.react-datepicker__day:hover {
-  background-color: var(--green);
-  border-radius: 50%;
+
+@media screen and (max-width: 1500px) and (min-width: 1200px) {
+  .react-datepicker__day {
+    width: 5rem;
+    height: 5rem;
+  }
+  .right-panel.grey h1{
+    font-size: 3rem;
+  }
+  .right-panel.grey h2{
+    font-size: 2rem;
+  }
 }
-  
+
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .left-panel.orange{
+    display: none;
+  }
+  .left-panel.orange{
+    display: none;
+  }
+  .react-datepicker__day {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}
+
+/* Tablet méret (768px - 480px) */
+@media screen and (max-width: 768px) and (min-width: 480px) {
+  .left-panel.orange{
+    display: none;
+  }
+  .react-datepicker__day {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+/* Mobil méret (kevesebb mint 480px) */
+@media screen and (max-width: 480px) {
+  .left-panel.orange{
+    display: none;
+  }
+  .react-datepicker__day {
+    width: 5rem;
+    height: 5rem;
+  }
+    /* Idő választó */
+.time-selection {
+  flex-direction: column;
+}
+}

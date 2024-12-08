@@ -12,6 +12,10 @@ ul {
     color: inherit;
   }
   
+  .right-panel.grey h1{
+    font-size: 4rem;
+  }
+
   /* A kocsi adatainak megjelenítésére */
   .car-container {
     display: flex;
@@ -190,6 +194,10 @@ ul {
   }
 
   .right-panel.grey h1{
+    color: var(--font-color-black);
+  }
+
+  .modal-content h2{
     color: var(--font-color-black);
   }
 

@@ -63,7 +63,7 @@ function DatePickerPage() {
   return (
     <div className="grid-container">
       <div className="left-panel orange">
-        <button onClick={handleSubmit}>Submit Data</button>
+
         <button className="back-button" onClick={() => navigate('/')}>
           Back to Home
         </button>
@@ -105,6 +105,7 @@ function DatePickerPage() {
             </label>
           </div>
         )}
+              <button onClick={handleSubmit}>Submit Data</button>
       </div>
     </div>
   );

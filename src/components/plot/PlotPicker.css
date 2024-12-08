@@ -208,3 +208,28 @@
   transform: rotate(-90deg);
   transform-origin: 3.5rem 4.25rem;
 }
+
+.left-panel.green{
+  display: flex;
+  justify-content: end;
+}
+
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .left-panel.green{
+    display: none;
+  }
+}
+
+/* Tablet méret (768px - 480px) */
+@media screen and (max-width: 768px) and (min-width: 480px) {
+  .left-panel.green{
+    display: none;
+  }
+}
+
+/* Mobil méret (kevesebb mint 480px) */
+@media screen and (max-width: 480px) {
+  .left-panel.green{
+    display: none;
+  }
+}

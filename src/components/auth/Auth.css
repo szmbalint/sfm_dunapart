@@ -28,7 +28,7 @@
     position: absolute; /* A kép bal felső sarokba kerül */
     top: 0;
     left: 0;
-    width: 60px;  /* A kép szélessége */
+    width: 4rem;  /* A kép szélessége */
     height: auto;  /* A kép magassága arányosan igazodik */
   }
   
@@ -42,14 +42,14 @@
   }
 
   .section-text {
-    font-size: 64px; /* Betűméret*/
+    font-size: 3.5rem; /* Betűméret*/
     font-family: 'Syne'; /* Betűtípus */
     font-weight: bold; /* Félkövér */
     color: #505050; 
     text-align: center; /* Középre igazítás */
     line-height: 1; /* Sorok közötti távolság */
     margin: 0; /* Margó eltávolítása */
-    letter-spacing: 6px;
+    letter-spacing: 0.5rem;
   }
 
   /*KEP - sec3*/
@@ -78,23 +78,23 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
+    border-top-left-radius: 4rem;
+    border-bottom-left-radius: 4rem;
   }
   
   /*FELSO GOMB - Sign Up*/
   .top-right {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 1rem;
+    right: 1rem;
   }
   
   .signup-button {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     background-color: #f4a14d;
     color: var(--font-color-white);
     border: none;
-    border-radius: 8px;
+    border-radius: 0.75rem;
     cursor: pointer;
   }
   
@@ -112,37 +112,37 @@
   }
   
   .login-form h2 {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
   
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     text-align: left;
   }
   
   .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
   }
   
   .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 1rem;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 0.75rem;
   }
 
   
   /*ALSO LOGIN GOMB*/
   .login-button {
     width: 40%;
-    padding: 10px;
+    padding: 1rem;
     background-color: #f4a14d;
     color: var(--font-color-white);
     border: none;
-    border-radius: 8px;
+    border-radius: 0.75rem;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 4rem;
   }
   
   .login-button:hover {
@@ -155,7 +155,7 @@
     justify-content: space-between; /* A két elem egymás mellett balra és jobbra */
     align-items: center; 
 
-    font-size: 14px; 
+    font-size: 1.25rem; 
   }
   
   .remember-me {
@@ -166,6 +166,7 @@
   
   .forgot-password a {
     color: #269cfd;
+    font-size: 1rem;
   }
   
   .forgot-password a:hover {
@@ -181,17 +182,17 @@
   /* Jobb felső sarok pozícionálás */
   .top-right {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 1rem;
+    right: 1rem;
   }
 
   /* Gomb stílusa */
   .signup-button {
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     background-color: #f4a14d;
     color: var(--font-color-white);
     border: none;
-    border-radius: 8px;
+    border-radius: 0.75rem;
     cursor: pointer;
   }
 
@@ -204,16 +205,16 @@
   .signup-form{
     color: var(--font-color-white);
     text-align: center;
+    width: 80%;
+    max-width: 500px;
   }
 
   /* Sign Up form sorok */
   .signup-form .form-row {
-    width: 100%;
-    max-width: 400px;
     display: flex;
     justify-content: space-between; /* Elemek szétszórása balra és jobbra */
-    gap: 50px;
     color: var(--font-color-white);
+    gap: 5rem;
   }
 
   .signup-form .form-group {
@@ -223,71 +224,90 @@
   
 
   .signup-form input {
-    width: 100%;
-    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 0.75rem;
   }
 
-
+  label{
+    font-size: 1rem;
+  }
 
   /*ELFELEJTETT JELSZO*/
   .forgot-password-page {
     color: var(--font-color-white);
     width: 100%;
-    max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 3rem;
     text-align: center;
+    width: 80%;
+    max-width: 500px;
   }
   
   .forgot-password-page h2 {
-    margin-bottom: 50px;
+    margin-bottom: 4rem;
   }
   
   .forgot-password-page .form-group {
-    margin-bottom: 25px;
+
+    margin-bottom: 3rem;
     text-align: left;
   }
   
   .forgot-password-page .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
   }
   
   .forgot-password-page .form-group input {
-    width: 100%;
-    padding: 10px;
+    padding: 1rem;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 0.75rem;
   }
   
-  .forgot-password-page .submit-button {
-    width: 40%;
-    padding: 10px;
-    background-color: #f4a14d;
-    color: var(--font-color-white);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  /* Normál asztali kijelzőkhöz (768px - 1200px) */
+@media screen and (max-width: 1200px) and (min-width: 768px) {
+  .div1{
+    display: none;
   }
-  
-  .forgot-password-page .submit-button:hover {
-    background-color: #f2952e;
+  .div2{
+    border-radius: 0;
   }
-  
-  @media (min-width: 1200px) {
-    .login-form, .signup-form, .forgot-password-page {
-      max-width: 600px; /* Növeld a form szélességét */
-    }
-  
-    .form-group input {
-      padding: 15px; /* Kényelmesebb input mező méret */
-      font-size: 15px; /* Nagyobb betűméret */
-    }
-  
-    .login-button, .submit-button {
-      width: 50%; /* Gomb szélesség növelése */
-    }
+}
+
+/* Tablet méret (768px - 480px) */
+@media screen and (max-width: 768px) and (min-width: 480px) {
+  html {
+    font-size: 70%; /* Az alapértelmezett méret 90%-ára csökkent */
   }
-  
+  .div1{
+    display: none;
+  }
+  .div2{
+    border-radius: 0;
+  }
+  label{
+    font-size: 1.5rem;
+  }
+  .forgot-password a {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobil méret (kevesebb mint 480px) */
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 50%; /* Az alapértelmezett méret 90%-ára csökkent */
+  }
+  .div1{
+    display: none;
+  }
+  .div2{
+    border-radius: 0;
+  }
+  label{
+    font-size: 1.5rem;
+  }
+  .forgot-password a {
+    font-size: 1.5rem;
+  }
+}

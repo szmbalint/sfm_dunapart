@@ -67,9 +67,11 @@ const Login = () => {
       {/* Jobb oldal */}
       <div className="div2 green">
         <div className="top-right">
-          <Link to="/register" className="signup-button">
+          <button>
+          <Link to="/register">
             Sign Up
           </Link>
+          </button>
         </div>
 
         <div className="login-form">
