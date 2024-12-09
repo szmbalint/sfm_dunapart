@@ -33,6 +33,35 @@ ul {
     color: var(--font-color-black);
   }
   
+  .right-panel.grey ul {
+    overflow-y: scroll;
+    padding: 0 1rem; /* 1 rem távolság a bal oldali tartalomtól */
+
+  }
+
+  .right-panel.grey ul::-webkit-scrollbar {
+    width: 8px; /* Vékony görgetősáv */
+
+  }
+  
+  .right-panel.grey ul::-webkit-scrollbar-thumb {
+    background-color: var(--plain-white); /* Görgetősáv színe */
+    border-radius: 10px;
+    box-shadow:
+    inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+    inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+    cursor: pointer;
+  }
+  
+  .right-panel.grey ul::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Görgetősáv háttérszíne */
+    border-radius: 10px;
+  }
+  
+  .right-panel.grey h1{
+    user-select: none;
+  }
+
   /* A kocsi képe */
   .car-container img {
     width: 6rem;
@@ -40,6 +69,9 @@ ul {
     object-fit: contain;
     margin-right: 1rem;
     border-radius: 8px;
+    user-select: none;
+    -webkit-user-drag: none; /* Húzás letiltása WebKit böngészőkben (pl. Safari) */
+    -moz-user-drag: none; /* Húzás letiltása Mozilla böngészőkben */
   }
   
   /* A szöveg tartalma */

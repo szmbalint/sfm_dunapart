@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
 import { saveEndDate, saveStartDate } from '../auth/tokenManager';
 import FloatingMenu from '../../utils/FloatingMenu';
+
 function DatePickerPage() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -11,15 +12,17 @@ function DatePickerPage() {
   const [endTime, setEndTime] = useState('');
   const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
 
-  
+  // Jelenlegi dátum beállítása
+  const currentDate = new Date();
+
   useEffect(() => {
     const htmlElement = document.documentElement; // A html tag referencia
     if (theme === 'dark') {
-        htmlElement.classList.add('dark');
+      htmlElement.classList.add('dark');
     } else {
-        htmlElement.classList.remove('dark');
+      htmlElement.classList.remove('dark');
     }
-}, [theme]);
+  }, [theme]);
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
@@ -40,27 +43,23 @@ function DatePickerPage() {
     if (startDate && endDate && startTime && endTime) {
       const startDateTime = `${startDate.toLocaleDateString('en-CA')} ${startTime}`;
       const endDateTime = `${endDate.toLocaleDateString('en-CA')} ${endTime}`;
-      
-      
+
       // Mentés a localStorage-ba
       saveStartDate(startDateTime);
       saveEndDate(endDateTime);
-  
+
       // Navigáció a következő oldalra
       window.location.href = '/plotPicker'; // Példa navigációra
-      console.log(localStorage);
       // Visszajelzés a felhasználónak
       alert('Az időpontok mentve lettek!');
     } else {
       alert('Kérlek, adj meg minden szükséges időpontot!');
     }
   };
-  
 
   return (
     <div className="grid-container">
-      <div className="left-panel orange">
-      </div>
+      <div className="left-panel orange"></div>
       <FloatingMenu />
       <div className="right-panel grey">
         <h1>Book parking details</h1>
@@ -74,6 +73,7 @@ function DatePickerPage() {
             selectsRange
             inline
             dateFormat="yyyy/MM/dd"
+            minDate={currentDate}
           />
         </div>
 
@@ -98,7 +98,7 @@ function DatePickerPage() {
             </label>
           </div>
         )}
-              <button onClick={handleSubmit}>Submit Data</button>
+        <button onClick={handleSubmit}>Submit Data</button>
       </div>
     </div>
   );

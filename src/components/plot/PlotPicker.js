@@ -3,7 +3,7 @@ import './PlotPicker.css';
 import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
 import { fetchParkingPlots } from '../../api/dataController';
-import { getStartDate, getEndDate, getSelectedCar, getCarSize } from '../auth/tokenManager';
+import { getStartDate, getEndDate, getSelectedCar, getCarSize, getCarName } from '../auth/tokenManager';
 import { calculateTimeUntilFree } from '../../utils/TimeCalculator'; // Feltételezve, hogy itt található a metódus
 
 import FloatingMenu from '../../utils/FloatingMenu';
@@ -25,66 +25,66 @@ function PlotPicker() {
         htmlElement.classList.remove('dark');
     }
 }, [theme]);
+const loadParkingData = async () => {
+  try {
+    const data = await fetchParkingPlots();
 
-useEffect(() => {
-  const loadParkingData = async () => {
-    try {
-      const data = await fetchParkingPlots();
+    // timeUntilFree kiszámítása és hozzácsatolása minden spot-hoz
+    const updatedData = data.map((spot) => {
+      const fromDate = spot.from_date ? new Date(spot.from_date) : null;
+      const toDate = spot.to_date ? new Date(spot.to_date) : null;
+      const currentDate = new Date();
 
-      // timeUntilFree kiszámítása és hozzácsatolása minden spot-hoz
-      const updatedData = data.map((spot) => {
-        const fromDate = spot.from_date ? new Date(spot.from_date) : null;
-        const toDate = spot.to_date ? new Date(spot.to_date) : null;
-        const currentDate = new Date();
-
-        if (!fromDate && !toDate) {
-          // Ha nincs from_date és to_date, timeUntilFree legyen null
-          return {
-            ...spot,
-            timeUntilFree: null,
-          };
-        }
-
-        if (fromDate && fromDate > currentDate) {
-          // Ha a parkolóhely foglalása még nem kezdődött el
-          const timeDifferenceMinutes = Math.floor((fromDate - currentDate) / (1000 * 60));
-          return {
-            ...spot,
-            timeUntilFree: timeDifferenceMinutes > 0 ? { minutes: timeDifferenceMinutes } : null,
-          };
-        }
-
-        if (toDate && toDate < currentDate) {
-          // Ha már lejárt a parkolási idő
-          return {
-            ...spot,
-            timeUntilFree: { days: 0, hours: 0, minutes: 0, formatted: 'Waiting to leave' },
-          };
-        }
-
-        if (toDate) {
-          // Ha a parkolóhely foglalása aktuálisan zajlik
-          const timeUntilFree = calculateTimeUntilFree(toDate);
-          return {
-            ...spot,
-            timeUntilFree: timeUntilFree || null, // Ha a számítás hibás, akkor null
-          };
-        }
-
-        // Ha nincs megfelelő dátum, timeUntilFree legyen null
+      if (!fromDate && !toDate) {
+        // Ha nincs from_date és to_date, timeUntilFree legyen null
         return {
           ...spot,
           timeUntilFree: null,
         };
-      });
+      }
 
-      setParkingData(updatedData);
-    } catch (error) {
-      console.error('Error loading parking data:', error);
-    }
-  };
+      if (fromDate && fromDate > currentDate) {
+        // Ha a parkolóhely foglalása még nem kezdődött el
+        const timeDifferenceMinutes = Math.floor((fromDate - currentDate) / (1000 * 60));
+        return {
+          ...spot,
+          timeUntilFree: timeDifferenceMinutes > 0 ? { minutes: timeDifferenceMinutes } : null,
+        };
+      }
 
+      if (toDate && toDate < currentDate) {
+        // Ha már lejárt a parkolási idő
+        return {
+          ...spot,
+          timeUntilFree: { days: 0, hours: 0, minutes: 0, formatted: 'Waiting to leave' },
+        };
+      }
+
+      if (toDate) {
+        // Ha a parkolóhely foglalása aktuálisan zajlik
+        const timeUntilFree = calculateTimeUntilFree(toDate);
+        return {
+          ...spot,
+          timeUntilFree: timeUntilFree || null, // Ha a számítás hibás, akkor null
+        };
+      }
+
+      // Ha nincs megfelelő dátum, timeUntilFree legyen null
+      return {
+        ...spot,
+        timeUntilFree: null,
+      };
+    });
+
+    setParkingData(updatedData);
+  } catch (error) {
+    console.error('Error loading parking data:', error);
+  }
+};
+
+useEffect(() => {
   loadParkingData();
+  console.log(localStorage);
 }, []);
 
 
@@ -95,7 +95,12 @@ useEffect(() => {
 
   const getSpotColor = (spot) => {
     const carSize = getCarSize(); // A kocsi méretének lekérése a localStorage-ból
-    
+
+// Szabad parkoló, és a méret megfelelő
+  if (carSize === null) {
+    return { color: 'gray', image: '/icons/default.png' };
+  }
+
 // Foglalt parkoló
 if (spot.status && (spot.timeUntilFree?.minutes > 30 || spot.timeUntilFree?.hours >= 1 || spot.timeUntilFree?.days >= 1)) {
   return { color: 'red', image: '/icons/occupied.png' };
@@ -184,6 +189,9 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
   
         const result = await response.text();
         console.log('Foglalás sikeres:', result);
+
+        // Újra lekérdezzük a parkolóhelyeket
+        loadParkingData();
       } catch (error) {
         console.error('Foglalás mentése sikertelen:', error.message);
       }
@@ -221,6 +229,23 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
           <h1>Pick a parking spot</h1>
 
           <div className="level-buttons">
+          <div className='car-data parking-spot'>
+  <img src='\icons\nav\carPicker-filled-inverted.png' alt='car-icon'/>
+  <div className={"tooltip car-data-tooltip"}>
+    <div>
+      <img src='\icons\car.png' alt='car-icon'/>
+      {getCarName() === null ? 'Car Name: Not selected' : `Car Name: ${getCarName()}`}
+    </div>
+    <div>
+      <img src='\icons\start.png' alt='car-icon'/>
+      {getStartDate() === null ? 'Start Date: Not selected' : `Start Date: ${getStartDate()}`}
+    </div>
+    <div>
+      <img src='\icons\end.png' alt='car-icon'/>
+      {getEndDate() === null ? 'End Date: Not selected' : `End Date: ${getEndDate()}`}
+    </div>
+  </div>
+</div>
             {levels.map((level) => (
               <button
                 key={level}

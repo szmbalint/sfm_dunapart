@@ -53,6 +53,28 @@ export const deleteCarSize = () => {
   localStorage.removeItem(CAR_SIZE_KEY);
 };
 
+const CAR_NAME_KEY = 'carName';
+
+// Kiválasztott autó nevének mentése a localStorage-ba
+export const saveCarName = (carName) => {
+  if (carName && typeof carName === 'string') {
+    localStorage.setItem(CAR_NAME_KEY, carName); // A név közvetlenül elmentve
+  } else {
+    console.error('Érvénytelen autó név:', carName);
+  }
+};
+
+// Kiválasztott autó nevének lekérése a localStorage-ból
+export const getCarName = () => {
+  const carName = localStorage.getItem(CAR_NAME_KEY);
+  return carName ? carName : null; // A lekért név visszaadása
+};
+
+// Kiválasztott autó nevének törlése a localStorage-ból
+export const deleteCarName = () => {
+  localStorage.removeItem(CAR_NAME_KEY);
+};
+
 const START_DATE_KEY = 'startDateTime';
 const END_DATE_KEY = 'endDateTime';
 
@@ -84,4 +106,24 @@ export const getEndDate = () => {
 // Befejező dátum és idő törlése a localStorage-ból
 export const deleteEndDate = () => {
   localStorage.removeItem(END_DATE_KEY);
+};
+
+export const initializeLocalStorage = () => {
+  deleteCarName();
+  deleteStartDate();
+  deleteEndDate();
+  deleteCarSize();
+  const defaults = {
+    authToken: null,
+    theme: 'light', // Egyszerű szövegként mentjük
+
+    selectedCarId: null,
+  };
+
+  Object.entries(defaults).forEach(([key, value]) => {
+    if (localStorage.getItem(key) === null) {
+      // Ha a value `null`, egyszerű szövegként tároljuk
+      localStorage.setItem(key, value !== null ? value : 'null');
+    }
+  });
 };

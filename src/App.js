@@ -7,7 +7,7 @@ import DatePicker from "./components/date/DatePicker";
 import PlotPicker from "./components/plot/PlotPicker";
 import ForgotPassword from './components/auth/ForgotPassword';
 import { calculateTimeUntilFree } from './utils/TimeCalculator';
-import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate } from './components/auth/tokenManager';
+import { deleteCarName, deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, initializeLocalStorage } from './components/auth/tokenManager';
 import { fetchUserData, fetchCarsData, fetchParkingPlots } from './api/dataController';
 import { getToken, deleteToken } from './components/auth/tokenManager';
 import logoImage from '../src/assets/logo.png';
@@ -27,6 +27,10 @@ function Home() {
   };
   
   useEffect(() => {
+    initializeLocalStorage(); // Inicializálás az alkalmazás betöltésekor
+  }, []);
+
+  useEffect(() => {
     const htmlElement = document.documentElement; // A html tag referencia
     if (theme === 'dark') {
         htmlElement.classList.add('dark');
@@ -37,8 +41,7 @@ function Home() {
 
   useEffect(() => {
     const token = getToken(); // Token lekérése
-  
-    if (token) {
+    if (token && token !== "null" && token !== "") {
       setIsLoggedIn(true); // Bejelentkezett állapot beállítása
       fetchUserData(token)
         .then((userData) => {
@@ -89,6 +92,7 @@ function Home() {
     deleteCarSize();
     deleteStartDate();
     deleteEndDate();
+    deleteCarName();
     setIsLoggedIn(false);
     setUserName(null);
     setCars([]); // Az autók törlése kijelentkezéskor

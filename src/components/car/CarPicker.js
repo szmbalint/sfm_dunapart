@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getToken, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
+import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getToken, saveCarName, saveCarSize, saveSelectedCar } from '../auth/tokenManager';
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
 import FloatingMenu from '../../utils/FloatingMenu';
@@ -70,29 +70,33 @@ function CarPicker() {
   const handleAddCar = async () => {
     if (newCar.name && newCar.rendszam && newCar.size && newCar.color && newCar.type) {
       try {
-        // Az addCar metódus meghívása
+        // Új autó hozzáadása az adatbázishoz
         await addCar({
-          email: userEmail, // Feltételezve, hogy a userEmail elérhető a komponensben
-          meret: sizeMapping[newCar.size] || 0, // Leképezzük a méretet számra, alapértelmezett: 0
+          email: userEmail,
+          meret: sizeMapping[newCar.size] || 0,
           rendszam: newCar.rendszam,
           color: newCar.color,
           name: newCar.name,
           type: newCar.type,
         });
-        console.log(newCar.size);
-        // Ha sikeres, frissítsük az autók listáját
-        setCars([...cars, newCar]);
+  
+        // Autók újra lekérése az adatbázisból
+        const updatedCars = await fetchCarsData(userEmail);
+        setCars(updatedCars);
+  
+        // Mezők alaphelyzetbe állítása és modal bezárása
         setNewCar({ name: '', rendszam: '', size: '', color: '', type: '' });
         setShowModal(false);
         alert('Az autó sikeresen hozzáadásra került!');
       } catch (error) {
-        // Hiba esetén figyelmeztetés
         alert(`Hiba történt: ${error.message}`);
+        console.error(error);
       }
     } else {
       alert('Kérlek, töltsd ki az összes mezőt!');
     }
   };
+  
 
   const handleEditCar = async () => {
     if (
@@ -169,7 +173,6 @@ function CarPicker() {
     setSelectedCar(index === selectedCar ? null : index); // Toggling selection
   };
 
-  console.log(localStorage);
   const handleContinue = () => {
     if (selectedCar !== null) {
       const selectedCarSize = cars[selectedCar].meret; // Kiválasztott autó méretének lekérése
@@ -180,10 +183,10 @@ function CarPicker() {
       deleteEndDate();
       // Elmentjük a kiválasztott autó méretét 1-2-3 formátumban
       saveCarSize(selectedCarSize); // Itt hívjuk meg a saveCarSize-t
+      saveCarName(cars[selectedCar].name);
       // Elmentjük a kiválasztott autót a localStorage-ba
       saveSelectedCar(cars[selectedCar].auto_id);
-  
-      // Példa navigációra (ha szükséges)
+      
        window.location.href = '/datePicker'; 
     } else {
       alert('Kérlek, válassz egy autót!');
@@ -227,7 +230,7 @@ function CarPicker() {
             ))}
           </ul>
         ) : (
-          <p>Nem találhatóak autók az adott felhasználóhoz.</p>
+          <p>No cars found for the given user.</p>
         )}
         <button onClick={() => setShowModal(true)}>Add new car</button>
         <button onClick={handleContinue}>Continue</button>
@@ -242,8 +245,8 @@ function CarPicker() {
             <CarForm newCar={newCar} setNewCar={setNewCar} options={options} />
             </div>
             <div className="modal-actions">
-              <button onClick={handleAddCar}>Hozzáadás</button>
-              <button onClick={() => setShowModal(false)}>Mégse</button>
+              <button onClick={handleAddCar}>Add car</button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
             </div>
           </div>
         </div>
@@ -274,7 +277,7 @@ function CarForm({ newCar, setNewCar, options }) {
       <label>
         Car name
         <input
-          type="text"
+          type="text" placeholder='Enter car name'
           value={newCar.name}
           onChange={(e) => setNewCar({ ...newCar, name: e.target.value })}
         />
@@ -282,7 +285,7 @@ function CarForm({ newCar, setNewCar, options }) {
       <label>
         License-number
         <input
-          type="text"
+          type="text" placeholder='Enter license number'
           value={newCar.rendszam}
           onChange={(e) => setNewCar({ ...newCar, rendszam: e.target.value })}
         />
@@ -293,7 +296,7 @@ function CarForm({ newCar, setNewCar, options }) {
           value={newCar.size}
           onChange={(e) => setNewCar({ ...newCar, size: e.target.value })}
         >
-          <option value="">Válassz méretet</option>
+          <option value="">Choose size</option>
           {options.sizes.map((size, index) => (
             <option key={index} value={size}>{size}</option>
           ))}
@@ -305,7 +308,7 @@ function CarForm({ newCar, setNewCar, options }) {
           value={newCar.color}
           onChange={(e) => setNewCar({ ...newCar, color: e.target.value })}
         >
-          <option value="">Válassz színt</option>
+          <option value="">Choose color</option>
           {options.colors.map((color, index) => (
             <option key={index} value={color}>{color}</option>
           ))}
@@ -317,7 +320,7 @@ function CarForm({ newCar, setNewCar, options }) {
           value={newCar.type}
           onChange={(e) => setNewCar({ ...newCar, type: e.target.value })}
         >
-          <option value="">Válassz típust</option>
+          <option value="">Choose type</option>
           {options.types.map((type, index) => (
             <option key={index} value={type}>{type}</option>
           ))}
