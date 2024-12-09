@@ -278,5 +278,22 @@ public class DataController {
 
     }
 
+    @PostMapping("/saveBookingDate")
+    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") String to_date_string, @RequestHeader("parkolo_id") long selected_plot)
+    {
+        //time stuffs
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime to_date = LocalDateTime.parse(to_date_string,formatter);
+
+        String result = springmanager.modifyBookingDate(to_date, selected_plot);
+        if(result.equals("OK"))
+        {
+            return ResponseEntity.status(HttpStatus.OK).body("A foglalás meghosszabbítva");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Foglalás nem lett meghosszabbítva");
+        }
+    }
 
 }

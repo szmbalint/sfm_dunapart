@@ -251,4 +251,21 @@ public class APISpringManager implements APIManager {
 
 
     }
+
+    public String modifyBookingDate(LocalDateTime toDate, long selectedPlot) {
+        String result = "";
+
+        try
+        {
+            Parkolo parkolo = parkoloRepository.getReferenceById(selectedPlot);
+            parkolo.setTo_date(toDate);
+            parkoloRepository.save(parkolo);
+            return "OK";
+        }
+        catch(Exception ex)
+        {
+            return "nOK";
+        }
+
+    }
 }
