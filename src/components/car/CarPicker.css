@@ -151,65 +151,77 @@ ul {
   /* Színek definiálása */
   .type.red {
     background: linear-gradient(90deg, rgba(237,33,58,0.85) 0%, rgba(147,41,30,0.85) 100%);
+    color: black;
 }
 
 .type.blue {
   background: linear-gradient(90deg, rgba(143,148,251,0.85) 0%, rgba(78,84,200,0.85) 100%);
+  color: black;
 }
 
 .type.green {
   background: linear-gradient(90deg, rgba(147,249,185,0.85) 0%, rgba(29,151,108,0.85) 100%);
+  color: black;
 }
 
 .type.black {
   background: linear-gradient(90deg, rgba(67,67,67,0.85) 0%, rgba(0,0,0,0.85) 100%);
-  color: var(--font-color-white);
+  color: white;
 }
 
 .type.white {
   background: linear-gradient(90deg, rgba(255,255,255,0.85) 0%, rgba(236,233,230,0.85) 100%);
+  color: black;
 }
 
 .type.gray {
   background: linear-gradient(90deg, rgba(189,195,199,0.85) 0%, rgba(44,62,80,0.85) 100%);
+  color: black;
 }
 
 .type.silver {
   background: linear-gradient(90deg, rgba(234,234,234,0.85) 0%, rgba(219,219,219,0.85) 35%, rgba(242,242,242,0.85) 69%, rgba(194,191,175,0.85) 100%);
+  color: black;
 }
 
 .type.yellow {
   background: linear-gradient(90deg, rgba(243,249,167,0.85) 0%, rgba(202,197,49,0.85) 100%);
+  color: black;
 }
 
 .type.orange {
   background: linear-gradient(90deg, rgba(255,210,0,0.85) 0%, rgba(247,151,30,0.85) 100%);
+  color: black;
 }
 
 .type.brown {
   background: linear-gradient(90deg, rgba(178,159,148,0.85) 0%, rgba(96,56,19,0.85) 100%);
-    color: var(--font-color-white);
+    color: white;
 }
 
 .type.beige {
   background: linear-gradient(90deg, rgba(234,205,163,0.85) 0%, rgba(214,174,123,0.85) 100%);
+  color: black;
 }
 
 .type.purple {
   background: linear-gradient(90deg, rgba(173,83,137,0.85) 0%, rgba(60,16,83,0.85) 100%);
-  color: var(--font-color-white);
+  color: white;
 }
 
 .type.pink {
   background: linear-gradient(90deg, rgba(188,78,156,0.85) 0%, rgba(248,7,89,0.85) 100%);
+  color: black;
 }
 
 .type.gold {
   background: linear-gradient(90deg, rgba(191,154,83,0.85) 0%, rgba(227,204,151,0.85) 25%, rgba(209,179,114,0.85) 50%, rgba(246,224,132,0.85) 72%, rgba(222,196,137,0.85) 100%);
+  color: black;
 }
 
 .type.bronze {
   background: linear-gradient(90deg, rgba(168,124,61,0.85) 0%, rgba(184,115,51,0.85) 49%, rgba(205,127,50,0.85) 100%);
+  color: black;
 }
 
   

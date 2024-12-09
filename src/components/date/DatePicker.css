@@ -127,12 +127,7 @@ transition: var(--transition-medium);
     width: 5rem;
     height: 5rem;
   }
-  .right-panel.grey h1{
-    font-size: 3rem;
-  }
-  .right-panel.grey h2{
-    font-size: 2rem;
-  }
+
 }
 
 @media screen and (max-width: 1200px) and (min-width: 768px) {
@@ -147,7 +142,47 @@ transition: var(--transition-medium);
     height: 5.5rem;
   }
 }
+@media screen and (max-height: 900px) and (min-width: 1200px) {
+  html{
+    font-size: 70%;
+  }
+  .react-datepicker__day {
+    width: 4rem;
+    height: 4rem;
+  }
+}
 
+@media screen and (max-height: 980px) and (max-width: 1200px) {
+  .left-panel.orange{
+    display: none;
+  }
+  .left-panel.orange{
+    display: none;
+  }
+  .react-datepicker__day {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+@media screen and (max-height: 768px){
+  .react-datepicker__day {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+}
+
+@media screen and (max-height: 648px){
+  .react-datepicker__day {
+    width: 2.75rem !important;
+    height: 2.75rem !important;
+  }
+}
+@media screen and (max-height: 576px){
+  html{
+    font-size: 70%;
+  }
+}
 /* Tablet méret (768px - 480px) */
 @media screen and (max-width: 768px) and (min-width: 480px) {
   .left-panel.orange{

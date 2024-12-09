@@ -3,6 +3,7 @@ import { deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, getTo
 import { fetchUserData, fetchCarsData, addCar, editCar, deleteCar } from '../../api/dataController';
 import './CarPicker.css';
 import FloatingMenu from '../../utils/FloatingMenu';
+import { validateLicensePlate } from '../../utils/ValidateLicensePlate';
 
 function CarPicker() {
   const [cars, setCars] = useState([]);
@@ -70,11 +71,17 @@ function CarPicker() {
   const handleAddCar = async () => {
     if (newCar.name && newCar.rendszam && newCar.size && newCar.color && newCar.type) {
       try {
+        // Rendszám validáció
+        
+        const validatedPlate = validateLicensePlate(newCar.rendszam);
+        // A validált rendszám beállítása
+        setNewCar((prev) => ({ ...prev, rendszam: validatedPlate }));
+        
         // Új autó hozzáadása az adatbázishoz
         await addCar({
           email: userEmail,
           meret: sizeMapping[newCar.size] || 0,
-          rendszam: newCar.rendszam,
+          rendszam: validatedPlate,
           color: newCar.color,
           name: newCar.name,
           type: newCar.type,
@@ -89,6 +96,7 @@ function CarPicker() {
         setShowModal(false);
         alert('Az autó sikeresen hozzáadásra került!');
       } catch (error) {
+        // Hiba esetén
         alert(`Hiba történt: ${error.message}`);
         console.error(error);
       }
@@ -97,7 +105,6 @@ function CarPicker() {
     }
   };
   
-
   const handleEditCar = async () => {
     if (
       editCarIndex !== null &&

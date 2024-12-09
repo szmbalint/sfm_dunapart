@@ -6,7 +6,7 @@
   background-color: var(--bg-color);
   border-radius: 10px;
   width: fit-content;
-  margin: auto;
+  margin: 1.5rem;
   box-shadow: var(--shadow-small),
               inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
               inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
@@ -215,9 +215,33 @@
   justify-content: end;
 }
 
+.plot-picker-container::-webkit-scrollbar {
+  width: 8px; /* Vékony görgetősáv */
+
+}
+
+.plot-picker-container::-webkit-scrollbar-thumb {
+  background-color: var(--plain-white); /* Görgetősáv színe */
+  border-radius: 10px;
+  box-shadow:
+  inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
+  inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+  cursor: pointer;
+}
+
+.plot-picker-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Görgetősáv háttérszíne */
+  border-radius: 10px;
+}
+
+
 @media screen and (max-width: 1200px) and (min-width: 768px) {
+  .plot-picker-container{
+    overflow-y: scroll;
+  }
   .left-panel.green{
     display: none;
+
   }
 }
 

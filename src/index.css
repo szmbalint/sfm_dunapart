@@ -335,6 +335,7 @@ h2{
       inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
       overflow-y: scroll;
   transition: var(--transition-medium);
+  max-height: 65vh;
 }
 
 /* A scrollbar stílusának beállítása */
