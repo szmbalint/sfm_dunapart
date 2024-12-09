@@ -9,7 +9,7 @@ public interface APIManager {
 
     public String isUserValid(String email, String passwd);
 
-    Autok findCarByID(List<Autok> Autok, int ID);
+    Autok findCarByID(List<Autok> Autok, long ID);
 
     public String updateCarByID(Autok Auto, String rendszam, String color, String name, String type);
 

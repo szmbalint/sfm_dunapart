@@ -2,13 +2,17 @@ package com.dunapart.ParkoloApp;
 
 import Frontend.APIManager;
 import com.dunapart.ParkoloApp.Backend.*;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //@SpringBootApplication
 @Service
@@ -17,7 +21,6 @@ public class APISpringManager implements APIManager {
     private final FelhasznaloRepository felhasznaloRepository;
     private final AutokRepository autokRepository;
     private final ParkoloRepository parkoloRepository;
-
     @Autowired
     public APISpringManager(FelhasznaloRepository felhasznaloRepository,AutokRepository autokRepository, ParkoloRepository parkoloRepository)
     {
@@ -58,7 +61,7 @@ public class APISpringManager implements APIManager {
     }
 
     @Override
-    public Autok findCarByID(List<Autok> Autok, int ID){
+    public Autok findCarByID(List<Autok> Autok, long ID){
 
     try {
         for (Autok auto : Autok) {
@@ -95,11 +98,26 @@ public class APISpringManager implements APIManager {
         }
     }
 
+    @Transactional
     @Override
     public String deleteCarByID(Autok Auto)
     {
-        try{
-            autokRepository.delete(Auto);
+        try
+        {
+//            autokRepository.delete(Auto);
+//            autokRepository.flush();
+            autokRepository.deleteByIdCustom(Auto.getAuto_id());
+            if(autokRepository.existsById(Auto.getAuto_id()))
+            {
+                System.out.println("Hiba! Az autó még törlés után is létezik!!");
+                return "nOK";
+            }
+            autokRepository.flush();
+            
+
+            System.out.println("Is transaction active: " + TransactionSynchronizationManager.isActualTransactionActive());
+            System.out.println("Törlendő autó: " + Auto);
+            System.out.println("Autó ID: " + Auto.getAuto_id());
             return "OK";
         }
         catch (Exception e){

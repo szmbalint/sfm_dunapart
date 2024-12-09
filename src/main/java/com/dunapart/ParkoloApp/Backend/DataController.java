@@ -23,10 +23,12 @@ public class DataController {
     private final APISpringManager springmanager;
     private final JwtUtil jwtUtil; // JWT segédosztály
 
+
     @Autowired
     public DataController(APISpringManager springmanager) {
         this.springmanager = springmanager;
         this.jwtUtil = new JwtUtil();
+
     }
 
     @PostMapping("/login")
@@ -154,14 +156,15 @@ public class DataController {
         }
     }
 
-    @PostMapping("/deleteCar")
-    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("auto_id") int ID) {
+    @DeleteMapping("/deleteCar")
+    public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("auto_id") long ID) {
 
-        if(ID == 0){
+        if(ID == 0)
+        {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid ID");
         }
-
-        else {
+        else
+        {
             String email = userHeader;
             Felhasznalo user = springmanager.findUserByEmail(email);
             long userID = user.getFelhasznalo_id();
@@ -172,6 +175,10 @@ public class DataController {
             if(succes.equals("OK"))
             {
                 return ResponseEntity.status(HttpStatus.OK).body("Autó törlés sikeres");
+            }
+            else if(succes.equals("nOK"))
+            {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Sikertelen autó törlés");
             }
             else
             {

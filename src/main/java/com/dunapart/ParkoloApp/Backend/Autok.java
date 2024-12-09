@@ -14,7 +14,7 @@ public class Autok {
 
     @Id
     @GeneratedValue
-    private int auto_id;
+    private long auto_id;
     private String rendszam;
     private int meret;
     private String name;    //márka
@@ -27,7 +27,7 @@ public class Autok {
     private Parkolo parkolo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "felhasznalo_id", nullable = false)
+    @JoinColumn(name = "felhasznalo_id", nullable = true)
     @ToString.Exclude           //rekurzió elkerülése
     private Felhasznalo felhasznalo;
 
