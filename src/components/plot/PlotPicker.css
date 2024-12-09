@@ -261,7 +261,6 @@
 
 .car-data{
   margin: 1rem;
-  filter: invert(var(--invert));
   padding: 0.25rem 0.75rem;
   transition: var(--transition-medium);
   border-radius: 1rem;

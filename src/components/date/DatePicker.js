@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DatePicker.css';
-import { saveEndDate, saveStartDate } from '../auth/tokenManager';
+import { getToken, saveEndDate, saveStartDate } from '../auth/tokenManager';
 import FloatingMenu from '../../utils/FloatingMenu';
 
 function DatePickerPage() {
@@ -40,7 +40,10 @@ function DatePickerPage() {
 
   const handleSubmit = async () => {
     // Ellenőrizzük, hogy az időpontok érvényesek-e
-    if (startDate && endDate && startTime && endTime) {
+    if(getToken() === 'null'){
+      alert('Előbb be kéne jelentkezni..');
+    }
+    else if (startDate && endDate && startTime && endTime) {
       const startDateTime = `${startDate.toLocaleDateString('en-CA')} ${startTime}`;
       const endDateTime = `${endDate.toLocaleDateString('en-CA')} ${endTime}`;
 

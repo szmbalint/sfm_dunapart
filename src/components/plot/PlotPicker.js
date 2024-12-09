@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './PlotPicker.css';
 import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
-import { fetchParkingPlots } from '../../api/dataController';
-import { getStartDate, getEndDate, getSelectedCar, getCarSize, getCarName } from '../auth/tokenManager';
+import { fetchParkingPlots, clearDatabase } from '../../api/dataController';
+import { getStartDate, getEndDate, getSelectedCar, getCarSize, getCarName, deleteCarName, deleteStartDate, deleteEndDate, deleteCarSize } from '../auth/tokenManager';
 import { calculateTimeUntilFree } from '../../utils/TimeCalculator'; // Feltételezve, hogy itt található a metódus
 
 import FloatingMenu from '../../utils/FloatingMenu';
@@ -83,11 +83,9 @@ const loadParkingData = async () => {
 };
 
 useEffect(() => {
+  clearDatabase();
   loadParkingData();
-  console.log(localStorage);
 }, []);
-
-
 
   const handleLevelChange = (level) => {
     setCurrentLevel(level);
@@ -97,7 +95,7 @@ useEffect(() => {
     const carSize = getCarSize(); // A kocsi méretének lekérése a localStorage-ból
 
 // Szabad parkoló, és a méret megfelelő
-  if (carSize === null) {
+  if (carSize === null && !spot.status) {
     return { color: 'gray', image: '/icons/default.png' };
   }
 
@@ -191,6 +189,10 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
         console.log('Foglalás sikeres:', result);
 
         // Újra lekérdezzük a parkolóhelyeket
+        deleteCarName();
+        deleteStartDate();
+        deleteEndDate();
+        deleteCarSize();
         loadParkingData();
       } catch (error) {
         console.error('Foglalás mentése sikertelen:', error.message);

@@ -8,7 +8,7 @@ import PlotPicker from "./components/plot/PlotPicker";
 import ForgotPassword from './components/auth/ForgotPassword';
 import { calculateTimeUntilFree } from './utils/TimeCalculator';
 import { deleteCarName, deleteCarSize, deleteEndDate, deleteSelectedCar, deleteStartDate, initializeLocalStorage } from './components/auth/tokenManager';
-import { fetchUserData, fetchCarsData, fetchParkingPlots } from './api/dataController';
+import { fetchUserData, fetchCarsData, fetchParkingPlots, deleteBookedPlot, modifyBookingDate, clearDatabase  } from './api/dataController';
 import { getToken, deleteToken } from './components/auth/tokenManager';
 import logoImage from '../src/assets/logo.png';
 import kepImage from '../src/assets/kep.png';
@@ -19,6 +19,12 @@ function Home() {
   const [userName, setUserName] = useState(null); // Felhasználó neve
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Bejelentkezett állapot
   const [theme, setTheme] = useState(localStorage.getItem('theme') || ''); // Alapértelmezett téma
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedCarToDelete, setSelectedCarToDelete] = useState(null);
+  const [newDate, setNewDate] = useState(''); // Kezdő dátum, amit a car-ból kinyerünk
+  const [selectedCar, setSelectedCar] = useState(null); // Add selectedCar to track which car was selected for editing
+
 // Téma váltása
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -27,6 +33,7 @@ function Home() {
   };
   
   useEffect(() => {
+    clearDatabase();
     initializeLocalStorage(); // Inicializálás az alkalmazás betöltésekor
   }, []);
 
@@ -39,52 +46,82 @@ function Home() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    const token = getToken(); // Token lekérése
-    if (token && token !== "null" && token !== "") {
-      setIsLoggedIn(true); // Bejelentkezett állapot beállítása
-      fetchUserData(token)
-        .then((userData) => {
-          setUserName(userData.firstName); // A felhasználó nevének beállítása
-          const userEmail = userData.email; // Email kinyerése a felhasználói adatokból
-          return Promise.all([fetchCarsData(userEmail), fetchParkingPlots()]); // Több API hívás párhuzamosan
-        })
-        .then(([carData, plotsData]) => {
-          // Szűrt autók (csak ahol parkolo_id nem null)
-          const filteredCars = carData.filter((car) => car.parkolo !== null);
-  
-          // Autókhoz hozzárendeljük a timeUntilFree változót
-          const updatedCars = filteredCars
-            .map((car) => {
-              const plot = plotsData.find(
-                (p) => p.parkolo_id === car.parkolo.parkolo_id
-              ); // Megfelelő parkolóhely keresése
-              const toDate = plot ? new Date(plot.to_date) : null; // to_date dátumként
-  
-              return {
-                ...car,
-                to_date: toDate,
-                timeUntilFree: calculateTimeUntilFree(toDate),
-              };
-            })
-            .filter((car) => {
-              // Csak azokat az autókat tartjuk meg, amelyeknél a hátralévő idő nem negatív
-              const timeUntilFree = car.timeUntilFree;
-              return timeUntilFree && timeUntilFree.hours >= 0 && timeUntilFree.minutes >= 0;
-            });
-  
-          console.log('Car data:', updatedCars);
-          setCars(updatedCars); // Frissített autóadatok mentése
-        })
-        .catch((error) => {
-          console.error('Hiba a felhasználói adatok, autók vagy parkolóhelyek betöltésekor:', error);
-        });
-    } else {
-      setIsLoggedIn(false); // Ha nincs token, akkor kijelentkezett állapot
-      console.error('Nincs token!');
+  const handleOpenModal = (car) => {
+    setSelectedCar(car); // Save the selected car for editing
+    
+    setIsModalOpen(true); // Modal megjelenítése
+
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Modal elrejtése
+  };
+
+  const handleSaveDate = async () => {
+    try {
+      if (selectedCar) {
+        const formattedDate = newDate.replace('T', ' ');; // Formázott dátum (pl. yyyy-MM-dd HH:mm)
+
+        const result = await modifyBookingDate(formattedDate, selectedCar.parkolo.parkolo_id); // Use selectedCar
+        fetchUserAndCarData(getToken());
+        console.log(result);
+        handleCloseModal(); // Modal bezárása, ha a dátum sikeresen módosítva lett
+      }
+    } catch (error) {
+      console.error('Hiba a dátum módosításakor:', error);
     }
-  }, []);
-  
+  };
+
+  // Külön függvény a logika kiszervezésére
+const fetchUserAndCarData = async (token) => {
+  try {
+    const userData = await fetchUserData(token); // Felhasználói adatok lekérése
+    setUserName(userData.firstName); // Felhasználó neve
+    const userEmail = userData.email; // Email kinyerése
+
+    const [carData, plotsData] = await Promise.all([fetchCarsData(userEmail), fetchParkingPlots()]); // Több API hívás párhuzamosan
+
+    // Szűrt autók (csak ahol parkolóhely nem null)
+    const filteredCars = carData.filter((car) => car.parkolo !== null);
+
+    // Autókhoz hozzárendeljük a timeUntilFree változót
+    const updatedCars = filteredCars
+      .map((car) => {
+        const plot = plotsData.find(
+          (p) => p.parkolo_id === car.parkolo.parkolo_id
+        ); // Megfelelő parkolóhely keresése
+        const toDate = plot ? new Date(plot.to_date) : null; // to_date dátumként
+
+        return {
+          ...car,
+          to_date: toDate,
+          timeUntilFree: calculateTimeUntilFree(toDate),
+        };
+      })
+      .filter((car) => {
+        // Csak azokat az autókat tartjuk meg, amelyeknél a hátralévő idő nem negatív
+        const timeUntilFree = car.timeUntilFree;
+        return timeUntilFree && timeUntilFree.hours >= 0 && timeUntilFree.minutes >= 0;
+      });
+
+    console.log('Car data:', updatedCars);
+    setCars(updatedCars); // Frissített autóadatok mentése
+
+  } catch (error) {
+    console.error('Hiba a felhasználói adatok, autók vagy parkolóhelyek betöltésekor:', error);
+  }
+};
+
+// useEffect módosítása
+useEffect(() => {
+  const token = getToken(); // Token lekérése
+  if (token && token !== "null" && token !== "") {
+    setIsLoggedIn(true); // Bejelentkezett állapot beállítása
+    fetchUserAndCarData(token); // Adatok lekérése külön függvénnyel
+  } else {
+    setIsLoggedIn(false); // Ha nincs token, akkor kijelentkezett állapot
+  }
+}, []);
   
   const handleLogout = () => {
     deleteToken(); // Töröld a tokent
@@ -96,6 +133,30 @@ function Home() {
     setIsLoggedIn(false);
     setUserName(null);
     setCars([]); // Az autók törlése kijelentkezéskor
+  };
+
+  const handleDeleteOpenModal = (parkolo_id, auto_id) => {
+    setSelectedCarToDelete({ parkolo_id, auto_id });
+    setIsDeleteModalOpen(true); // Modal megnyitása
+  };
+  
+  const handleDeleteCloseModal = () => {
+    setIsDeleteModalOpen(false); // Modal bezárása
+    setSelectedCarToDelete(null); // Reset the car to delete
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedCarToDelete) {
+      const { parkolo_id, auto_id } = selectedCarToDelete;
+      try {
+        await deleteBookedPlot(parkolo_id, auto_id);
+        fetchUserAndCarData(getToken()); // Frissítsük az adatokat
+        console.log('Foglalás törölve');
+      } catch (error) {
+        console.error('Hiba történt a törlés során:', error);
+      }
+      handleDeleteCloseModal(); // Modal bezárása
+    }
   };
   
 
@@ -166,22 +227,28 @@ function Home() {
                     <span>
                     <strong>Time </strong> • {car.timeUntilFree.formatted}
                     </span>
-                      <button className="edit-btn">
-                        <img src="/icons/edit.png" alt="edit" />
-                      </button>
+                    <button className="edit-btn" onClick={() => handleOpenModal(car)}>
+                      <img src="/icons/edit.png" alt="edit" />
+                    </button>
+
+
+
+
                     </div>
                     <div className='delete-container'>
                     <span>
                       <strong>Plot </strong> • {car.parkolo.parkolo_id}
                     </span>
-                      <button className="delete-btn" >
-                        <img src="/icons/delete.png" alt="delete" />
-                      </button>
+                    <button className="delete-btn" onClick={() => handleDeleteOpenModal(car.parkolo.parkolo_id, car.auto_id)}>
+  <img src="/icons/delete.png" alt="delete" />
+</button>
+
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
+            
           ) : (
             <p>No cars found for the given user.</p>
           )}
@@ -192,6 +259,41 @@ function Home() {
             </Link>
           </div>
         </div>
+
+        {isDeleteModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content">
+      <h2>Delete car</h2>
+      <p>Are you sure you want to cancel your reservation for this parking space?</p>
+      <div className="modal-actions">
+        <button onClick={handleConfirmDelete}>Yes</button>
+        <button onClick={handleDeleteCloseModal}>No</button>
+      </div>
+    </div>
+  </div>
+)}
+
+        {isModalOpen && (
+  <div className="modal-overlay">
+    <div className="modal-content modify-date">
+      <h2>Modify Booking Date</h2>
+      <div>
+          
+        <label htmlFor="newDate">New Date and Time:</label>
+        <input
+          type="datetime-local"  // Dátum és idő választó
+          id="newDate"
+          value={newDate}
+          onChange={(e) => setNewDate(e.target.value)} // Dátum és idő frissítése
+        />
+      </div>
+      <div className="modal-actions">
+        <button onClick={handleSaveDate}>Save</button>
+        <button onClick={handleCloseModal}>Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
       </div>
     );
   }

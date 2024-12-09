@@ -495,3 +495,31 @@ right: 1rem;
   transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
   transition-delay: 0.3s;
 }
+
+.modal-content.modify-date div:first-of-type{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-content.modify-date label{
+  margin-bottom: 1rem;
+}
+
+.modal-content.modify-date #newDate{
+  width: auto;
+  text-align: center;
+  margin-left: 0.5rem;
+  background-color: var(--plain-white);
+  color: var(--font-color-black);
+  border: none;
+  border-radius: 100px;
+  padding: 1rem;
+  cursor: text;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(var(--invert));
+  cursor: pointer;
+}

@@ -161,7 +161,66 @@ export const saveBookingDate = async (bookingData) => {
   return result;
 };
 
-const resetPassword = async (newPassword, userId) => {
+export const deleteBookedPlot = async (parkolo_id, auto_id) => {
+  try {
+    const response = await fetch('http://localhost:8084/api/deleteBookedPlot', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'parkolo_id': parkolo_id,
+        'auto_id': auto_id,
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 412) {
+        throw new Error('Nem megfelelő parkolóméret.');
+      }
+      if (response.status === 417) {
+        throw new Error('Hiba a foglalás törlése során.');
+      }
+      throw new Error('Hiba történt a foglalás törlése során.');
+    }
+
+    const result = await response.text(); // Backend válasza
+    return result;
+  } catch (error) {
+    console.error('Hálózati hiba:', error);
+    throw error;
+  }
+};
+
+export const modifyBookingDate = async (to_date, selected_plot) => {
+  try {
+    const response = await fetch('http://localhost:8084/api/modifyBookingDate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'to_date': to_date, // Formázott dátum (yyyy-MM-dd HH:mm)
+        'parkolo_id': selected_plot, // Parkoló azonosítója
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 412) {
+        throw new Error('A foglalás meghosszabbítása nem lehetséges.');
+      }
+      if (response.status === 417) {
+        throw new Error('Hiba történt a foglalás módosítása során.');
+      }
+      throw new Error('Hiba történt a foglalás módosítása során.');
+    }
+
+    const result = await response.text(); // A backend válasza
+    return result;
+  } catch (error) {
+    console.error('Hálózati hiba:', error);
+    throw error;
+  }
+};
+
+// resetPassword.js or resetPassword.ts (depending on your setup)
+export const resetPassword = async (newPassword, email) => {
   const url = "http://localhost:8084/api/forgotPassword"; // Cseréld le a megfelelő API végpontra
 
   try {
@@ -170,7 +229,7 @@ const resetPassword = async (newPassword, userId) => {
       headers: {
         "Content-Type": "application/json", // Ha JSON-t is küldenél, ez szükséges
         "newpasswd": newPassword,
-        "user_id": userId
+        "email": email
       }
     });
 
@@ -183,5 +242,31 @@ const resetPassword = async (newPassword, userId) => {
     }
   } catch (error) {
     console.error("Hiba történt a kérés során:", error);
+  }
+};
+
+export const clearDatabase = async () => {
+  try {
+    const response = await fetch('http://localhost:8084/api/clearDatabase', {
+      method: 'POST', // POST kérést küldünk
+      headers: {
+        'Content-Type': 'application/json', // Az adatok formátuma JSON
+        // Ha szükséges token vagy egyéb autentikációs fejlécek:
+        // 'Authorization': `Bearer ${yourAuthToken}`,
+      },
+    });
+
+    // Ellenőrizzük, hogy a válasz rendben van-e
+    if (response.ok) {
+      const data = await response.text(); // Az adatbázis törlés sikerességének üzenete
+      console.log(data);
+    } else {
+      const errorData = await response.text();
+      alert(`Hiba történt: ${errorData}`);
+    }
+  } catch (error) {
+    // Hiba kezelése, ha a kérelem nem sikerül
+    console.error('Hiba a kérés során:', error);
+    alert('Hiba a kérés során');
   }
 };

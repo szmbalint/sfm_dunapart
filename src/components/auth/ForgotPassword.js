@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { resetPassword } from "../../api/dataController";
 
 import logoImage from "../../assets/logo.png";
 import kepImage from "../../assets/kep.png";
@@ -12,10 +13,17 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Ellenőrizzük, hogy a két jelszó egyezik-e
     if (newPassword !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
+
+    // Ha a jelszavak megegyeznek, meghívjuk a resetPassword funkciót az emaillel és a jelszóval
+    resetPassword(newPassword, email);
+
+    // Rendelkezhetünk a válasszal (pl. siker üzenet vagy navigálás)
+    alert("Password reset request sent!");
   };
 
   return (
@@ -57,7 +65,7 @@ const ForgotPassword = () => {
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                value={email}
+                value={email}  // Set the email value to the state
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'; // useState importálása
 import { useNavigate } from 'react-router-dom'; // useNavigate a navigációhoz
 import './Auth.css';
 import { Link } from 'react-router-dom';
+import FloatingMenu from '../../utils/FloatingMenu';
 
 import logoImage from '../../assets/logo.png';
 import kepImage from '../../assets/kep.png';
@@ -78,7 +79,7 @@ const handleSubmit = async (e) => {
           <img src={kepImage} alt="Section3" className='section-kep' /> {/* Használjuk a kepImage változót */}
         </div>
       </div>
-
+      <FloatingMenu />
       {/* Jobb oldal */}
       <div className="div2 green">
         <div className="top-right">

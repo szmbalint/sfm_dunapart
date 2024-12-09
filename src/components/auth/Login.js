@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // useNavigate importálása
 import './Auth.css';
 import FloatingMenu from '../../utils/FloatingMenu';
 
 import logoImage from '../../assets/logo.png';
 import kepImage from '../../assets/kep.png';
 
-import { saveToken } from './tokenManager'; // Token kezelő importálása
+import { getToken, saveToken } from './tokenManager'; // Token kezelő importálása
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // useNavigate hook
+
+  useEffect(() => {
+    // Ellenőrizzük a userToken-t a helyi tárolóból
+    const userToken = getToken();
+    if (userToken !== 'null') {
+      // Ha a userToken létezik, navigáljunk a kezdőoldalra
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Alapértelmezett űrlap küldés megakadályozása.
