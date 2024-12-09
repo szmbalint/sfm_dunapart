@@ -278,8 +278,8 @@ public class DataController {
 
     }
 
-    @PostMapping("/saveBookingDate")
-    public ResponseEntity<?> saveBookingDate(@RequestHeader("to_date") String to_date_string, @RequestHeader("parkolo_id") long selected_plot)
+    @PostMapping("/modifyBookingDate")
+    public ResponseEntity<?> modifyBookingDate(@RequestHeader("to_date") String to_date_string, @RequestHeader("parkolo_id") long selected_plot)
     {
         //time stuffs
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
