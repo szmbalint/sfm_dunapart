@@ -156,7 +156,7 @@ public class DataController {
         }
     }
 
-    @DeleteMapping("/deleteCar")
+    @PostMapping("/deleteCar")
     public ResponseEntity<?> deleteUserCar(@RequestHeader("email") String userHeader,@RequestHeader("auto_id") long ID) {
 
         if(ID == 0)
@@ -188,11 +188,11 @@ public class DataController {
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity<?> resetPassword(@RequestHeader("newpasswd") String newpasswd, @RequestHeader("user_id") long user_id)
+    public ResponseEntity<?> resetPassword( @RequestHeader("email") String email,@RequestHeader("newpasswd") String newpasswd)
     {
         try
         {
-            Felhasznalo user = springmanager.findUserById(user_id);
+            Felhasznalo user = springmanager.findUserByEmail(email);
             springmanager.saveUser(user.getFirstName(),user.getLastName(),newpasswd,user.getEmail());
             return ResponseEntity.status(HttpStatus.OK).body("Sikeres jelszó módosítás");
         }
@@ -262,5 +262,21 @@ public class DataController {
         }
 
     }
+
+    @PostMapping("/deleteBookedPlot")
+    public ResponseEntity<?> deleteBookedPlot(@RequestHeader("parkolo_id") long parkolo_id, @RequestHeader("auto_id") long auto_id)
+    {
+        String result = springmanager.deleteBooking(parkolo_id, auto_id);
+        if(result.equals("OK"))
+        {
+            return ResponseEntity.status(HttpStatus.OK).body("Foglalás törölve");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Foglalás nem lett törölve");
+        }
+
+    }
+
 
 }

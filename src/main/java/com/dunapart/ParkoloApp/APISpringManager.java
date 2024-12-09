@@ -229,4 +229,26 @@ public class APISpringManager implements APIManager {
         return felhasznaloRepository.findById(userId).get();
 
     }
+
+    public String deleteBooking(long parkoloId, long auto_id)
+    {
+        try
+        {
+            Parkolo parkolo = parkoloRepository.getReferenceById(parkoloId);
+            Autok auto = autokRepository.getReferenceById(auto_id);
+            auto.setParkolo(null);
+            parkolo.setStatus(false);
+            parkolo.setFrom_date(null);
+            parkolo.setTo_date(null);
+            autokRepository.save(auto);
+            parkoloRepository.save(parkolo);
+            return "OK";
+        }
+        catch(Exception ex)
+        {
+            return "nOK";
+        }
+
+
+    }
 }
