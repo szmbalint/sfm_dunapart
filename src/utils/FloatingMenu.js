@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { getToken } from "../components/auth/tokenManager";
 
 const FloatingMenu = () => {
   const menuRef = useRef(null);
@@ -151,6 +152,8 @@ const FloatingMenu = () => {
             className={location.pathname === "/" ? "active" : ""}
           />
         </Link>
+        {getToken() === 'null' ? (
+        // Ha nincs token, akkor a login link jelenjen meg
         <Link to="/login" className="menu-item">
           <img
             src={`/icons/nav/login${location.pathname === "/login" ? "-filled" : ""}.png`}
@@ -158,6 +161,16 @@ const FloatingMenu = () => {
             className={location.pathname === "/login" ? "active" : ""}
           />
         </Link>
+      ) : (
+        // Ha van token, akkor a register link jelenjen meg
+        <Link to="/register" className="menu-item">
+          <img
+            src={`/icons/nav/register${location.pathname === "/register" ? "-filled" : ""}.png`}
+            alt="register"
+            className={location.pathname === "/register" ? "active" : ""}
+          />
+        </Link>
+      )}
         <Link to="/carPicker" className="menu-item car">
           <img
             src={`/icons/nav/carPicker${location.pathname === "/carPicker" ? "-filled" : ""}.png`}

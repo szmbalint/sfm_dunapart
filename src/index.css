@@ -11,6 +11,7 @@ html{
   --calendar-color: #f9f9f9;
   --green-dark: #789a61;
   --plain-white: white;
+  --btn-color: rgba(242,242,242,0.75);
   /* FONT COLORS */
   --font-color-white: #F2F2F2;
   --font-color-black: #1F1F1F;
@@ -44,7 +45,7 @@ html.dark{
 --calendar-color: #2A2A2A; /* Calendar background: very dark gray */
 --green-dark: #2E5533; /* Green darkened */
 --plain-white: black;
-
+--btn-color: rgba(111, 111, 111, 0.75);
 /* FONT COLORS */
 --font-color-white: #1f1f1f; /* Text: soft white for less strain */
 --font-color-black: #FFFFFF; /* Text: white for elements on dark backgrounds */
@@ -137,8 +138,12 @@ button:active{
 }
 
 .edit-btn:hover, .delete-btn:hover{
-  outline: 1px solid var(--plain-white);
-  background-color: var(--plain-white);
+  outline: 1px solid var(--calendar-color);
+  background-color: var(--calendar-color);
+}
+
+.edit-btn:active, .delete-btn:active{
+  scale: 0.985;
 }
 
   /* Link kinézete */

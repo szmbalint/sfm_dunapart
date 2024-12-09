@@ -110,7 +110,7 @@ ul {
     height: 1rem;
     margin: 0.5rem;
     border-radius: 0;
-    filter: invert(1);
+    filter: invert(var(--invert));
   }
   
   .edit-btn, .delete-btn {
@@ -123,7 +123,8 @@ ul {
     align-items: center;
     justify-content: center;
     padding-right: 0.1rem;
-    background-color: rgba(242,242,242,0.75);  
+    transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+    background-color: var(--btn-color);  
     box-shadow: var(--shadow-small),
                 inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
                 inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
