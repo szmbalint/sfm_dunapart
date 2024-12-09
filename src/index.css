@@ -482,7 +482,7 @@ right: 1rem;
   opacity: 0;
   visibility: hidden; /* Elrejtés az áttűnés után */
   pointer-events: none; /* Klikkelhetetlenné tétele */
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.7s ease, visibility 0.3s ease;
 }
 
 .floating-menu.open .menu-items,

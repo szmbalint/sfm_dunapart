@@ -4,6 +4,8 @@ import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
 import { fetchParkingPlots } from '../../api/dataController';
 import { getStartDate, getEndDate, getSelectedCar, getCarSize } from '../auth/tokenManager';
+import { calculateTimeUntilFree } from '../../utils/TimeCalculator'; // Feltételezve, hogy itt található a metódus
+
 import FloatingMenu from '../../utils/FloatingMenu';
 const levels = ['1st floor', '2nd floor', '3rd floor'];
 
@@ -24,7 +26,6 @@ function PlotPicker() {
     }
 }, [theme]);
 
-// Parkolóhelyek betöltése és timeUntilFree kiszámítása
 useEffect(() => {
   const loadParkingData = async () => {
     try {
@@ -32,36 +33,49 @@ useEffect(() => {
 
       // timeUntilFree kiszámítása és hozzácsatolása minden spot-hoz
       const updatedData = data.map((spot) => {
-        if (spot.from_date && spot.to_date) {
-          const fromDate = new Date(spot.from_date);
-          const toDate = new Date(spot.to_date);
-          const currentDate = new Date(); // Jelenlegi idő
+        const fromDate = spot.from_date ? new Date(spot.from_date) : null;
+        const toDate = spot.to_date ? new Date(spot.to_date) : null;
+        const currentDate = new Date();
 
-          // Ha a parkolóhely foglalása még nem kezdődött el
-          if (fromDate > currentDate) {
-            const timeDifferenceMinutes = Math.floor((fromDate - currentDate) / (1000 * 60)); // Különbség percekben
-            return {
-              ...spot,
-              timeUntilFree: timeDifferenceMinutes > 0 ? timeDifferenceMinutes : null, // Ha negatív, null-t állítunk be
-            };
-          } 
-          
-          // Ha már lejárt a parkolási idő
-          if (toDate < currentDate) {
-            return {
-              ...spot,
-              timeUntilFree: 0, // A parkolóhely már szabad
-            };
-          }
-
-          // Ha a parkolóhely foglalása aktuálisan zajlik, de még nem lejárt
-          const timeDifferenceMinutes = Math.floor((toDate - currentDate) / (1000 * 60)); // Különbség percekben
+        if (!fromDate && !toDate) {
+          // Ha nincs from_date és to_date, timeUntilFree legyen null
           return {
             ...spot,
-            timeUntilFree: timeDifferenceMinutes > 0 ? timeDifferenceMinutes : 0, // Ha negatív, 0-t állítunk be
+            timeUntilFree: null,
           };
         }
-        return { ...spot, timeUntilFree: 0 }; // Ha nincs dátum, null
+
+        if (fromDate && fromDate > currentDate) {
+          // Ha a parkolóhely foglalása még nem kezdődött el
+          const timeDifferenceMinutes = Math.floor((fromDate - currentDate) / (1000 * 60));
+          return {
+            ...spot,
+            timeUntilFree: timeDifferenceMinutes > 0 ? { minutes: timeDifferenceMinutes } : null,
+          };
+        }
+
+        if (toDate && toDate < currentDate) {
+          // Ha már lejárt a parkolási idő
+          return {
+            ...spot,
+            timeUntilFree: { days: 0, hours: 0, minutes: 0, formatted: 'Waiting to leave' },
+          };
+        }
+
+        if (toDate) {
+          // Ha a parkolóhely foglalása aktuálisan zajlik
+          const timeUntilFree = calculateTimeUntilFree(toDate);
+          return {
+            ...spot,
+            timeUntilFree: timeUntilFree || null, // Ha a számítás hibás, akkor null
+          };
+        }
+
+        // Ha nincs megfelelő dátum, timeUntilFree legyen null
+        return {
+          ...spot,
+          timeUntilFree: null,
+        };
       });
 
       setParkingData(updatedData);
@@ -74,44 +88,44 @@ useEffect(() => {
 }, []);
 
 
+
   const handleLevelChange = (level) => {
     setCurrentLevel(level);
   };
 
   const getSpotColor = (spot) => {
     const carSize = getCarSize(); // A kocsi méretének lekérése a localStorage-ból
-    // Foglalt parkoló
     
-    if (spot.status && spot.timeUntilFree > 30 ) {
-      return { color: 'red', image: '/icons/occupied.png' };
-    }
-  
-    // Hamarosan szabad parkoló
-    if (spot.timeUntilFree <= 30 && spot.status) {
-      return { color: 'yellow', image: '/icons/soon_free.png' };
-    }
+// Foglalt parkoló
+if (spot.status && (spot.timeUntilFree?.minutes > 30 || spot.timeUntilFree?.hours >= 1 || spot.timeUntilFree?.days >= 1)) {
+  return { color: 'red', image: '/icons/occupied.png' };
+}
 
-    
-    
-    // Szabad parkoló, de túl kicsi a méret (small kocsi nem fér el medium vagy large parkolóhelyeken, large kocsi nem fér el medium vagy small parkolóhelyeken)
-    if (!spot.status && (spot.meret === 1 || spot.meret === 2)) {
-      if (
-        (carSize === 2 && spot.meret === 1) || // Medium autó nem fér el small parkolóhelyen
-        (carSize === 3 && (spot.meret === 1 || spot.meret === 2)) // Large autó nem fér el small vagy medium parkolóhelyeken
-      ) {
-        return { color: 'red', image: '/icons/small.png' }; // Túl kicsi a parkoló, piros
+// Hamarosan szabad parkoló
+if (spot.status && spot.timeUntilFree?.minutes <= 30) {
+  return { color: 'yellow', image: '/icons/soon_free.png' };
+}
+
+  
+    // Szabad parkoló, de a hely nem megfelelő méretű
+    if (!spot.status) {
+      if (carSize > spot.meret) {
+        // A kocsi túl nagy a helyhez képest
+        return { color: 'red', image: '/icons/small.png' };
+      }
+      if (carSize < spot.meret) {
+        // A kocsi túl kicsi a helyhez képest
+        return { color: 'red', image: '/icons/large.png' };
       }
     }
   
     // Szabad parkoló, és a méret megfelelő
-    if (!spot.status && 
-        ((carSize === 1 && (spot.meret === 1 || spot.meret === 2 || spot.meret === 3)) || 
-        (carSize === 2 && (spot.meret === 2 || spot.meret === 3)) ||
-        (carSize === 3 && spot.meret === 3))) {
-      return { color: 'gray', image: '/icons/free.png' }; // Szabad parkoló és megfelelő méretű, szürke
+    if (!spot.status && carSize === spot.meret) {
+      return { color: 'gray', image: '/icons/free.png' };
     }
   
-    return { color: 'gray', image: '/icons/default.png' }; // Alapértelmezett eset
+    // Alapértelmezett eset
+    return { color: 'gray', image: '/icons/default.png' };
   };
   
   const handleSpotClick = (spot) => {

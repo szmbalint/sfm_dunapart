@@ -15,9 +15,13 @@ const ParkingContainer = ({ spots, getSpotColor, onSpotClick, onMouseEnter, onMo
           >
             {image && <img src={image} alt="spot-status" className="spot-image" />}
             <span>{spot.parkolo_id}</span>
-            {hoveredSpot === spot && spot.timeUntilFree !== 0 && (
+            {/* Tooltip csak akkor jelenjen meg, ha hoveredSpot === spot és a timeUntilFree értéke nem null */}
+            {hoveredSpot === spot && spot.timeUntilFree && spot.timeUntilFree !== null && (
               <div className={`tooltip ${positionClass}`}>
-                {`Free in ${spot.timeUntilFree} minutes`}
+                {/* Ellenőrizzük, hogy a formatted kulcs elérhető-e */}
+                {spot.timeUntilFree.formatted 
+                  ? spot.timeUntilFree.formatted 
+                  : `Occupied in ${spot.timeUntilFree.minutes} minutes`}
               </div>
             )}
           </div>
