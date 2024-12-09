@@ -268,4 +268,49 @@ public class APISpringManager implements APIManager {
         }
 
     }
+
+    public String cleanDaFakinDatabase() {
+        try
+        {
+            List<Long> wanna_kick_ids = new ArrayList<>();
+            List<Autok> autok = autokRepository.findAll();
+            List<Parkolo> parkolok = parkoloRepository.findAll();
+            LocalDateTime now = LocalDateTime.now();
+            for (Parkolo parkolo : parkolok)
+            {
+                if(parkolo.getTo_date() != null)
+                {
+                    if(parkolo.getTo_date().isBefore(now))
+                    {
+                        parkolo.setStatus(false);
+                        parkolo.setTo_date(null);
+                        parkolo.setFrom_date(null);
+                        parkoloRepository.save(parkolo);
+                        wanna_kick_ids.add(parkolo.getParkolo_id());
+                    }
+                }
+            }
+
+            for(Autok auto : autok)
+            {
+                if(auto.getParkolo() != null)
+                {
+                    if(wanna_kick_ids.contains(auto.getParkolo().getParkolo_id()))
+                    {
+                        System.out.println("ezen a helyen már lejártál bátya: "+auto.getParkolo().getParkolo_id());
+                        auto.setParkolo(null);
+                        autokRepository.save(auto);
+                    }
+                }
+            }
+
+            return "OK";
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+            return "nOK";
+        }
+
+    }
 }

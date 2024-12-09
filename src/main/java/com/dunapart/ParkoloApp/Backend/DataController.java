@@ -296,4 +296,22 @@ public class DataController {
         }
     }
 
+    @PostMapping("/clearDatabase")
+    public ResponseEntity<?> databaseCleanup()
+    {
+        String result = springmanager.cleanDaFakinDatabase();
+
+        if(result.equals("OK"))
+        {
+            return ResponseEntity.status(HttpStatus.OK).body("Adatbázis kipucolva dik");
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("HIBA a database cleanup során");
+
+        }
+
+
+    }
+
 }
