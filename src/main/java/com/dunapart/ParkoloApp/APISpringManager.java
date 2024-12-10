@@ -21,15 +21,15 @@ public class APISpringManager implements APIManager {
     private final FelhasznaloRepository felhasznaloRepository;
     private final AutokRepository autokRepository;
     private final ParkoloRepository parkoloRepository;
-    private final KutyakRepository kutyakRepository;
+
 
     @Autowired
-    public APISpringManager(FelhasznaloRepository felhasznaloRepository, AutokRepository autokRepository, ParkoloRepository parkoloRepository, KutyakRepository kutyakRepository)
+    public APISpringManager(FelhasznaloRepository felhasznaloRepository, AutokRepository autokRepository, ParkoloRepository parkoloRepository)
     {
         this.felhasznaloRepository = felhasznaloRepository;
         this.parkoloRepository = parkoloRepository;
         this.autokRepository = autokRepository;
-        this.kutyakRepository = kutyakRepository;
+
     }
 
     @Override
@@ -326,22 +326,5 @@ public class APISpringManager implements APIManager {
             return "nOK";
         }
 
-    }
-
-    public String deleteKutyaById(int id) {
-
-        Kutyak kuty = findKutyaByID(id);
-        try{
-            kutyakRepository.delete(kuty);
-            return "OK";
-        }
-        catch(Exception ex){
-            System.out.println("Exception has thrown in method: deleteKutyaById");
-            return "nOK";
-        }
-    }
-
-    public Kutyak findKutyaByID(long id) {
-        return kutyakRepository.findById(id).get();
     }
 }

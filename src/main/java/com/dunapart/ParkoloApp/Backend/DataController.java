@@ -322,28 +322,4 @@ public class DataController {
 
     }
 
-    @PostMapping("/deleteKuty")
-    public ResponseEntity<?> deleteKuty(@RequestHeader("id") int id) {
-        if(id == 0){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing or invalid ID");
-        }
-
-        else
-        {
-            String success = springmanager.deleteKutyaById(id);
-            if(success.equals("OK"))
-            {
-                return ResponseEntity.status(HttpStatus.OK).body("Törölve");
-            }
-            else
-            {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Sikertelen torles");
-            }
-        }
-    }
-
-
-
-
-
 }
