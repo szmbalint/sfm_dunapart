@@ -186,14 +186,21 @@ public class APISpringManager implements APIManager {
     {
         try
         {
-            wannaSaveAuto.setParkolo(wanna_park_here);
-            autokRepository.save(wannaSaveAuto);
-            return "OK";
+            if(wannaSaveAuto.getParkolo() == null)
+            {
+                wannaSaveAuto.setParkolo(wanna_park_here);
+                autokRepository.save(wannaSaveAuto);
+                return "OK";
+            }
+            else
+            {
+                return "nOK:autoParkol";
+            }
         }
         catch(Exception ex)
         {
             System.out.println("Exception has thrown in method: updateAuto");
-            return "nOK";
+            return "nOK:exception";
         }
     }
 

@@ -252,9 +252,17 @@ public class DataController {
         String parkoloFrissitese = springmanager.updateParkoloById(wanna_park_here, to_date, from_date);
         String autoFrissitese = springmanager.updateAuto(wanna_save_auto,wanna_park_here);
 
-        if(parkoloFrissitese.equals("OK") && autoFrissitese.equals("OK"))//frissítésre került
+        if(parkoloFrissitese.equals("OK") && autoFrissitese.equals("OK"))
         {
             return ResponseEntity.status(HttpStatus.CREATED).body("Foglalás hozzáadva");
+        }
+        else if(autoFrissitese.equals("nOK:exception"))
+        {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("exception");
+        }
+        else if(autoFrissitese.equals("nOK:autoParkol"))
+        {
+            return ResponseEntity.status(HttpStatus.IM_USED).body("occupied");
         }
         else
         {
