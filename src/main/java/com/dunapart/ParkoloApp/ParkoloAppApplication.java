@@ -1,10 +1,5 @@
 package com.dunapart.ParkoloApp;
 
-import com.dunapart.ParkoloApp.Backend.Felhasznalo;
-import com.dunapart.ParkoloApp.Backend.FelhasznaloRepository;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

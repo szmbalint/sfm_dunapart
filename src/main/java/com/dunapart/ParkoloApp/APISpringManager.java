@@ -105,9 +105,13 @@ public class APISpringManager implements APIManager {
         try
         {
 //            autokRepository.delete(Auto);
+//            autokRepository.deleteById(Auto.getAuto_id());
 //            autokRepository.flush();
-            autokRepository.deleteByIdCustom(Auto.getAuto_id());
-            if(autokRepository.existsById(Auto.getAuto_id()))
+//            String Rendszam = Auto.getRendszam();
+//            autokRepository.deleteByRendszam(Rendszam);
+            long id = Auto.getAuto_id();
+            autokRepository.deleteByIdCustom(id);
+            if(autokRepository.existsById(id))
             {
                 System.out.println("Hiba! Az autó még törlés után is létezik!!");
                 return "nOK";
