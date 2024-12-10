@@ -327,4 +327,17 @@ public class APISpringManager implements APIManager {
         }
 
     }
+
+
+    public String setUserPassword(Felhasznalo user, String newpassword) {
+        try{
+            user.setPassword(newpassword);
+            felhasznaloRepository.save(user);
+            return "OK";
+        }
+        catch(Exception e)
+        {
+            return "nOK";
+        }
+    }
 }

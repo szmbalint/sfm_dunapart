@@ -193,8 +193,16 @@ public class DataController {
         try
         {
             Felhasznalo user = springmanager.findUserByEmail(email);
-            springmanager.saveUser(user.getFirstName(),user.getLastName(),newpasswd,user.getEmail());
-            return ResponseEntity.status(HttpStatus.OK).body("Sikeres jelszó módosítás");
+            String succes = springmanager.setUserPassword(user, newpasswd);
+            if (succes.equals("OK"))
+            {
+                return ResponseEntity.status(HttpStatus.OK).body("Sikeres jelszó módosítás");
+            }
+            //springmanager.saveUser(user.getFirstName(),user.getLastName(),newpasswd,user.getEmail());
+            else
+            {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Sikertelen jelszó módosítás");
+            }
         }
         catch(Exception ex)
         {
