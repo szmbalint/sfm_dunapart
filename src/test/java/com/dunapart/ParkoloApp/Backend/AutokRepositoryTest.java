@@ -28,24 +28,20 @@ class AutokRepositoryTest {
     @Transactional
     void setUp()
     {
-        Felhasznalo felhasznalo1 = new Felhasznalo(
-                1,
-                "felhasznalo1@gmail.com",
-                "securepwd123",
-                "First1",
-                "Last1",
-                null
-        );
-        Felhasznalo felhasznalo2 = new Felhasznalo(
-                2,
-                "felhasznalo2@gmail.com",
-                "securepwd123",
-                "First2",
-                "Last2",
-                null
-        );
+        Felhasznalo felhasznalo1 = new Felhasznalo();
+        felhasznalo1.setEmail("felhasznalo1@gmail.com");
+        felhasznalo1.setPassword("securepwd123");
+        felhasznalo1.setFirstName("First1");
+        felhasznalo1.setLastName("Last1");
         felhasznaloRepository.save(felhasznalo1);
+
+        Felhasznalo felhasznalo2 = new Felhasznalo();
+        felhasznalo2.setEmail("felhasznalo2@gmail.com");
+        felhasznalo2.setPassword("securepwd123");
+        felhasznalo2.setFirstName("First2");
+        felhasznalo2.setLastName("Last2");
         felhasznaloRepository.save(felhasznalo2);
+
         Autok auto1 = new Autok();
         auto1.setRendszam("ABC-123");
         auto1.setName("Toyota");
