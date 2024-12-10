@@ -141,6 +141,7 @@ public class APISpringManager implements APIManager {
                 .password(passwd)
                 .email(email)
                 .build();
+        user.setPassword(passwd);
         System.out.println("this user builded by builder thing or what: "+ user);
         felhasznaloRepository.save(user);
     }
@@ -188,12 +189,14 @@ public class APISpringManager implements APIManager {
         {
             if(wannaSaveAuto.getParkolo() == null)
             {
+                System.out.println("ennek az autónak még nincs foglalása mentve");
                 wannaSaveAuto.setParkolo(wanna_park_here);
                 autokRepository.save(wannaSaveAuto);
                 return "OK";
             }
             else
             {
+                System.out.println("ennek az autónak már van foglalása mentve");
                 return "nOK:autoParkol";
             }
         }

@@ -257,12 +257,19 @@ public class DataController {
             return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).body("Hiba! Nem megfelelő parkolóméret");
         }
 
-        String parkoloFrissitese = springmanager.updateParkoloById(wanna_park_here, to_date, from_date);
         String autoFrissitese = springmanager.updateAuto(wanna_save_auto,wanna_park_here);
 
-        if(parkoloFrissitese.equals("OK") && autoFrissitese.equals("OK"))
+        if(autoFrissitese.equals("OK"))
         {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Foglalás hozzáadva");
+            String parkoloFrissitese = springmanager.updateParkoloById(wanna_park_here, to_date, from_date);
+            if(parkoloFrissitese.equals("OK"))
+            {
+                return ResponseEntity.status(HttpStatus.CREATED).body("Foglalás hozzáadva");
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Hiba a foglalás mentése során");
+            }
         }
         else if(autoFrissitese.equals("nOK:exception"))
         {
@@ -270,7 +277,7 @@ public class DataController {
         }
         else if(autoFrissitese.equals("nOK:autoParkol"))
         {
-            return ResponseEntity.status(HttpStatus.IM_USED).body("occupied");
+            return ResponseEntity.status(HttpStatus.GONE).body("occupied");
         }
         else
         {
