@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import './PlotPicker.css';
 import Modal from '../../utils/Modal';
 import ParkingContainer from './ParkingContainer';
-import { fetchParkingPlots, clearDatabase } from '../../api/dataController';
-import { getStartDate, getEndDate, getSelectedCar, getCarSize, getCarName, deleteCarName, deleteStartDate, deleteEndDate, deleteCarSize } from '../auth/tokenManager';
+import { fetchParkingPlots, clearDatabase, fetchUserData, fetchCarsData } from '../../api/dataController';
+import { getStartDate, getEndDate, getSelectedCar, getCarSize, getCarName, deleteCarName, deleteStartDate, deleteEndDate, deleteCarSize, getToken } from '../auth/tokenManager';
 import { calculateTimeUntilFree } from '../../utils/TimeCalculator'; // Feltételezve, hogy itt található a metódus
 
 import FloatingMenu from '../../utils/FloatingMenu';
@@ -15,8 +15,9 @@ function PlotPicker() {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [hoveredSpot, setHoveredSpot] = useState(null);
+  const [currentParking, setCurrentParking] = useState(null);
+  const [carData, setCarData] = useState(null);
   const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
-
   useEffect(() => {
     const htmlElement = document.documentElement; // A html tag referencia
     if (theme === 'dark') {
@@ -25,6 +26,33 @@ function PlotPicker() {
         htmlElement.classList.remove('dark');
     }
 }, [theme]);
+
+useEffect(() => {
+  const token = getToken();
+  fetchUser(token);
+  clearDatabase();
+  setCurrentParking(false);
+  loadParkingData();
+}, []);
+
+const fetchUser = async (token) => {
+  try {
+    const userData = await fetchUserData(token); // Felhasználói adatok lekérése
+    // Fetch car data az email alapján
+    if (userData && userData.email) {
+      const carData = await fetchCarsData(userData.email); // Autó adatok lekérése az email alapján
+      setCarData(carData); // Ha van carData állapot, ott tárolhatod
+
+      //console.log(carData.some(car => car.auto_id) === 354);
+    } else {
+      console.error('Hiányzik az email cím a felhasználói adatokból.');
+    }
+  } catch (error) {
+    console.error('Hiba a felhasználói adatok vagy autók betöltésekor:', error);
+  }
+};
+
+
 const loadParkingData = async () => {
   try {
     const data = await fetchParkingPlots();
@@ -82,19 +110,50 @@ const loadParkingData = async () => {
   }
 };
 
-useEffect(() => {
-  clearDatabase();
-  loadParkingData();
-}, []);
+
 
   const handleLevelChange = (level) => {
     setCurrentLevel(level);
   };
 
+  const test = useCallback(() => {
+    parkingData.forEach(spot => {
+      if (checkAndSetCurrentParking(spot, carData)) {
+        setCurrentParking(true);
+      }
+    });
+  }, [parkingData, carData]); // A megfelelő függőségeket itt kell megadni
+
+  useEffect(() => {
+    test(); // Most a test hívásában már nem lesz hiba
+  }, [test]); // Ha a test függvény változik, akkor fut le újra
+
+
+// A függvény, amely ellenőrzi, hogy van-e autó a parkolóhelyhez rendelve
+const checkAndSetCurrentParking = (spot, carData) => {
+  if (spot && spot.parkolo_id != null && carData) {
+    const matchingCar = carData.find(
+      car => car.parkolo && car.parkolo.parkolo_id === spot.parkolo_id
+    );
+
+    if (matchingCar) {
+      return true; // Jelezzük, hogy találtunk megfelelő autót
+    }
+  }
+  return false; // Ha nem találunk megfelelő autót
+};
+
   const getSpotColor = (spot) => {
     const carSize = getCarSize(); // A kocsi méretének lekérése a localStorage-ból
 
+
+  // Először ellenőrizzük, hogy van-e autó a parkolóhelyhez
+  if (checkAndSetCurrentParking(spot, carData)) {
+    return { color: 'green', image: '/icons/claimed.png' }; // Ha van autó, visszaadjuk a színt és képet
+  }
+    
 // Szabad parkoló, és a méret megfelelő
+
   if (carSize === null && !spot.status) {
     return { color: 'gray', image: '/icons/default.png' };
   }
@@ -102,6 +161,7 @@ useEffect(() => {
 // Foglalt parkoló
 if (spot.status && (spot.timeUntilFree?.minutes > 30 || spot.timeUntilFree?.hours >= 1 || spot.timeUntilFree?.days >= 1)) {
   return { color: 'red', image: '/icons/occupied.png' };
+
 }
 
 // Hamarosan szabad parkoló
@@ -148,60 +208,66 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
   };
 
   const handleConfirmSelection = async () => {
-    if (selectedSpot) {
-      // Adatok lekérése a localStorage-ből
-      const to_date = getEndDate();
-      const from_date = getStartDate();
-      const auto_id = getSelectedCar();
-  
-      if (!to_date || !from_date || !auto_id) {
-        console.error('Missing data in localStorage. Please ensure all required data is set.');
-        return;
-      }
-  
-      // Foglalási adatok összeállítása
-      const bookingData = {
-        to_date,
-        from_date,
-        auto_id,
-        parkolo_id: selectedSpot.parkolo_id,
-      };
-  
-      try {
-        // Adatok elküldése a szervernek
-        const response = await fetch('http://localhost:8084/api/saveBookingDate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'to_date': bookingData.to_date,
-            'from_date': bookingData.from_date,
-            'auto_id': bookingData.auto_id,
-            'parkolo_id': bookingData.parkolo_id,
-          },
-        });
-  
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Hiba történt: ${errorText}`);
+    if(true){
+      if (selectedSpot) {
+        // Adatok lekérése a localStorage-ből
+        const to_date = getEndDate();
+        const from_date = getStartDate();
+        const auto_id = getSelectedCar();
+    
+        if (!to_date || !from_date || !auto_id) {
+          console.error('Missing data in localStorage. Please ensure all required data is set.');
+          return;
         }
+    
+        // Foglalási adatok összeállítása
+        const bookingData = {
+          to_date,
+          from_date,
+          auto_id,
+          parkolo_id: selectedSpot.parkolo_id,
+        };
+    
+        try {
+          // Adatok elküldése a szervernek
+          const response = await fetch('http://localhost:8084/api/saveBookingDate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'to_date': bookingData.to_date,
+              'from_date': bookingData.from_date,
+              'auto_id': bookingData.auto_id,
+              'parkolo_id': bookingData.parkolo_id,
+            },
+          });
+    
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Hiba történt: ${errorText}`);
+          }
+    
+          const result = await response.text();
+          console.log('Foglalás sikeres:', result);
   
-        const result = await response.text();
-        console.log('Foglalás sikeres:', result);
-
-        // Újra lekérdezzük a parkolóhelyeket
-        deleteCarName();
-        deleteStartDate();
-        deleteEndDate();
-        deleteCarSize();
-        loadParkingData();
-      } catch (error) {
-        console.error('Foglalás mentése sikertelen:', error.message);
+          // Újra lekérdezzük a parkolóhelyeket
+          deleteCarName();
+          deleteStartDate();
+          deleteEndDate();
+          deleteCarSize();
+          loadParkingData();
+        } catch (error) {
+          console.error('Foglalás mentése sikertelen:', error.message);
+        }
+      } else {
+        console.warn('No spot selected.');
       }
-    } else {
-      console.warn('No spot selected.');
+    
+      setShowModal(false); // Modal bezárása
     }
-  
-    setShowModal(false); // Modal bezárása
+    else{
+      console.warn('Már parkolsz bro.');
+    }
+    
   };
 
   const handleMouseEnter = (spot) => {

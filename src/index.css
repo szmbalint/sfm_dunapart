@@ -528,3 +528,55 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: invert(var(--invert));
   cursor: pointer;
 }
+
+/* Definiáljuk az animációt */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%); /* Kezdetben kívülről indul */
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(30px); /* Az animáció közepén picit megugrik */
+  }
+  100% {
+    transform: translateX(0); /* A végén eléri a normál helyzetet */
+    opacity: 1;
+  }
+}
+
+/* Alkalmazzuk a címsorra */
+.slideIn {
+  animation: slideIn 1.2s ease-out forwards; /* 1 másodperc, ease-out sebesség */
+}
+
+@keyframes appearY {
+  0% {
+    transform: translateY(-10%); /* Kezdetben kívülről indul */
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0); /* A végén eléri a normál helyzetet */
+    opacity: 1;
+  }
+}
+
+/* Alkalmazzuk a címsorra */
+.appearY {
+  animation: appearY 1.5s ease-out forwards; /* 1 másodperc, ease-out sebesség */
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Alkalmazzuk a címsorra */
+.appear {
+  animation: appear 1.5s ease-out forwards; /* 1 másodperc, ease-out sebesség */
+}
