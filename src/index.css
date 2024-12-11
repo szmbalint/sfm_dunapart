@@ -122,6 +122,15 @@ button:active{
   box-shadow: var(--shadow-small),
         inset 1px 1px 1px var(--bevel-light), /* világos kiemelés */
         inset -1px -1px 1px var(--bevel-dark); /* árnyék sötétebb rész */
+
+        transition-property: opacity;
+        transition-duration: 0.7s;
+        transition-timing-function: ease-in-out;
+        transition-delay: 0.5s;
+        
+        @starting-style {
+          opacity: 0;
+        }      
 }
 
 .addcar-btn:hover{
@@ -234,6 +243,14 @@ h1{
   text-align: center;
   margin-bottom: 2rem;
   color: var(--font-color-white);
+
+  transition-property: opacity;
+  transition-duration: 0.7s;
+  transition-timing-function: ease-in-out;
+  
+  @starting-style {
+    opacity: 0;
+  }
 }
 
   /* H2 stílus */
@@ -243,7 +260,17 @@ h2{
   margin: 2rem 0 2rem 0;
   text-align: center;
   color: var(--font-color-white);
-  transition: color 0.5s ease-in-out;
+
+  transition-property: opacity, translate, color;
+  transition-duration: 0.7s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0.3s;
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(20rem);
+  }
+
 }
 
 .car-details h2{
@@ -294,7 +321,18 @@ h2{
   line-height: 1;
   margin: 0;
   letter-spacing: 0.5rem;
-}
+
+  transition-property: opacity, translate, scale;
+	transition-duration: 0.7s;
+	transition-timing-function: ease-in-out;
+  
+
+	@starting-style {
+		opacity: 0;
+		translate: -30rem;
+		scale: 1.5;
+  }
+	}
 
 /* KÉP - Section3 */
 .section3 {
@@ -303,6 +341,15 @@ h2{
   display: flex;
   justify-content: center;
   align-items: center;
+
+  transition-property: opacity;
+  transition-duration: 2s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0.3s;
+  
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .section-kep {
@@ -341,6 +388,13 @@ h2{
       overflow-y: scroll;
   transition: var(--transition-medium);
   max-height: 65vh;
+
+	transition-duration: 0.7s;
+	transition-timing-function: ease-in-out;
+
+	@starting-style {
+		opacity: 0;
+  }
 }
 
 /* A scrollbar stílusának beállítása */
@@ -426,6 +480,7 @@ right: 1rem;
   height: 20rem;
 }
 
+
 .floating-menu .menu-separator {
   border: 1px solid var(--font-color-black);
   width: 100%;
@@ -451,6 +506,10 @@ right: 1rem;
   user-select: none;
   -webkit-user-drag: none; /* Húzás letiltása WebKit böngészőkben (pl. Safari) */
   -moz-user-drag: none; /* Húzás letiltása Mozilla böngészőkben */
+}
+
+.floating-menu img:active{
+  scale: 0.9;
 }
 
 .floating-menu a{
@@ -527,56 +586,4 @@ right: 1rem;
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: invert(var(--invert));
   cursor: pointer;
-}
-
-/* Definiáljuk az animációt */
-@keyframes slideIn {
-  0% {
-    transform: translateX(-100%); /* Kezdetben kívülről indul */
-    opacity: 0;
-  }
-  60% {
-    transform: translateX(30px); /* Az animáció közepén picit megugrik */
-  }
-  100% {
-    transform: translateX(0); /* A végén eléri a normál helyzetet */
-    opacity: 1;
-  }
-}
-
-/* Alkalmazzuk a címsorra */
-.slideIn {
-  animation: slideIn 1.2s ease-out forwards; /* 1 másodperc, ease-out sebesség */
-}
-
-@keyframes appearY {
-  0% {
-    transform: translateY(-10%); /* Kezdetben kívülről indul */
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(0); /* A végén eléri a normál helyzetet */
-    opacity: 1;
-  }
-}
-
-/* Alkalmazzuk a címsorra */
-.appearY {
-  animation: appearY 1.5s ease-out forwards; /* 1 másodperc, ease-out sebesség */
-}
-
-@keyframes appear {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Alkalmazzuk a címsorra */
-.appear {
-  animation: appear 1.5s ease-out forwards; /* 1 másodperc, ease-out sebesség */
 }

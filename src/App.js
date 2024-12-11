@@ -24,18 +24,8 @@ function Home() {
   const [selectedCarToDelete, setSelectedCarToDelete] = useState(null);
   const [newDate, setNewDate] = useState(''); // Kezdő dátum, amit a car-ból kinyerünk
   const [selectedCar, setSelectedCar] = useState(null); // Add selectedCar to track which car was selected for editing
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    // 1 másodperces várakozás az animáció indításához
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 500); // Kb. 500ms után indul el az animáció
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Téma váltása
+// Téma váltása
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -125,7 +115,7 @@ const fetchUserAndCarData = async (token) => {
 // useEffect módosítása
 useEffect(() => {
   const token = getToken(); // Token lekérése
-  if (token && token !== 'null' && token !== '') {
+  if (token && token !== "null" && token !== "") {
     setIsLoggedIn(true); // Bejelentkezett állapot beállítása
     fetchUserAndCarData(token); // Adatok lekérése külön függvénnyel
   } else {
@@ -178,7 +168,7 @@ useEffect(() => {
         </div>
 
         <div className="section2">
-          <p className={`appearY ${isVisible ? 'visible' : ''} section-text`}>
+          <p className="section-text">
             We make <br />
             parking <br />
             effortless
@@ -205,7 +195,7 @@ useEffect(() => {
         </nav>
       {isLoggedIn ? (
         <>
-          <h2 className={`appear ${isVisible ? 'visible' : ''}`}>Welcome, {userName} to DunaPark!</h2>
+          <h2>Welcome, {userName} to DunaPark!</h2>
         </>
       ) : (
         <>
@@ -222,7 +212,7 @@ useEffect(() => {
               {cars.map((car, index) => (
                 <li
                   key={index}
-                  className={`car-container appearY ${isVisible ? 'visible' : ''}`}
+                  className={`car-container`}
                 >
                   <img src={`/cars/${car.type.toLowerCase()}.png`} alt={car.type} />
                   <div className="car-details">

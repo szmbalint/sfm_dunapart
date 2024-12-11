@@ -31,6 +31,14 @@ ul {
     cursor: pointer;
     transition: var(--transition-quick);
     color: var(--font-color-black);
+
+    transition-duration: 0.7s;
+    transition-timing-function: ease-in-out;
+  
+    @starting-style {
+      opacity: 0;
+      transform: translateY(20rem);
+    }
   }
   
   .right-panel.grey ul {

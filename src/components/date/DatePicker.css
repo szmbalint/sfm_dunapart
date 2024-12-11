@@ -11,6 +11,15 @@
 
 .calendar-container {
   display: inline-block;
+
+  transition-property: opacity;
+  transition-duration: 0.7s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0.5s;
+  
+  @starting-style {
+    opacity: 0;
+  }
 }
   
   /* Idő választó */
@@ -38,10 +47,12 @@ input[type="time"] {
   border: none;
   border-radius: 100px;
   padding: 1rem;
+  cursor: text;
 }
   
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(var(--invert));
+  cursor: pointer;
 }
 
   /* Általános naptár háttér és szegély */

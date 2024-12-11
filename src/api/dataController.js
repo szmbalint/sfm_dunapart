@@ -154,6 +154,9 @@ export const saveBookingDate = async (bookingData) => {
     if (response.status === 417) {
       throw new Error('Hiba a foglalás mentése során.');
     }
+    if (response.status === 410) {
+      throw new Error('Már parkolsz valahol, barátom.');
+    }
     throw new Error('Hiba történt a foglalás mentése során.');
   }
 
