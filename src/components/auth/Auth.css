@@ -137,11 +137,15 @@
   .form-group input {
     width: 100%;
     padding: 1rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--font-color-white);
     border-radius: 0.75rem;
+    background-color: var(--calendar-color);
   }
 
-  
+  .form-group input[type="passowrd"], .form-group input[type="email"]{
+    background-color: var(--calendar-color);
+  } 
+
   /*ALSO LOGIN GOMB*/
   .login-button {
     width: 40%;

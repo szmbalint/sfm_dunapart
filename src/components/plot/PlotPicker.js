@@ -15,7 +15,6 @@ function PlotPicker() {
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [hoveredSpot, setHoveredSpot] = useState(null);
-  const [currentParking, setCurrentParking] = useState(null);
   const [carData, setCarData] = useState(null);
   const [theme] = useState(localStorage.getItem('theme')); // Alapértelmezett téma
   useEffect(() => {
@@ -31,7 +30,6 @@ useEffect(() => {
   const token = getToken();
   fetchUser(token);
   clearDatabase();
-  setCurrentParking(false);
   loadParkingData();
 }, []);
 
@@ -119,7 +117,6 @@ const loadParkingData = async () => {
   const test = useCallback(() => {
     parkingData.forEach(spot => {
       if (checkAndSetCurrentParking(spot, carData)) {
-        setCurrentParking(true);
       }
     });
   }, [parkingData, carData]); // A megfelelő függőségeket itt kell megadni
@@ -208,7 +205,6 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
   };
 
   const handleConfirmSelection = async () => {
-    if(true){
       if (selectedSpot) {
         // Adatok lekérése a localStorage-ből
         const to_date = getEndDate();
@@ -261,13 +257,8 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
       } else {
         console.warn('No spot selected.');
       }
-    
+  
       setShowModal(false); // Modal bezárása
-    }
-    else{
-      console.warn('Már parkolsz bro.');
-    }
-    
   };
 
   const handleMouseEnter = (spot) => {
