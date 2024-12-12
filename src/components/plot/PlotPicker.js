@@ -146,6 +146,13 @@ const checkAndSetCurrentParking = (spot, carData) => {
 
   // Először ellenőrizzük, hogy van-e autó a parkolóhelyhez
   if (checkAndSetCurrentParking(spot, carData)) {
+    // Hamarosan szabad parkoló
+if (spot.status && spot.timeUntilFree?.minutes <= 30 && spot.timeUntilFree?.hours < 1 && spot.timeUntilFree?.days < 1) {
+  return { color: 'green', image: '/icons/soon_free_claimed.png' };
+}
+if (spot.status && (spot.timeUntilFree?.minutes > 60)) {
+  return { color: 'green', image: '/icons/occupied_claimed.png' };
+}
     return { color: 'green', image: '/icons/claimed.png' }; // Ha van autó, visszaadjuk a színt és képet
   }
     
@@ -158,7 +165,6 @@ const checkAndSetCurrentParking = (spot, carData) => {
 // Foglalt parkoló
 if (spot.status && (spot.timeUntilFree?.minutes > 30 || spot.timeUntilFree?.hours >= 1 || spot.timeUntilFree?.days >= 1)) {
   return { color: 'red', image: '/icons/occupied.png' };
-
 }
 
 // Hamarosan szabad parkoló
@@ -249,8 +255,9 @@ if (spot.status && spot.timeUntilFree?.minutes <= 30) {
           deleteCarName();
           deleteStartDate();
           deleteEndDate();
-          deleteCarSize();
+          fetchUser(getToken());
           loadParkingData();
+          deleteCarSize();
         } catch (error) {
           console.error('Foglalás mentése sikertelen:', error.message);
         }

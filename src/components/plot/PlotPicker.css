@@ -87,7 +87,10 @@
   transition-duration: 0.5s;
   transition-timing-function: ease-in-out;
   transition-delay: 0.3s;
-  
+
+  transition: scale 0.2s ease-in-out;
+
+
   @starting-style {
     opacity: 0;
   }
@@ -104,6 +107,7 @@
   inset 1px 1px 1px var(--bevel-light), 
   inset -1px -1px 1px var(--bevel-dark); 
   filter: brightness(1.1);
+  scale: 1.05;
 }
 
   /* Parkoló színek */
@@ -118,6 +122,10 @@
 }
 .parking-spot.gray {
   background-color: #AEAEAE;
+}
+
+.parking-spot:active{
+  scale: 0.95;
 }
 
   /* Középső konténer (szürke négyszög) */
